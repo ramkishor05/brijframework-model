@@ -6,9 +6,9 @@ import org.brijframework.util.reflect.ParamUtil;
 
 public interface KeyInfo {
 
-	<T> T getID();
+	String getID();
 	
-	<T> T getName();
+	String getName();
 
 	<T> T getTarget();
 	
