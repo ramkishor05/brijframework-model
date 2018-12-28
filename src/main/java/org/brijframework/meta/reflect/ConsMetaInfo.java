@@ -37,7 +37,9 @@ public interface ConsMetaInfo extends MetaInfo {
 			return 0;
 		}
 		return getParametersInfo().size();
-	};
+	}
+
+	public ClassMetaInfo getOwner();;
 
 
 }

@@ -8,8 +8,6 @@ public interface MetaInfo extends Initializer{
 	
 	public String getId();
 	
-	public String getParentID();
-	
 	public String getName();
 
 	public Access getAccess();
@@ -18,7 +16,5 @@ public interface MetaInfo extends Initializer{
 	
 	public <T> T getTarget();
 	
-	public Class<?> getParent();
-
 	public KeyInfo getKeyInfo();
 }

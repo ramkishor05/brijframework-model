@@ -29,11 +29,6 @@ public abstract class AbstractParamMetaInfo extends AbstractMetaInfo implements 
 		this.parent = parent;
 	}
 	
-	@Override
-	public Class<?> getParent() {
-		return parent;
-	}
-	
 	public void setKeyInfo(KeyInfo keyInfo) {
 		this.keyInfo = keyInfo;
 	}

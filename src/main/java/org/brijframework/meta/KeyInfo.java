@@ -2,11 +2,13 @@ package org.brijframework.meta;
 
 import java.lang.reflect.Type;
 
+import org.brijframework.lifecycle.Initializer;
+import org.brijframework.meta.reflect.ClassMetaInfo;
 import org.brijframework.util.reflect.ParamUtil;
 
-public interface KeyInfo {
+public interface KeyInfo extends Initializer{
 
-	String getID();
+	String getId();
 	
 	String getName();
 
@@ -14,9 +16,7 @@ public interface KeyInfo {
 	
 	Type[] getParams();
 	
-	Class<?> getParent();
-	
-	String getParentID();
+	ClassMetaInfo getOwner();
 	
 	default boolean isDefultParam(String key) {
 		return this.getName().equals(key)&&( this.getParams()==null || this.getParams().length==0);
@@ -35,14 +35,14 @@ public interface KeyInfo {
 	}
 	
 	default boolean isFilterParam(Class<?>parent,String key, Type[] _agruments) {
-		if(!this.getParent().equals(parent)) {
+		if(!this.getOwner().getTarget().equals(parent)) {
 			return false;
 		}
 		return isFilterParam(key, _agruments);
 	}
 	
 	default boolean isFilterParam(String id,String key, Type[] _agruments) {
-		if(!this.getID().equals(id)) {
+		if(!this.getId().equals(id)) {
 			return false;
 		}
 		return isFilterParam(key, _agruments);
@@ -50,7 +50,7 @@ public interface KeyInfo {
 	
 
 	default boolean isFilterParam(Class<?>parent,String mdlID,String key, Type[] _agruments) {
-		if(!this.getParent().equals(parent)) {
+		if(!this.getOwner().getTarget().equals(parent)) {
 			return false;
 		}
 		return isFilterParam(mdlID,key, _agruments);

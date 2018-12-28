@@ -8,19 +8,14 @@ import org.brijframework.meta.reflect.MethodMetaInfo;
 
 public abstract class AbstractMethodMetaInfo extends AbstractMetaInfo implements MethodMetaInfo {
 
-	private Class<?> parent;
+	private ClassMetaInfo owner;
 	private Method target;
 	private KeyInfo keyInfo ;
 	private ClassMetaInfo classMetaInfo;
 	private Object value;
 	
-	public void setParent(Class<?> parent) {
-		this.parent = parent;
-	}
-	
-	@Override
-	public Class<?> getParent() {
-		return parent;
+	public ClassMetaInfo getOwner() {
+		return owner;
 	}
 	
 	public void setKeyInfo(KeyInfo keyInfo) {

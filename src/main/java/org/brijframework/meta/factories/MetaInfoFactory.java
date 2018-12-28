@@ -6,34 +6,16 @@ import org.brijframework.factories.Factory;
 import org.brijframework.group.Group;
 import org.brijframework.meta.KeyInfo;
 import org.brijframework.meta.MetaInfo;
-import org.brijframework.util.reflect.PackUtil;
 
-public interface MetaInfoFactory extends Factory{
-
-	@Override
-	default MetaInfoFactory loadFactory() {
-		this.clear();
-		PackUtil.getProjectClasses().forEach(cls -> {
-			this.register(cls);
-		});
-		this.loadToContainer();
-		return this;
-	}
-
-	void register(Class<?> cls);
+public interface MetaInfoFactory<T extends MetaInfo> extends Factory{
 
 	@Override
-	default MetaInfoFactory clear() {
+	default MetaInfoFactory<T> clear() {
 		this.getCache().clear();
 		return this;
 	}
 	
-	@Override
-	default String getJson() {
-		return null;
-	}
-	
-	ConcurrentHashMap<KeyInfo,? extends MetaInfo> getCache();
+	ConcurrentHashMap<KeyInfo,T> getCache();
 	
 	/**
 	 * <pre>Load meta data to globel cache<br></pre>
@@ -51,4 +33,5 @@ public interface MetaInfoFactory extends Factory{
 	}
 	
 	Object groupKey();
+
 }

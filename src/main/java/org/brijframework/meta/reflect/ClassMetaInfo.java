@@ -11,10 +11,6 @@ public interface ClassMetaInfo extends MetaInfo {
 
 	public String getType();
 
-	public boolean isUseDefaultFields();
-
-	public boolean isUseDefaultMethods();
-
 	public Set<String> getMethodKeys();
 
 	public Set<String> getPropertyKeys();
@@ -27,7 +23,7 @@ public interface ClassMetaInfo extends MetaInfo {
 
 	public void papulate(Map<String, Object> map);
 
-	public String getParentID();
+	public ClassMetaInfo getOwner();
 	
 	public FieldMetaInfo getPropertyInfo(String _key);
 

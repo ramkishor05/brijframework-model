@@ -5,20 +5,21 @@ import java.lang.reflect.Type;
 import java.util.Set;
 
 import org.brijframework.meta.KeyInfo;
+import org.brijframework.meta.reflect.ClassMetaInfo;
 import org.brijframework.meta.reflect.ConsMetaInfo;
 import org.brijframework.meta.reflect.ParamMetaInfo;
 
 public abstract class AbstractConsMetaInfo extends AbstractMetaInfo implements ConsMetaInfo{
 
-	private Class<?> parent;
+	private ClassMetaInfo owner;
 	private Constructor<?> target;
 	private KeyInfo keyInfo ;
 	private Set<ParamMetaInfo> parametersInfo;
 	private Type[] arguments;
 	
 	@Override
-	public Class<?> getParent() {
-		return parent;
+	public ClassMetaInfo getOwner() {
+		return owner;
 	}
 
 	@Override

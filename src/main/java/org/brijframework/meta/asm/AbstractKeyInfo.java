@@ -4,17 +4,13 @@ import java.lang.reflect.Type;
 
 import org.brijframework.meta.KeyInfo;
 
-public abstract class AbstractKeyInfo implements KeyInfo{
+public abstract class AbstractKeyInfo<T> implements KeyInfo{
 	
 	private String id;
-	private String parentID;
+	private T target;
 	private String name;
 
 	private Type[] params;
-	@Override
-	public String getID() {
-		return id;
-	}
 
 	@Override
 	public String getName() {
@@ -27,8 +23,43 @@ public abstract class AbstractKeyInfo implements KeyInfo{
 	}
 
 	@Override
-	public String getParentID() {
-		return parentID;
+	public T getTarget() {
+		return target;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setTarget(T target) {
+		this.target = target;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setParams(Type[] params) {
+		this.params = params;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder=new StringBuilder();
+		if(getId()!=null) {
+			builder.append(getId());
+		}
+		if(builder.length()>0) {
+			builder.append("-");
+		}
+		if(getName()!=null) {
+			builder.append(getName());
+		}
+		return builder.toString();
+	}
+	
 }

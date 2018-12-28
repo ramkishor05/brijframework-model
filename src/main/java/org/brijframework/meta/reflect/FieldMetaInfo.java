@@ -9,8 +9,7 @@ import org.brijframework.meta.MetaInfo;
 
 public interface FieldMetaInfo extends MetaInfo{
 
-	public String getParentID();
-	
+	public void setValue(Object value);
 	public Object getValue();
 
 	@SuppressWarnings("unchecked")
@@ -18,8 +17,6 @@ public interface FieldMetaInfo extends MetaInfo{
 
 	public void papulate(Map<String, Object> properties);
 
-	public ClassMetaInfo getClassMetaInfo();
-	
 	default boolean isField() {
 		return getTarget() instanceof Field ;
 	}
@@ -40,5 +37,6 @@ public interface FieldMetaInfo extends MetaInfo{
 		return (Field)getTarget();
 	}
 
-	
+	public ClassMetaInfo getOwner();
+
 }

@@ -7,24 +7,13 @@ import org.brijframework.meta.reflect.ClassMetaInfo;
 
 public abstract class AbstractClassMetaInfo extends AbstractMetaInfo implements ClassMetaInfo{
 	
-	private Class<?> parent;
+	private ClassMetaInfo owner;
 	private Class<?> target;
 	private KeyInfo keyInfo ;
 	private String type;
-	private boolean isUseDefaultField;
-	private boolean isUseDefaultMethod;
 	private Set<String> methodKeys;
 	private Set<String> propertyKeys;
 	private Set<String> relationKeys;
-	
-	public void setParent(Class<?> parent) {
-		this.parent=parent;
-	}
-	
-	@Override
-	public Class<?> getParent() {
-		return parent;
-	}
 	
 	public void setKeyInfo(KeyInfo keyInfo) {
 		this.keyInfo = keyInfo;
@@ -42,24 +31,6 @@ public abstract class AbstractClassMetaInfo extends AbstractMetaInfo implements 
 	@Override
 	public String getType() {
 		return type;
-	}
-	
-	public void setUseDefaultField(boolean isUseDefaultField) {
-		this.isUseDefaultField = isUseDefaultField;
-	}
-
-	@Override
-	public boolean isUseDefaultFields() {
-		return isUseDefaultField;
-	}
-	
-	public void setUseDefaultMethod(boolean isUseDefaultMethod) {
-		this.isUseDefaultMethod = isUseDefaultMethod;
-	}
-
-	@Override
-	public boolean isUseDefaultMethods() {
-		return isUseDefaultMethod;
 	}
 	
 	public void setMethodKeys(Set<String> methodKeys) {
@@ -97,6 +68,15 @@ public abstract class AbstractClassMetaInfo extends AbstractMetaInfo implements 
 	@Override
 	public Class<?> getTarget() {
 		return target;
+	}
+	
+	public void setOwner(ClassMetaInfo owner) {
+		this.owner = owner;
+	}
+	
+	@Override
+	public ClassMetaInfo getOwner() {
+		return this.owner ;
 	}
 
 }

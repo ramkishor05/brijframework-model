@@ -6,7 +6,6 @@ import org.brijframework.support.enums.Scope;
 
 public abstract class AbstractMetaInfo implements MetaInfo{
 	private String id;
-	private String parentID;
 	private String name;
 	private Access access;
 	private Scope scope;
@@ -18,15 +17,6 @@ public abstract class AbstractMetaInfo implements MetaInfo{
 	@Override
 	public String getId() {
 		return id;
-	}
-	
-	public void setParentID(String parentID) {
-		this.parentID = parentID;
-	}
-
-	@Override
-	public String getParentID() {
-		return parentID;
 	}
 	
 	public void setName(String name) {
