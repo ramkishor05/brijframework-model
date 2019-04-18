@@ -7,7 +7,7 @@ import java.util.Map;
 import org.brijframework.meta.reflect.FieldMetaInfo;
 import org.brijframework.support.enums.Access;
 import org.brijframework.util.reflect.FieldUtil;
-import org.brijframework.util.reflect.PackUtil;
+import org.brijframework.util.reflect.ReflectionUtils;
 
 public interface FieldMetaInfoFactory<T extends FieldMetaInfo> extends MetaInfoFactory<FieldMetaInfo>{
 
@@ -20,7 +20,7 @@ public interface FieldMetaInfoFactory<T extends FieldMetaInfo> extends MetaInfoF
 	@Override
 	default FieldMetaInfoFactory<T> loadFactory() {
 		this.clear();
-		PackUtil.getProjectClasses().forEach(cls -> {
+		ReflectionUtils.getClassListFromInternal().forEach(cls -> {
 			FieldUtil.getAllField(cls,Access.PRIVATE).forEach(field->{
 				this.register(cls,field);
 			});
