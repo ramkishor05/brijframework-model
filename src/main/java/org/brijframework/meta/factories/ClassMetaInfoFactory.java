@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.brijframework.meta.reflect.ClassMetaInfo;
 
-public interface ClassMetaInfoFactory extends MetaInfoFactory{
+public interface ClassMetaInfoFactory extends MetaInfoFactory<ClassMetaInfo>{
 
 	List<ClassMetaInfo> getClassInfoList(Class<?> cls);
 

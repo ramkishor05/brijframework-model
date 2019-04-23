@@ -3,7 +3,6 @@ package org.brijframework.meta.asm;
 import org.brijframework.meta.reflect.ClassMetaInfo;
 import org.brijframework.meta.reflect.RelationMetaInfo;
 
-@SuppressWarnings("unchecked")
 public abstract class AbstractRelationMetaInfo extends AbstractFieldMetaInfo implements RelationMetaInfo{
 
 	private String mappedBy;
@@ -11,7 +10,6 @@ public abstract class AbstractRelationMetaInfo extends AbstractFieldMetaInfo imp
 	private Class<?> targetClass;
 	
 	private ClassMetaInfo  relationClassMetaInfo;
-	
 	
 	public void setMappedBy(String mappedBy) {
 		this.mappedBy = mappedBy;

@@ -22,6 +22,7 @@ public abstract class AbstractKeyInfo<T> implements KeyInfo{
 		return params;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T getTarget() {
 		return target;

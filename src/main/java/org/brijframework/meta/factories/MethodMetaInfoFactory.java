@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.brijframework.meta.reflect.MethodMetaInfo;
 
-public interface MethodMetaInfoFactory extends MetaInfoFactory{
+public interface MethodMetaInfoFactory extends MetaInfoFactory<MethodMetaInfo>{
 
 	MethodMetaInfo getMethodInfo(String parentID, String key);
 

@@ -10,6 +10,7 @@ import org.brijframework.meta.MetaInfo;
 public interface FieldMetaInfo extends MetaInfo{
 
 	public void setValue(Object value);
+	
 	public Object getValue();
 
 	@SuppressWarnings("unchecked")

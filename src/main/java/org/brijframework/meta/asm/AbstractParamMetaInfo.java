@@ -15,6 +15,10 @@ public abstract class AbstractParamMetaInfo extends AbstractMetaInfo implements 
 	private int index;
 	private Object value;
 	
+	public Class<?> getParent() {
+		return parent;
+	}
+
 	public void setTarget(Parameter target) {
 		this.target = target;
 	}
