@@ -1,8 +1,8 @@
 package org.brijframework.meta.asm;
 
 import org.brijframework.meta.MetaInfo;
-import org.brijframework.support.enums.Access;
 import org.brijframework.support.enums.Scope;
+import org.brijframework.util.support.Access;
 
 public abstract class AbstractMetaInfo implements MetaInfo{
 	private String id;

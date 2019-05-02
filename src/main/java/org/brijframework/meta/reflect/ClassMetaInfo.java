@@ -36,6 +36,5 @@ public interface ClassMetaInfo extends MetaInfo {
 	public Collection<? extends FieldMetaInfo> getPropertiesInfo();
 
 	public Collection<? extends RelationMetaInfo>  getRelationInfoList();
-
 	
 }

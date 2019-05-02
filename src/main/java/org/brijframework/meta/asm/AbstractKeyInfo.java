@@ -9,7 +9,6 @@ public abstract class AbstractKeyInfo<T> implements KeyInfo{
 	private String id;
 	private T target;
 	private String name;
-
 	private Type[] params;
 
 	@Override
@@ -53,11 +52,7 @@ public abstract class AbstractKeyInfo<T> implements KeyInfo{
 		StringBuilder builder=new StringBuilder();
 		if(getId()!=null) {
 			builder.append(getId());
-		}
-		if(builder.length()>0) {
-			builder.append("-");
-		}
-		if(getName()!=null) {
+		}else {
 			builder.append(getName());
 		}
 		return builder.toString();

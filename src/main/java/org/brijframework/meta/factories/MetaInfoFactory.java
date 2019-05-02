@@ -15,7 +15,7 @@ public interface MetaInfoFactory<T extends MetaInfo> extends Factory{
 		return this;
 	}
 	
-	ConcurrentHashMap<KeyInfo,T> getCache();
+	ConcurrentHashMap<KeyInfo, ? extends MetaInfo> getCache();
 	
 	/**
 	 * <pre>Load meta data to globel cache<br></pre>
@@ -27,7 +27,7 @@ public interface MetaInfoFactory<T extends MetaInfo> extends Factory{
 			return ;
 		}
 		this.getCache().forEach((key,value)->{
-			Group group=getContainer().load(groupKey());
+			Group group=getContainer().get(groupKey());
 			group.marge(key, value);
 		});
 	}

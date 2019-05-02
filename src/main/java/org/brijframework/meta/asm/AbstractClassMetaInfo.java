@@ -15,6 +15,7 @@ public abstract class AbstractClassMetaInfo extends AbstractMetaInfo implements 
 	private Set<String> propertyKeys;
 	private Set<String> relationKeys;
 	
+	@Override
 	public void setKeyInfo(KeyInfo keyInfo) {
 		this.keyInfo = keyInfo;
 	}

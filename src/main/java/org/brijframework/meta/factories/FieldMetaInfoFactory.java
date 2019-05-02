@@ -1,37 +1,20 @@
 package org.brijframework.meta.factories;
 
-import java.lang.reflect.AccessibleObject;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+import org.brijframework.meta.KeyInfo;
 import org.brijframework.meta.reflect.FieldMetaInfo;
-import org.brijframework.support.enums.Access;
-import org.brijframework.util.reflect.FieldUtil;
-import org.brijframework.util.reflect.ReflectionUtils;
 
 public interface FieldMetaInfoFactory<T extends FieldMetaInfo> extends MetaInfoFactory<FieldMetaInfo>{
 
-	List<T> getPropertiesInfo(String peranrId, String targetId);
-
-	List<T> getPropertiesInfo(String parentID);
+	List<T> getFieldMetaInfo(String parentID);
 	
-	T getPropertyInfo(String parentID);
+	T FieldMetaInfo(String targetId);
 	
-	@Override
-	default FieldMetaInfoFactory<T> loadFactory() {
-		this.clear();
-		ReflectionUtils.getClassListFromInternal().forEach(cls -> {
-			FieldUtil.getAllField(cls,Access.PRIVATE).forEach(field->{
-				this.register(cls,field);
-			});
-		});
-		this.loadToContainer();
-		return this;
-	}
-
-	void register(Class<?> cls, AccessibleObject field);
-	void register(Class<?> cls, Map<String, Object> properties);
-	void register(Class<?> cls, AccessibleObject field, Map<String, Object> properties);
-
+	T getFieldMetaInfo(String perantId, String targetId);
 	
+	void register(T meta);
+	
+	ConcurrentHashMap<KeyInfo, ? extends FieldMetaInfo> getCache();
 }

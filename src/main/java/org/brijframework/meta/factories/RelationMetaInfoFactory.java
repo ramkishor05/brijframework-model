@@ -1,5 +1,7 @@
 package org.brijframework.meta.factories;
 
-public interface RelationMetaInfoFactory extends MetaInfoFactory{
+import org.brijframework.meta.reflect.RelationMetaInfo;
+
+public interface RelationMetaInfoFactory extends MetaInfoFactory<RelationMetaInfo>{
 
 }
