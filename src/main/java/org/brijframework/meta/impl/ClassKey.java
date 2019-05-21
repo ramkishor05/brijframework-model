@@ -1,21 +1,21 @@
-package org.brijframework.meta.asm.annotation;
+package org.brijframework.meta.impl;
 
 import java.util.Objects;
 
 import org.brijframework.meta.asm.AbstractKeyInfo;
-import org.brijframework.meta.reflect.ClassMetaInfo;
+import org.brijframework.meta.reflect.ClassMeta;
 
-public class ClassKeyInfo extends AbstractKeyInfo<Class<?>>{
+public class ClassKey extends AbstractKeyInfo<Class<?>>{
 
-	private ClassMetaInfo owner;
+	private ClassMeta owner;
 	
-	public ClassKeyInfo(ModelMetaInfo owner) {
+	public ClassKey(ClassMeta owner) {
 		this.owner=owner;
 		this.init();
 	}
 	
 	@Override
-	public ClassMetaInfo getOwner() {
+	public ClassMeta getOwner() {
 		return owner;
 	}
 

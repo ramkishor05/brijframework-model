@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.brijframework.meta.MetaInfo;
 
-public interface MethodMetaInfo extends MetaInfo{
+public interface MethodMeta extends MetaInfo<Method>{
 	
 	@Override
 	public default void init() {
@@ -19,21 +19,20 @@ public interface MethodMetaInfo extends MetaInfo{
 	
 	public Class<?> getReturnType();
 	
-	@SuppressWarnings("unchecked")
 	public Method getTarget();
 
 	public void setArguments(Type[] arguments);
 	
 	public Type[] getArguments();
 	
-	public Set<ParamMetaInfo> getParametersInfo();
+	public Set<ParamMeta> getParametersInfo();
 
 	public void papulate(Map<String, Object> annotationData);
 
 	public String getParentID();
 	
 	public default Object[] getParamValues() {
-		Set<ParamMetaInfo> params= getParametersInfo();
+		Set<ParamMeta> params= getParametersInfo();
 		if(params==null) {
 			return null;
 		}
@@ -45,5 +44,5 @@ public interface MethodMetaInfo extends MetaInfo{
 		return values;
 	}
 
-	ClassMetaInfo getClassMetaInfo();
+	ClassMeta getClassMetaInfo();
 }

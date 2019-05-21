@@ -4,10 +4,10 @@ import java.lang.reflect.Type;
 
 import org.brijframework.meta.KeyInfo;
 
-public abstract class AbstractKeyInfo<T> implements KeyInfo{
+public abstract class AbstractKeyInfo<E> implements KeyInfo{
 	
 	private String id;
-	private T target;
+	private E target;
 	private String name;
 	private Type[] params;
 
@@ -23,7 +23,7 @@ public abstract class AbstractKeyInfo<T> implements KeyInfo{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public T getTarget() {
+	public E getTarget() {
 		return target;
 	}
 
@@ -35,7 +35,7 @@ public abstract class AbstractKeyInfo<T> implements KeyInfo{
 		this.id = id;
 	}
 
-	public void setTarget(T target) {
+	public void setTarget(E target) {
 		this.target = target;
 	}
 

@@ -3,7 +3,7 @@ package org.brijframework.meta;
 import java.lang.reflect.Type;
 
 import org.brijframework.lifecycle.Initializer;
-import org.brijframework.meta.reflect.ClassMetaInfo;
+import org.brijframework.meta.reflect.ClassMeta;
 import org.brijframework.util.reflect.ParamUtil;
 
 public interface KeyInfo extends Initializer{
@@ -16,7 +16,7 @@ public interface KeyInfo extends Initializer{
 	
 	Type[] getParams();
 	
-	ClassMetaInfo getOwner();
+	ClassMeta getOwner();
 	
 	default boolean isDefultParam(String key) {
 		return this.getName().equals(key)&&( this.getParams()==null || this.getParams().length==0);

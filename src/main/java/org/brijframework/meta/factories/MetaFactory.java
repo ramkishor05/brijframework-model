@@ -7,15 +7,15 @@ import org.brijframework.group.Group;
 import org.brijframework.meta.KeyInfo;
 import org.brijframework.meta.MetaInfo;
 
-public interface MetaInfoFactory<T extends MetaInfo> extends Factory{
+public interface MetaFactory<T extends MetaInfo<?>> extends Factory{
 
 	@Override
-	default MetaInfoFactory<T> clear() {
+	default MetaFactory<T> clear() {
 		this.getCache().clear();
 		return this;
 	}
 	
-	ConcurrentHashMap<KeyInfo, ? extends MetaInfo> getCache();
+	ConcurrentHashMap<KeyInfo, ? extends MetaInfo<?>> getCache();
 	
 	/**
 	 * <pre>Load meta data to globel cache<br></pre>

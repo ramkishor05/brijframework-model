@@ -14,7 +14,7 @@ public class MetaGroup implements DefaultGroup{
 	private static final long serialVersionUID = 1L;
 	private Object groupKey;
 	
-	private ConcurrentHashMap<String,MetaInfo> cache=new ConcurrentHashMap<>();
+	private ConcurrentHashMap<String,MetaInfo<?>> cache=new ConcurrentHashMap<>();
 	
 	public MetaGroup(Object groupKey) {
 		this.groupKey=groupKey;
@@ -27,7 +27,7 @@ public class MetaGroup implements DefaultGroup{
 	}
 
 	@Override
-	public ConcurrentHashMap<String,MetaInfo> getCache() {
+	public ConcurrentHashMap<String,MetaInfo<?>> getCache() {
 		return cache;
 	}
 

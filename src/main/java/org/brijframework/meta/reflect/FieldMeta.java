@@ -7,13 +7,12 @@ import java.util.Map;
 
 import org.brijframework.meta.MetaInfo;
 
-public interface FieldMetaInfo extends MetaInfo{
+public interface FieldMeta extends MetaInfo<AccessibleObject>{
 
 	public void setValue(Object value);
 	
 	public Object getValue();
 
-	@SuppressWarnings("unchecked")
 	public AccessibleObject getTarget();
 
 	public void papulate(Map<String, Object> properties);
@@ -38,6 +37,6 @@ public interface FieldMetaInfo extends MetaInfo{
 		return (Field)getTarget();
 	}
 
-	public ClassMetaInfo getOwner();
+	public ClassMeta getOwner();
 
 }

@@ -3,16 +3,16 @@ package org.brijframework.meta.factories;
 import java.lang.reflect.Type;
 import java.util.Set;
 
-import org.brijframework.meta.reflect.MethodMetaInfo;
+import org.brijframework.meta.reflect.MethodMeta;
 
-public interface MethodMetaInfoFactory extends MetaInfoFactory<MethodMetaInfo>{
+public interface MethodMetaInfoFactory extends MetaFactory<MethodMeta>{
 
-	MethodMetaInfo getMethodInfo(String parentID, String key);
+	MethodMeta getMethodInfo(String parentID, String key);
 
-	MethodMetaInfo getMethodInfo(String parentID, String key, Type... types);
+	MethodMeta getMethodInfo(String parentID, String key, Type... types);
 
-	Set<MethodMetaInfo> getMethodInfoList(String parentID, String key);
+	Set<MethodMeta> getMethodInfoList(String parentID, String key);
 
-	Set<MethodMetaInfo> getMethodInfoList(String mdlID);
+	Set<MethodMeta> getMethodInfoList(String mdlID);
 
 }

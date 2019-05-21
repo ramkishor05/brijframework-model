@@ -6,31 +6,31 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.brijframework.container.Container;
 import org.brijframework.group.Group;
 import org.brijframework.meta.KeyInfo;
-import org.brijframework.meta.asm.annotation.PropertyMetaInfo;
 import org.brijframework.meta.container.MetaContainer;
-import org.brijframework.meta.factories.FieldMetaInfoFactory;
-import org.brijframework.meta.reflect.FieldMetaInfo;
+import org.brijframework.meta.factories.FieldMetaFactory;
+import org.brijframework.meta.impl.PropertyMeta;
+import org.brijframework.meta.reflect.FieldMeta;
 import org.brijframework.support.model.Assignable;
 import org.brijframework.support.model.DepandOn;
 
-@DepandOn(depand = ClassMetaInfoFactoryImpl.class)
-public class FieldMetaInfoFactoryImpl implements FieldMetaInfoFactory<FieldMetaInfo> {
+@DepandOn(depand = ClassMetaFactoryImpl.class)
+public class FieldMetaFactoryImpl implements FieldMetaFactory<FieldMeta> {
 	
 	public static String PROPERTIES = "PROPERTIES";
 	
-	private ConcurrentHashMap<KeyInfo, FieldMetaInfo> cache = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<KeyInfo, FieldMeta> cache = new ConcurrentHashMap<>();
 	
 	private Container container = MetaContainer.getContainer();
 
-	protected FieldMetaInfoFactoryImpl() {
+	protected FieldMetaFactoryImpl() {
 	}
 
-	private static FieldMetaInfoFactoryImpl factory;
+	private static FieldMetaFactoryImpl factory;
 
 	@Assignable
-	public static FieldMetaInfoFactoryImpl getFactory() {
+	public static FieldMetaFactoryImpl getFactory() {
 		if (factory == null) {
-			factory = new FieldMetaInfoFactoryImpl();
+			factory = new FieldMetaFactoryImpl();
 			factory.loadFactory();
 		}
 		return factory;
@@ -47,7 +47,7 @@ public class FieldMetaInfoFactoryImpl implements FieldMetaInfoFactory<FieldMetaI
 	}
 
 	@Override
-	public FieldMetaInfoFactoryImpl clear() {
+	public FieldMetaFactoryImpl clear() {
 		if (getCache() != null) {
 			getCache().clear();
 		}
@@ -55,7 +55,7 @@ public class FieldMetaInfoFactoryImpl implements FieldMetaInfoFactory<FieldMetaI
 	}
 
 	@SuppressWarnings("unchecked")
-	public FieldMetaInfoFactoryImpl loadFactory() {
+	public FieldMetaFactoryImpl loadFactory() {
 		this.clear();
 		if (getContainer() != null) {
 			Group group = getContainer().get(PROPERTIES);
@@ -67,7 +67,7 @@ public class FieldMetaInfoFactoryImpl implements FieldMetaInfoFactory<FieldMetaI
 	}
 
 	@SuppressWarnings("unchecked")
-	public ConcurrentHashMap<KeyInfo, FieldMetaInfo> getCache() {
+	public ConcurrentHashMap<KeyInfo, FieldMeta> getCache() {
 		if(cache.isEmpty()) {
 			Group group=getContainer().get(PROPERTIES);
 			if(group!=null)
@@ -76,8 +76,8 @@ public class FieldMetaInfoFactoryImpl implements FieldMetaInfoFactory<FieldMetaI
 		return cache;
 	}
 
-	public FieldMetaInfo getFieldInfo(String id) {
-		for (FieldMetaInfo metaInfo : getCache().values()) {
+	public FieldMeta getFieldInfo(String id) {
+		for (FieldMeta metaInfo : getCache().values()) {
 			if (metaInfo.getId().equals(id)) {
 				return metaInfo;
 			}
@@ -85,8 +85,8 @@ public class FieldMetaInfoFactoryImpl implements FieldMetaInfoFactory<FieldMetaI
 		return null;
 	}
 
-	public FieldMetaInfo getFieldInfo(String model, String name) {
-		for (FieldMetaInfo metaInfo : getCache().values()) {
+	public FieldMeta getFieldInfo(String model, String name) {
+		for (FieldMeta metaInfo : getCache().values()) {
 			if (metaInfo.getOwner().getName().equals(model) && metaInfo.getName().equals(name)) {
 				return metaInfo;
 			}
@@ -94,7 +94,7 @@ public class FieldMetaInfoFactoryImpl implements FieldMetaInfoFactory<FieldMetaI
 		return null;
 	}
 
-	public void loadContainer(String groupKey, PropertyMetaInfo metaInfo) {
+	public void loadContainer(String groupKey, PropertyMeta metaInfo) {
 		if (getContainer() == null) {
 			return;
 		}
@@ -109,22 +109,22 @@ public class FieldMetaInfoFactoryImpl implements FieldMetaInfoFactory<FieldMetaI
 	}
 
 	@Override
-	public FieldMetaInfo getFieldMetaInfo(String perantId, String targetId) {
+	public FieldMeta getFieldMetaInfo(String perantId, String targetId) {
 		return null;
 	}
 
 	@Override
-	public List<FieldMetaInfo> getFieldMetaInfo(String parentID) {
+	public List<FieldMeta> getFieldMetaInfo(String parentID) {
 		return null;
 	}
 
 	@Override
-	public FieldMetaInfo FieldMetaInfo(String targetId) {
+	public FieldMeta FieldMetaInfo(String targetId) {
 		return null;
 	}
 
 	@Override
-	public void register(FieldMetaInfo meta) {
+	public void register(FieldMeta meta) {
 		
 	}
 

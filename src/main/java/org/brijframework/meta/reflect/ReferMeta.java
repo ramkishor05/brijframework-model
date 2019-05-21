@@ -1,10 +1,10 @@
 package org.brijframework.meta.reflect;
 
-public interface RelationMetaInfo extends FieldMetaInfo{
+public interface ReferMeta extends FieldMeta{
 
 	public String getMappedBy();
 	
 	public Class<?> getTargetClass();
 
-	public ClassMetaInfo getRelationClassMetaInfo() ;
+	public ClassMeta getRelationClassMeta() ;
 }

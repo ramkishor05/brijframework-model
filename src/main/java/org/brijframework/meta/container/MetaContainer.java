@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.brijframework.asm.container.DefaultContainer;
 import org.brijframework.container.Container;
 import org.brijframework.group.Group;
-import org.brijframework.meta.factories.MetaInfoFactory;
+import org.brijframework.meta.factories.MetaFactory;
 import org.brijframework.meta.group.MetaGroup;
 import org.brijframework.support.model.Assignable;
 import org.brijframework.support.model.DepandOn;
@@ -36,11 +36,11 @@ public class MetaContainer implements DefaultContainer{
 	@SuppressWarnings("unchecked")
 	@Override
 	public Container loadContainer() {
-		List<Class<? extends MetaInfoFactory<?>>> classes=new ArrayList<>();
+		List<Class<? extends MetaFactory<?>>> classes=new ArrayList<>();
 		try {
 			ReflectionUtils.getClassListFromExternal().forEach(cls->{
-				if(MetaInfoFactory.class.isAssignableFrom(cls) && !cls.isInterface() && cls.getModifiers() != Modifier.ABSTRACT) {
-					classes.add((Class<? extends MetaInfoFactory<?>>) cls);
+				if(MetaFactory.class.isAssignableFrom(cls) && !cls.isInterface() && cls.getModifiers() != Modifier.ABSTRACT) {
+					classes.add((Class<? extends MetaFactory<?>>) cls);
 				}
 			});
 		} catch (Exception e) {
@@ -48,8 +48,8 @@ public class MetaContainer implements DefaultContainer{
 		}
 		try {
 			ReflectionUtils.getClassListFromInternal().forEach(cls->{
-				if(MetaInfoFactory.class.isAssignableFrom(cls) && !cls.isInterface() && cls.getModifiers() != Modifier.ABSTRACT) {
-					classes.add((Class<? extends MetaInfoFactory<?>>) cls);
+				if(MetaFactory.class.isAssignableFrom(cls) && !cls.isInterface() && cls.getModifiers() != Modifier.ABSTRACT) {
+					classes.add((Class<? extends MetaFactory<?>>) cls);
 				}
 			});
 		} catch (Exception e) {
@@ -79,7 +79,7 @@ public class MetaContainer implements DefaultContainer{
 		}
 		if(!called) {
 			try {
-				MetaInfoFactory<?> container=(MetaInfoFactory<?>) cls.newInstance();
+				MetaFactory<?> container=(MetaFactory<?>) cls.newInstance();
 				container.loadFactory();
 			} catch (InstantiationException | IllegalAccessException e) {
 				e.printStackTrace();
@@ -97,6 +97,7 @@ public class MetaContainer implements DefaultContainer{
 		Group group= getCache().get(groupKey);
 		if(group==null) {
 			group=new MetaGroup(groupKey);
+			getCache().put(groupKey, group);
 		}
 		return group;
 	}

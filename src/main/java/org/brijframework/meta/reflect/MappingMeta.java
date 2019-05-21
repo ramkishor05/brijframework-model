@@ -1,6 +1,6 @@
 package org.brijframework.meta.reflect;
 
-public interface MappingMetaInfo {
+public interface MappingMeta {
 
 	String getId();
 

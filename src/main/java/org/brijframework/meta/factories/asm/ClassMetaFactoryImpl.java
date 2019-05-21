@@ -1,41 +1,41 @@
 package org.brijframework.meta.factories.asm;
 
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.brijframework.container.Container;
 import org.brijframework.group.Group;
 import org.brijframework.meta.KeyInfo;
-import org.brijframework.meta.asm.annotation.ModelMetaInfo;
 import org.brijframework.meta.container.MetaContainer;
-import org.brijframework.meta.factories.ClassMetaInfoFactory;
-import org.brijframework.meta.reflect.ClassMetaInfo;
+import org.brijframework.meta.factories.ClassMetaFactory;
+import org.brijframework.meta.reflect.ClassMeta;
 import org.brijframework.support.model.Assignable;
 
-public class ClassMetaInfoFactoryImpl implements ClassMetaInfoFactory {
+public class ClassMetaFactoryImpl implements ClassMetaFactory {
 	
 	public static final String MODELES = "MODELES";
 	
-	private ConcurrentHashMap<KeyInfo, ClassMetaInfo> cache = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<KeyInfo, ClassMeta> cache = new ConcurrentHashMap<>();
 	
 	private Container container = MetaContainer.getContainer();
 	
-	protected ClassMetaInfoFactoryImpl() {
+	protected ClassMetaFactoryImpl() {
 	}
 
-	protected static ClassMetaInfoFactoryImpl factory;
+	protected static ClassMetaFactoryImpl factory;
 
 	@Assignable
-	public static ClassMetaInfoFactoryImpl getFactory() {
+	public static ClassMetaFactoryImpl getFactory() {
 		if (factory == null) {
-			factory = new ClassMetaInfoFactoryImpl();
+			factory = new ClassMetaFactoryImpl();
 			factory.loadFactory();
 		}
 		return factory;
 	}
 
 	@SuppressWarnings("unchecked")
-	public ClassMetaInfoFactoryImpl loadFactory() {
+	public ClassMetaFactoryImpl loadFactory() {
 		this.clear();
 		if (getContainer() != null) {
 			Group group = getContainer().get(MODELES);
@@ -45,7 +45,7 @@ public class ClassMetaInfoFactoryImpl implements ClassMetaInfoFactory {
 		return this;
 	}
 
-	public ConcurrentHashMap<KeyInfo, ClassMetaInfo> getCache() {
+	public ConcurrentHashMap<KeyInfo, ClassMeta> getCache() {
 		return cache;
 	}
 
@@ -60,27 +60,28 @@ public class ClassMetaInfoFactoryImpl implements ClassMetaInfoFactory {
 	}
 
 	@Override
-	public ClassMetaInfoFactoryImpl clear() {
+	public ClassMetaFactoryImpl clear() {
 		if (getCache() != null) {
 			getCache().clear();
 		}
 		return this;
 	}
 
-	public ClassMetaInfo getClassInfo(String id) {
-		ClassMetaInfo info=getCache().get(id);
-		if(info!=null) {
-			return info;
+	public ClassMeta getClassInfo(String id) {
+		for(Entry<KeyInfo, ClassMeta> entry:getCache().entrySet()) {
+			if(entry.getKey().getId().equals(id)) {
+				return entry.getValue();
+			}
 		}
 		return getContainer(MODELES, id);
 	}
 
-	public void register(Class<?> target, ClassMetaInfo metaInfo) {
+	public void register(Class<?> target, ClassMeta metaInfo) {
 		this.getCache().put(metaInfo.getKeyInfo(), metaInfo);
 		loadContainer(MODELES, metaInfo);
 	}
 	
-	public void loadContainer(String groupKey, ClassMetaInfo metaInfo) {
+	public void loadContainer(String groupKey, ClassMeta metaInfo) {
 		if (getContainer() == null) {
 			return;
 		}
@@ -93,7 +94,7 @@ public class ClassMetaInfoFactoryImpl implements ClassMetaInfoFactory {
 		getContainer().merge(groupKey, group);
 	}
 
-	public ModelMetaInfo getContainer(String groupKey, String modelKey) {
+	public ClassMeta getContainer(String groupKey, String modelKey) {
 		if (getContainer() == null) {
 			return null;
 		}
@@ -106,19 +107,16 @@ public class ClassMetaInfoFactoryImpl implements ClassMetaInfoFactory {
 
 	@Override
 	public Object groupKey() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<ClassMetaInfo> getClassInfoList(Class<?> cls) {
-		// TODO Auto-generated method stub
+	public List<ClassMeta> getClassInfoList(Class<?> cls) {
 		return null;
 	}
 
 	@Override
-	public List<ClassMetaInfo> getClassInfoList(Class<?> target, String parentID) {
-		// TODO Auto-generated method stub
+	public List<ClassMeta> getClassInfoList(Class<?> target, String parentID) {
 		return null;
 	}
 
