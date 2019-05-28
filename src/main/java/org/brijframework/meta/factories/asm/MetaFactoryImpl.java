@@ -15,25 +15,25 @@ import org.brijframework.meta.setup.ClassMetaSetup;
 import org.brijframework.support.model.Assignable;
 import org.brijframework.support.model.Model;
 
-public class ModelMetaFactoryImpl implements MetaFactory<ClassMeta> {
+public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 	
 	private ConcurrentHashMap<KeyInfo, ClassMeta> cache = new ConcurrentHashMap<>();
 	private Container container = MetaContainer.getContainer();
-	protected ModelMetaFactoryImpl() {
+	protected MetaFactoryImpl() {
 	}
 
-	protected static ModelMetaFactoryImpl factory;
+	protected static MetaFactoryImpl factory;
 
 	@Assignable
-	public static ModelMetaFactoryImpl getFactory() {
+	public static MetaFactoryImpl getFactory() {
 		if (factory == null) {
-			factory = new ModelMetaFactoryImpl();
+			factory = new MetaFactoryImpl();
 			factory.loadFactory();
 		}
 		return factory;
 	}
 
-	public ModelMetaFactoryImpl loadFactory() {
+	public MetaFactoryImpl loadFactory() {
 		return this;
 	}
 
@@ -52,14 +52,14 @@ public class ModelMetaFactoryImpl implements MetaFactory<ClassMeta> {
 	}
 
 	@Override
-	public ModelMetaFactoryImpl clear() {
+	public MetaFactoryImpl clear() {
 		if (getCache() != null) {
 			getCache().clear();
 		}
 		return this;
 	}
 
-	public ClassMeta getModelInfo(String id) {
+	public ClassMeta getMeta(String id) {
 		for(Entry<KeyInfo, ClassMeta> entry:getCache().entrySet()) {
 			if(entry.getKey().getId().equals(id)) {
 				return entry.getValue();

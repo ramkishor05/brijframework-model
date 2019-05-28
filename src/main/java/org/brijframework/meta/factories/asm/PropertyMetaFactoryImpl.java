@@ -21,7 +21,7 @@ import org.brijframework.support.model.DepandOn;
 import org.brijframework.support.model.Property;
 import org.brijframework.support.model.Relation;
 
-@DepandOn(depand = ModelMetaFactoryImpl.class)
+@DepandOn(depand = MetaFactoryImpl.class)
 public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 	
 	public static String PROPERTIES = "PROPERTIES";
@@ -98,7 +98,7 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 	}
 
 	public void register(String model, AccessibleObject target, Property property) {
-		ClassMeta owner = ModelMetaFactoryImpl.getFactory().getModelInfo(model);
+		ClassMeta owner = MetaFactoryImpl.getFactory().getMeta(model);
 		Objects.requireNonNull(owner, "owner not found");
 		PropertyMeta metaInfo = PropertyMetaHelper.getPropertyMetaInfo(owner, target, property);
 		getCache().put(metaInfo.getKeyInfo(), metaInfo);
@@ -107,7 +107,7 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 	}
 	
 	public void register(String model, AccessibleObject target, Relation property) {
-		ClassMeta owner = ModelMetaFactoryImpl.getFactory().getModelInfo(model);
+		ClassMeta owner = MetaFactoryImpl.getFactory().getMeta(model);
 		Objects.requireNonNull(owner, "owner not found");
 		org.brijframework.meta.impl.RelPtpMeta metaInfo = PropertyMetaHelper.getPropertyMetaInfo(owner, target, property);
 		getCache().put(metaInfo.getKeyInfo(), metaInfo);
@@ -116,7 +116,7 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 	}
 
 	public void register(String model, AccessibleObject target, FieldMetaSetup property) {
-		ClassMeta owner = ModelMetaFactoryImpl.getFactory().getModelInfo(model);
+		ClassMeta owner = MetaFactoryImpl.getFactory().getMeta(model);
 		Objects.requireNonNull(owner, "owner not found");
 		PropertyMeta metaInfo = PropertyMetaHelper.getPropertyMetaInfo(owner, target, property);
 		getCache().put(metaInfo.getKeyInfo(), metaInfo);
@@ -125,7 +125,7 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 	}
 	
 	public void register(String model, AccessibleObject target, RelationMetaSetup property) {
-		ClassMeta owner = ModelMetaFactoryImpl.getFactory().getModelInfo(model);
+		ClassMeta owner = MetaFactoryImpl.getFactory().getMeta(model);
 		Objects.requireNonNull(owner, "owner not found");
 		RelPtpMeta  metaInfo = PropertyMetaHelper.getPropertyMetaInfo(owner, target, property);
 		getCache().put(metaInfo.getKeyInfo(), metaInfo);
