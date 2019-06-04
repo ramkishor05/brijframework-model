@@ -77,6 +77,7 @@ public class PropertyMetaHelper {
 		metaInfo.setScope(property.scope());
 		metaInfo.setValue(property.value());
 		metaInfo.setRequired(property.required());
+		metaInfo.setType(property.type());
 		PropertyKey keyInfo=new PropertyKey(metaInfo);
 		keyInfo.init();
 		return metaInfo;

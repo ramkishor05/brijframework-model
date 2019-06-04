@@ -9,6 +9,7 @@ public abstract class AbstractFieldMeta extends AbstractMetaInfo<AccessibleObjec
 	private AccessibleObject target;
 	private Object value;
 	public boolean required;
+	private Class<?> type;
 	
 	public void setValue(Object value) {
 		this.value = value;
@@ -35,6 +36,15 @@ public abstract class AbstractFieldMeta extends AbstractMetaInfo<AccessibleObjec
 	
 	public void setRequired(boolean required) {
 		this.required = required;
+	}
+	
+
+	public void setType(Class<?> type) {
+		this.type = type;
+	}
+	
+	public Class<?> getType() {
+		return type;
 	}
 
 }
