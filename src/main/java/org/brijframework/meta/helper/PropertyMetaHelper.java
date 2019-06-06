@@ -12,6 +12,7 @@ import org.brijframework.meta.setup.FieldMetaSetup;
 import org.brijframework.meta.setup.RelationMetaSetup;
 import org.brijframework.support.model.Property;
 import org.brijframework.support.model.Relation;
+import org.brijframework.util.reflect.ClassUtil;
 import org.brijframework.util.support.Access;
 import org.brijframework.util.support.Constants;
 
@@ -45,6 +46,7 @@ public class PropertyMetaHelper {
 		metaInfo.setScope(property.scope());
 		metaInfo.setValue(property.value());
 		metaInfo.setRequired(property.required());
+		metaInfo.setType(property.type());
 		PropertyKey keyInfo=new PropertyKey(metaInfo);
 		keyInfo.init();
 		return metaInfo;
@@ -61,6 +63,7 @@ public class PropertyMetaHelper {
 		metaInfo.setValue(property.value());
 		metaInfo.setRequired(property.required());
 		metaInfo.setMappedBy(property.mappedBy());
+		metaInfo.setType(property.type());
 		PropertyKey keyInfo=new PropertyKey(metaInfo);
 		keyInfo.init();
 		return metaInfo;
@@ -93,6 +96,7 @@ public class PropertyMetaHelper {
 		metaInfo.setScope(property.scope());
 		metaInfo.setValue(property.value());
 		metaInfo.setRequired(property.required());
+		metaInfo.setType(property.type());
 		PropertyKey keyInfo=new PropertyKey(metaInfo);
 		keyInfo.init();
 		return metaInfo;
@@ -107,6 +111,8 @@ public class PropertyMetaHelper {
 		metaInfo.setAccess(Access.valueOf(property.getAccess()));
 		metaInfo.setValue(property.getValue());
 		metaInfo.setRequired(property.isRequired());
+		if(property.getType()!=null && !property.getType().isEmpty())
+		metaInfo.setType(ClassUtil.getClass(property.getType()));
 		PropertyKey keyInfo=new PropertyKey(metaInfo);
 		keyInfo.init();
 		return metaInfo;
@@ -120,6 +126,8 @@ public class PropertyMetaHelper {
 		metaInfo.setName(name);
 		metaInfo.setAccess(Access.valueOf(property.getAccess()));
 		metaInfo.setRequired(property.isRequired());
+		if(property.getType()!=null && !property.getType().isEmpty())
+			metaInfo.setType(ClassUtil.getClass(property.getType()));
 		PropertyKey keyInfo=new PropertyKey(metaInfo);
 		keyInfo.init();
 		return metaInfo;
@@ -134,6 +142,8 @@ public class PropertyMetaHelper {
 		metaInfo.setAccess(Access.valueOf(property.getAccess()));
 		metaInfo.setValue(property.getValue());
 		metaInfo.setRequired(property.isRequired());
+		if(property.getType()!=null && !property.getType().isEmpty())
+			metaInfo.setType(ClassUtil.getClass(property.getType()));
 		PropertyKey keyInfo=new PropertyKey(metaInfo);
 		keyInfo.init();
 		return metaInfo;
@@ -148,6 +158,8 @@ public class PropertyMetaHelper {
 		metaInfo.setAccess(Access.valueOf(property.getAccess()));
 		metaInfo.setValue(property.getValue());
 		metaInfo.setRequired(property.isRequired());
+		if(property.getType()!=null && !property.getType().isEmpty())
+			metaInfo.setType(ClassUtil.getClass(property.getType()));
 		PropertyKey keyInfo=new PropertyKey(metaInfo);
 		keyInfo.init();
 		return metaInfo;
