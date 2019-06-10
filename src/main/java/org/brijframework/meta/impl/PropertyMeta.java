@@ -1,14 +1,7 @@
 package org.brijframework.meta.impl;
 
 import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.brijframework.meta.asm.AbstractFieldMeta;
 import org.brijframework.meta.reflect.ClassMeta;
