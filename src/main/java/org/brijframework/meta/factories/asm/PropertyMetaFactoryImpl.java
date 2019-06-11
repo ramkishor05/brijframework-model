@@ -111,7 +111,7 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 		Objects.requireNonNull(owner, "owner not found");
 		org.brijframework.meta.impl.RelPtpMeta metaInfo = PropertyMetaHelper.getPropertyMetaInfo(owner, target, property);
 		getCache().put(metaInfo.getKeyInfo(), metaInfo);
-		owner.getRelations().put(metaInfo.getKeyInfo(), metaInfo);
+		owner.getProperties().put(metaInfo.getKeyInfo(), metaInfo);
 		loadContainer(PROPERTIES, metaInfo);
 	}
 
@@ -129,7 +129,7 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 		Objects.requireNonNull(owner, "owner not found");
 		RelPtpMeta  metaInfo = PropertyMetaHelper.getPropertyMetaInfo(owner, target, property);
 		getCache().put(metaInfo.getKeyInfo(), metaInfo);
-		owner.getRelations().put(metaInfo.getKeyInfo(), metaInfo);
+		owner.getProperties().put(metaInfo.getKeyInfo(), metaInfo);
 		loadContainer(PROPERTIES, metaInfo);
 	}
 

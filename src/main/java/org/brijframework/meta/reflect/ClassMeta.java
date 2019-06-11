@@ -21,5 +21,4 @@ public interface ClassMeta extends MetaInfo<Class<?>> {
 
 	public Map<KeyInfo,FieldMeta> getProperties();
 
-	public Map<KeyInfo,ReferMeta> getRelations();
 }

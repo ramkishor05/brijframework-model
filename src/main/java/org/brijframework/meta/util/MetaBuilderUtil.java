@@ -2,6 +2,7 @@ package org.brijframework.meta.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.brijframework.util.accessor.MetaAccessorUtil;
@@ -13,6 +14,10 @@ import org.brijframework.util.support.Constants;
 
 public class MetaBuilderUtil {
 
+	private static final String KEY = "KEY";
+	private static final String VAL = "VAL";
+
+
 	public static Class<?> getCurrentClass(Class<?> cls, String[] keyArray) {
 		Class<?> current = cls;
 		Field field = null;
@@ -21,7 +26,8 @@ public class MetaBuilderUtil {
 			if (key.contains(Constants.OPEN_BRAKET) && key.contains(Constants.CLOSE_BRAKET)) {
 				current = findCurrentFromList(current,field, PointUtil.keyArray(key), PointUtil.indexArray(key), key);
 			} else if (Map.class.isAssignableFrom(current)) {
-				current = findCurrentFromMap(current, field, key);
+				Map<String, Class<?>> map=findCurrentFromMap(current, field, key);
+				current = map.get(KEY);
 			} else {
 				field = FieldUtil.getField(current.getClass(), key, Access.PRIVATE);
 				current = findCurrentFromObject(current, key);
@@ -44,11 +50,14 @@ public class MetaBuilderUtil {
 		return field.getType();
 	}
 
-	private static Class<?> findCurrentFromMap(Class<?> current, Field field, String key) {
+	private static Map<String,Class<?>> findCurrentFromMap(Class<?> current, Field field, String key) {
 		ParameterizedType type = (ParameterizedType) field.getGenericType();
 		Class<?> keyClass = (Class<?>) type.getActualTypeArguments()[0];
 	    Class<?> valueClass = (Class<?>) type.getActualTypeArguments()[1];
-		return valueClass;
+	    Map<String,Class<?>> returnMap=new HashMap<>();
+	    returnMap.put(KEY, keyClass);
+	    returnMap.put(VAL, valueClass);
+		return returnMap;
 	}
 
 
