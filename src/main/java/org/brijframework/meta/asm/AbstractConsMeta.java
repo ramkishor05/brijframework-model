@@ -28,7 +28,7 @@ public abstract class AbstractConsMeta extends AbstractMetaInfo<Constructor<?>> 
 	}
 
 	@Override
-	public Set<ParamMeta> getParametersInfo() {
+	public Set<ParamMeta> getParams() {
 		if(parametersInfo==null) {
 			parametersInfo=new HashSet<>();
 		}

@@ -10,6 +10,7 @@ import org.brijframework.meta.impl.ClassKey;
 import org.brijframework.meta.impl.ModelConsMeta;
 import org.brijframework.meta.impl.ModelMeta;
 import org.brijframework.meta.reflect.ClassMeta;
+import org.brijframework.meta.reflect.ConstMeta;
 import org.brijframework.meta.setup.ClassMetaSetup;
 import org.brijframework.support.enums.Scope;
 import org.brijframework.support.model.Construct;
@@ -32,17 +33,21 @@ public class ModelMetaHelper {
 		String name=metaSetup.getName()==null|| metaSetup.getName().equals(Constants.DEFAULT)?target.getSimpleName():metaSetup.getName();
 		ModelMeta owner=new ModelMeta(target,id,name);
 		owner.setAccess(metaSetup.getAccess()!=null?Access.valueOf(metaSetup.getAccess()):Access.DEFAULT);
-		owner.setScope(metaSetup.getScope()!=null?Scope.valueOf(metaSetup.getScope()):Scope.SINGLETON);
-		/*if(metaSetup.constructor()!=null) {
-			owner.setConstructor(getConsMetaInfo(owner, metaSetup.constructor()));
+		owner.setScope(metaSetup.getScope()!=null?Scope.valueOf(metaSetup.getScope().toUpperCase()):Scope.SINGLETON);
+		if(metaSetup.getConstructor()!=null) {
+			owner.setConstructor(getConsMetaInfo(owner, metaSetup.getConstructor()));
 		}else {
 			owner.setConstructor(getConsMetaInfo(owner));
-		}*/
+		}
+		if(metaSetup.getProperties()!=null) {
+			
+		}
 		ClassKey keyInfo=new ClassKey(owner);
 		keyInfo.init();
 		return owner;
 	}
 	
+
 	public static ClassMeta getModelInfo(Container container,Class<?> target,Model metaSetup) {
 		Objects.requireNonNull(target, "Target should be required");
 		Objects.requireNonNull(metaSetup, "Meta should be required");
@@ -95,6 +100,34 @@ public class ModelMetaHelper {
 			consMetaInfo.setValues(values);
 		}
 		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getTarget(), constructor.access(), consMetaInfo.getArguments()));
+		return consMetaInfo;
+	}
+
+	private static ConstMeta getConsMetaInfo(ModelMeta owner, ConstMeta constructor) {
+		ModelConsMeta consMetaInfo=new ModelConsMeta(owner);
+		consMetaInfo.setAccess(constructor.getAccess());
+		consMetaInfo.setScope(constructor.getScope());
+		consMetaInfo.setOwner(owner);
+		if(constructor.getParams()!=null) {
+			Type[] arguments=new Type[constructor.getParams().size()];
+			Object[] values=new Object[constructor.getParams().size()];
+			AtomicInteger index=new AtomicInteger(0);
+			constructor.getParams().stream().sorted((param1,param2)->{
+				if(param1.getIndex()>param2.getIndex()) {
+					return 1;
+				}
+				if(param1.getIndex()<param2.getIndex()) {
+					return -1;
+				}
+				return 0;
+			}).forEach(param->{
+				arguments[index.get()]=param.getType();
+				values[index.getAndIncrement()]=CastingUtil.castObject(param.getValue(), param.getType());
+			});
+			consMetaInfo.setArguments(arguments);
+			consMetaInfo.setValues(values);
+		}
+		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getTarget(), constructor.getAccess(), consMetaInfo.getArguments()));
 		return consMetaInfo;
 	}
 }

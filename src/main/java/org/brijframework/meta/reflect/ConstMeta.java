@@ -14,7 +14,7 @@ public interface ConstMeta extends MetaInfo<Constructor<?>> {
 
 	public void papulate(Map<String, Object> map);
 
-	public Set<ParamMeta> getParametersInfo();
+	public Set<ParamMeta> getParams();
 	
 	public void setParametersInfo(Set<ParamMeta> params);
 
@@ -25,13 +25,12 @@ public interface ConstMeta extends MetaInfo<Constructor<?>> {
 	public Object[] getValues();
 	
 	public default int getParameterCount() {
-		if (getParametersInfo() == null || getParametersInfo().isEmpty()) {
+		if (getParams() == null || getParams().isEmpty()) {
 			return 0;
 		}
-		return getParametersInfo().size();
+		return getParams().size();
 	}
 
-	public ClassMeta getOwner();;
-
+	public ClassMeta getOwner();
 
 }

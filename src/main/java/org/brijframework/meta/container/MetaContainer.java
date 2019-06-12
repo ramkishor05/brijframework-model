@@ -12,12 +12,14 @@ import org.brijframework.container.Container;
 import org.brijframework.group.Group;
 import org.brijframework.meta.factories.MetaFactory;
 import org.brijframework.meta.group.MetaGroup;
+import org.brijframework.resources.container.ResourceContainer;
 import org.brijframework.support.model.Assignable;
 import org.brijframework.support.model.DepandOn;
 import org.brijframework.util.reflect.InstanceUtil;
 import org.brijframework.util.reflect.MethodUtil;
 import org.brijframework.util.reflect.ReflectionUtils;
 
+@DepandOn(depand = ResourceContainer.class)
 public class MetaContainer implements DefaultContainer{
 	
 	private ConcurrentHashMap<Object, Group> cache=new ConcurrentHashMap<>();
@@ -66,6 +68,7 @@ public class MetaContainer implements DefaultContainer{
 	}
 
 	private void loading(Class<?> cls) {
+		System.err.println("Factory      : "+cls);
 		boolean called=false;
 		for(Method method:MethodUtil.getAllMethod(cls)) {
 			if(method.isAnnotationPresent(Assignable.class)) {
