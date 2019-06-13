@@ -71,6 +71,7 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 	public void register(Class<?> target, Model metaSetup) {
 		ClassMeta metaInfo = ModelMetaHelper.getModelInfo(getContainer(),target, metaSetup);
 		this.getCache().put(metaInfo.getKeyInfo(), metaInfo);
+		System.err.println("Meta Info    : "+metaInfo.getKeyInfo());
 		loadContainer(metaInfo);
 	}
 	
