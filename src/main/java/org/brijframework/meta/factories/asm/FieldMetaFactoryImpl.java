@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.brijframework.container.Container;
 import org.brijframework.group.Group;
 import org.brijframework.meta.KeyInfo;
-import org.brijframework.meta.container.MetaContainer;
 import org.brijframework.meta.factories.FieldMetaFactory;
 import org.brijframework.meta.impl.PropertyMeta;
 import org.brijframework.meta.reflect.FieldMeta;
@@ -20,7 +19,7 @@ public class FieldMetaFactoryImpl implements FieldMetaFactory<FieldMeta> {
 	
 	private ConcurrentHashMap<KeyInfo, FieldMeta> cache = new ConcurrentHashMap<>();
 	
-	private Container container = MetaContainer.getContainer();
+	private Container container;
 
 	protected FieldMetaFactoryImpl() {
 	}
@@ -31,7 +30,6 @@ public class FieldMetaFactoryImpl implements FieldMetaFactory<FieldMeta> {
 	public static FieldMetaFactoryImpl getFactory() {
 		if (factory == null) {
 			factory = new FieldMetaFactoryImpl();
-			factory.loadFactory();
 		}
 		return factory;
 	}

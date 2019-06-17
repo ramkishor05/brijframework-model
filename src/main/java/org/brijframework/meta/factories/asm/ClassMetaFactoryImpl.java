@@ -7,18 +7,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.brijframework.container.Container;
 import org.brijframework.group.Group;
 import org.brijframework.meta.KeyInfo;
-import org.brijframework.meta.container.MetaContainer;
 import org.brijframework.meta.factories.ClassMetaFactory;
 import org.brijframework.meta.reflect.ClassMeta;
 import org.brijframework.support.model.Assignable;
 
-public class ClassMetaFactoryImpl implements ClassMetaFactory {
+public class ClassMetaFactoryImpl extends MetaFactoryImpl implements ClassMetaFactory {
 	
 	public static final String MODELES = "MODELES";
 	
 	private ConcurrentHashMap<KeyInfo, ClassMeta> cache = new ConcurrentHashMap<>();
 	
-	private Container container = MetaContainer.getContainer();
+	private Container container;
 	
 	protected ClassMetaFactoryImpl() {
 	}
@@ -29,7 +28,6 @@ public class ClassMetaFactoryImpl implements ClassMetaFactory {
 	public static ClassMetaFactoryImpl getFactory() {
 		if (factory == null) {
 			factory = new ClassMetaFactoryImpl();
-			factory.loadFactory();
 		}
 		return factory;
 	}

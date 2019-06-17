@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.brijframework.container.Container;
 import org.brijframework.group.Group;
 import org.brijframework.meta.KeyInfo;
-import org.brijframework.meta.container.MetaContainer;
 import org.brijframework.meta.factories.FieldMetaFactory;
 import org.brijframework.meta.helper.PropertyMetaHelper;
 import org.brijframework.meta.impl.PropertyMeta;
@@ -28,7 +27,7 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 	
 	private ConcurrentHashMap<KeyInfo, PropertyMeta> cache = new ConcurrentHashMap<>();
 	
-	private Container container = MetaContainer.getContainer();
+	private Container container;
 
 	protected PropertyMetaFactoryImpl() {
 	}
@@ -99,7 +98,7 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 
 	public void register(String model, AccessibleObject target, Property property) {
 		ClassMeta owner = MetaFactoryImpl.getFactory().getMeta(model);
-		Objects.requireNonNull(owner, "owner not found");
+		Objects.requireNonNull(owner, "owner not found for :"+model+" of "+target);
 		PropertyMeta metaInfo = PropertyMetaHelper.getPropertyMetaInfo(owner, target, property);
 		getCache().put(metaInfo.getKeyInfo(), metaInfo);
 		owner.getProperties().put(metaInfo.getKeyInfo(), metaInfo);
