@@ -16,11 +16,9 @@ import org.brijframework.meta.reflect.ClassMeta;
 import org.brijframework.meta.setup.FieldMetaSetup;
 import org.brijframework.meta.setup.RelationMetaSetup;
 import org.brijframework.support.model.Assignable;
-import org.brijframework.support.model.DepandOn;
 import org.brijframework.support.model.Property;
 import org.brijframework.support.model.Relation;
 
-@DepandOn(depand = MetaFactoryImpl.class)
 public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 	
 	public static String PROPERTIES = "PROPERTIES";
@@ -38,7 +36,6 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 	public static PropertyMetaFactoryImpl getFactory() {
 		if (factory == null) {
 			factory = new PropertyMetaFactoryImpl();
-			factory.loadFactory();
 		}
 		return factory;
 	}
@@ -103,6 +100,7 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 		getCache().put(metaInfo.getKeyInfo(), metaInfo);
 		owner.getProperties().put(metaInfo.getKeyInfo(), metaInfo);
 		loadContainer(PROPERTIES, metaInfo);
+		System.err.println("Meta Info    : "+metaInfo.getKeyInfo());
 	}
 	
 	public void register(String model, AccessibleObject target, Relation property) {
@@ -112,6 +110,7 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 		getCache().put(metaInfo.getKeyInfo(), metaInfo);
 		owner.getProperties().put(metaInfo.getKeyInfo(), metaInfo);
 		loadContainer(PROPERTIES, metaInfo);
+		System.err.println("Meta Info    : "+metaInfo.getKeyInfo());
 	}
 
 	public void register(String model, AccessibleObject target, FieldMetaSetup property) {
@@ -121,6 +120,7 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 		getCache().put(metaInfo.getKeyInfo(), metaInfo);
 		owner.getProperties().put(metaInfo.getKeyInfo(), metaInfo);
 		loadContainer(PROPERTIES, metaInfo);
+		System.err.println("Meta Info    : "+metaInfo.getKeyInfo());
 	}
 	
 	public void register(String model, AccessibleObject target, RelationMetaSetup property) {
@@ -130,6 +130,7 @@ public class PropertyMetaFactoryImpl implements FieldMetaFactory<PropertyMeta> {
 		getCache().put(metaInfo.getKeyInfo(), metaInfo);
 		owner.getProperties().put(metaInfo.getKeyInfo(), metaInfo);
 		loadContainer(PROPERTIES, metaInfo);
+		System.err.println("Meta Info    : "+metaInfo.getKeyInfo());
 	}
 
 	public void loadContainer(String groupKey, PropertyMeta metaInfo) {

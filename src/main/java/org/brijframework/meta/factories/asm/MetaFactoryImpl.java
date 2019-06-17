@@ -44,11 +44,13 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 			return null;
 		}
 		if(getContainer()!=null) {
-			Group  group=getContainer().get(MODELS);
-			if(group!=null)
-			group.getCache().forEach((key,value)->{
-				cache.put((KeyInfo)key, (ClassMeta)value);
-			});
+			for(Entry<Object, Group>  entry:getContainer().getCache().entrySet()) {
+				Group  group=entry.getValue();
+				if(group!=null)
+				group.getCache().forEach((key,value)->{
+					cache.put((KeyInfo)key, (ClassMeta)value);
+				});
+			}
 		}
 		return cache;
 	}
@@ -89,7 +91,7 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 		if (getContainer() == null) {
 			return;
 		}
-		Group group = getContainer().load(MODELS);
+		Group group = getContainer().load(metaInfo.getOwner().getName());
 		if(!group.containsKey(metaInfo.getKeyInfo())) {
 			group.add(metaInfo.getKeyInfo(), metaInfo);
 		}else {
@@ -102,11 +104,7 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 		if (getContainer() == null) {
 			return null;
 		}
-		Group group=getContainer().get(MODELS);
-		if(group==null) {
-			return null;
-		}
-		return group.find(modelKey);
+		return getContainer().find(modelKey);
 	}
 
 	@Override

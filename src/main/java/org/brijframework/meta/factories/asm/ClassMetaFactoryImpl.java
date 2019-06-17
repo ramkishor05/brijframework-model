@@ -13,8 +13,6 @@ import org.brijframework.support.model.Assignable;
 
 public class ClassMetaFactoryImpl extends MetaFactoryImpl implements ClassMetaFactory {
 	
-	public static final String MODELES = "MODELES";
-	
 	private ConcurrentHashMap<KeyInfo, ClassMeta> cache = new ConcurrentHashMap<>();
 	
 	private Container container;
@@ -36,9 +34,12 @@ public class ClassMetaFactoryImpl extends MetaFactoryImpl implements ClassMetaFa
 	public ClassMetaFactoryImpl loadFactory() {
 		this.clear();
 		if (getContainer() != null) {
-			Group group = getContainer().get(MODELES);
-			if(group!=null)
-			getCache().putAll(group.getCache());
+			for(Entry<Object, Group> entry: getContainer().getCache().entrySet()) {
+				Group group = entry.getValue();
+				if(group!=null) {
+					getCache().putAll(group.getCache());
+				}
+			}
 		}
 		return this;
 	}
@@ -71,12 +72,12 @@ public class ClassMetaFactoryImpl extends MetaFactoryImpl implements ClassMetaFa
 				return entry.getValue();
 			}
 		}
-		return getContainer(MODELES, id);
+		return getContainer(id);
 	}
 
 	public void register(Class<?> target, ClassMeta metaInfo) {
 		this.getCache().put(metaInfo.getKeyInfo(), metaInfo);
-		loadContainer(MODELES, metaInfo);
+		loadContainer(metaInfo);
 	}
 	
 	public void loadContainer(String groupKey, ClassMeta metaInfo) {
