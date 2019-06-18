@@ -12,11 +12,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.brijframework.container.Container;
 import org.brijframework.meta.impl.ModelConsMeta;
 import org.brijframework.meta.impl.ModelMeta;
-import org.brijframework.meta.impl.PropertyKey;
+import org.brijframework.meta.impl.PropertyGroupMeta;
 import org.brijframework.meta.impl.PropertyMeta;
 import org.brijframework.meta.impl.RelPtpMeta;
 import org.brijframework.meta.reflect.ClassMeta;
 import org.brijframework.meta.reflect.ConstMeta;
+import org.brijframework.meta.reflect.FieldGroup;
+import org.brijframework.meta.reflect.FieldMeta;
+import org.brijframework.meta.reflect.ReferMeta;
 import org.brijframework.meta.setup.ClassMetaSetup;
 import org.brijframework.meta.setup.FieldMetaSetup;
 import org.brijframework.meta.setup.RelationMetaSetup;
@@ -28,6 +31,7 @@ import org.brijframework.util.accessor.MetaAccessorUtil;
 import org.brijframework.util.casting.CastingUtil;
 import org.brijframework.util.reflect.ClassUtil;
 import org.brijframework.util.reflect.ConstructUtil;
+import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.support.Access;
 import org.brijframework.util.support.Constants;
 
@@ -48,13 +52,93 @@ public class MetaHelper {
 		}
 		if(metaSetup.getProperties()!=null) {
 			metaSetup.getProperties().forEach((key,setup)->{
-				AccessibleObject target=MetaAccessorUtil.getPropertyMeta(targetClass,key,Access.PRIVATE);
-				registerPropertyMeta(owner, target, setup);
+				owner.getProperties().put(key, buldPropertyGroup(owner, key, setup));
 			});
 		}
 		return owner;
 	}
 	
+	public static FieldGroup buldPropertyGroup(ModelMeta owner,String key, Property setup ) {
+		PropertyGroupMeta propertyGroup=new  PropertyGroupMeta(owner);
+		AccessibleObject field=MetaAccessorUtil.getFieldMeta(owner.getTarget(),key, Access.PRIVATE);
+		if(field!=null) {
+			FieldMeta fieldMeta=buildFieldMeta(owner, field, setup);
+			propertyGroup.setFieldMeta(fieldMeta);
+		}
+		AccessibleObject getter=MetaAccessorUtil.getPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		if(getter!=null) {
+			FieldMeta getterMeta=buildFieldMeta(owner, getter, setup);
+			propertyGroup.setGetterMeta(getterMeta);
+		}
+		AccessibleObject setter=MetaAccessorUtil.setPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		if(setter!=null) {
+			FieldMeta setterMeta=buildFieldMeta(owner, setter, setup);
+			propertyGroup.setSetterMeta(setterMeta);
+		}
+		return propertyGroup;
+	}
+	
+	public static FieldGroup buldPropertyGroup(ModelMeta owner,String key, Relation setup ) {
+		PropertyGroupMeta propertyGroup=new  PropertyGroupMeta(owner);
+		AccessibleObject field=MetaAccessorUtil.getFieldMeta(owner.getTarget(),key, Access.PRIVATE);
+		if(field!=null) {
+			FieldMeta fieldMeta=buildFieldMeta(owner, field, setup);
+			propertyGroup.setFieldMeta(fieldMeta);
+		}
+		AccessibleObject getter=MetaAccessorUtil.getPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		if(getter!=null) {
+			FieldMeta getterMeta=buildFieldMeta(owner, getter, setup);
+			propertyGroup.setGetterMeta(getterMeta);
+		}
+		AccessibleObject setter=MetaAccessorUtil.setPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		if(setter!=null) {
+			FieldMeta setterMeta=buildFieldMeta(owner, setter, setup);
+			propertyGroup.setSetterMeta(setterMeta);
+		}
+		return propertyGroup;
+	}
+	
+	public static FieldGroup buldPropertyGroup(ModelMeta owner,String key, FieldMetaSetup setup ) {
+		PropertyGroupMeta propertyGroup=new  PropertyGroupMeta(owner);
+		AccessibleObject field=MetaAccessorUtil.getFieldMeta(owner.getTarget(),key, Access.PRIVATE);
+		if(field!=null) {
+			FieldMeta fieldMeta=buildFieldMeta(owner, field, setup);
+			propertyGroup.setFieldMeta(fieldMeta);
+		}
+		AccessibleObject getter=MetaAccessorUtil.getPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		if(getter!=null) {
+			FieldMeta getterMeta=buildFieldMeta(owner, getter, setup);
+			propertyGroup.setGetterMeta(getterMeta);
+		}
+		AccessibleObject setter=MetaAccessorUtil.setPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		if(setter!=null) {
+			FieldMeta setterMeta=buildFieldMeta(owner, setter, setup);
+			propertyGroup.setSetterMeta(setterMeta);
+		}
+		return propertyGroup;
+	}
+	
+	public static FieldGroup buldPropertyGroup(ModelMeta owner,String key) {
+		PropertyGroupMeta propertyGroup=new  PropertyGroupMeta(owner);
+		propertyGroup.setId(key);
+		propertyGroup.setName(key);
+		AccessibleObject field=MetaAccessorUtil.getFieldMeta(owner.getTarget(),key, Access.PRIVATE);
+		if(field!=null) {
+			FieldMeta fieldMeta=buildFieldMeta(owner, field);
+			propertyGroup.setFieldMeta(fieldMeta);
+		}
+		AccessibleObject getter=MetaAccessorUtil.getPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		if(getter!=null) {
+			FieldMeta getterMeta=buildFieldMeta(owner, getter);
+			propertyGroup.setGetterMeta(getterMeta);
+		}
+		AccessibleObject setter=MetaAccessorUtil.setPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		if(setter!=null) {
+			FieldMeta setterMeta=buildFieldMeta(owner, setter);
+			propertyGroup.setSetterMeta(setterMeta);
+		}
+		return propertyGroup;
+	}
 
 	public static ClassMeta getModelInfo(Container container,Class<?> target, Model metaSetup) {
 		Objects.requireNonNull(target, "Target should be required");
@@ -68,18 +152,22 @@ public class MetaHelper {
 		}else {
 			owner.setConstructor(getConsMetaInfo(owner));
 		}
-		List<AccessibleObject> properties= MetaAccessorUtil.getPropertiesMeta(target,Access.PRIVATE);
-		for(AccessibleObject targetField:properties) {
+		List<Field> properties= FieldUtil.getAllField(target,Access.PRIVATE_NO_STATIC_FINAL);
+		for(Field targetField:properties) {
 			if(targetField.isAnnotationPresent(Property.class)) {
-				registerPropertyMeta(owner, targetField, (Property)targetField.getAnnotation(Property.class));
+				owner.getProperties().put(targetField.getName(), buldPropertyGroup(owner, targetField.getName(), (Property) targetField.getAnnotation(Property.class)));
 			}else if(targetField.isAnnotationPresent(Relation.class)) {
-				registerPropertyMeta(owner, targetField, (Relation)targetField.getAnnotation(Relation.class));
+				owner.getProperties().put(targetField.getName(), buldPropertyGroup(owner, targetField.getName(), (Relation) targetField.getAnnotation(Relation.class)));
 			}else {
-				registerPropertyMeta(owner, targetField);
+				owner.getProperties().put(targetField.getName(), buldPropertyGroup(owner, targetField.getName()));
 			}
 		}
 		return owner;
 	}
+	
+	/*
+	 * Constructor builder
+	 */
 	
 	public static ModelConsMeta getConsMetaInfo(ModelMeta owner) {
 		ModelConsMeta consMetaInfo=new ModelConsMeta(owner);
@@ -143,72 +231,164 @@ public class MetaHelper {
 		return consMetaInfo;
 	}
 	
-	public static void registerPropertyMeta(ClassMeta owner, AccessibleObject target) {
+	/*
+	 * Default property builder
+	 */
+	
+	public static FieldMeta buildFieldMeta(ClassMeta owner, AccessibleObject target) {
 		if (target instanceof Field) {
-			registerPropertyMeta(owner, (Field) target);
+			return buildFieldMeta(owner, (Field) target);
 		} else {
-			registerPropertyMeta(owner, (Method) target);
+			return buildFieldMeta(owner, (Method) target);
 		}
 	}
 
-	public static void registerPropertyMeta(ClassMeta owner, Method target) {
-		String id = target.getName();
-		RelPtpMeta metaInfo = new RelPtpMeta(owner, target);
-		metaInfo.setId(id);
-		String name=target.getName();
-		metaInfo.setName(name);
+	public static FieldMeta buildFieldMeta(ClassMeta owner,Method target) {
+		PropertyMeta metaInfo = new PropertyMeta(owner, target);
+		metaInfo.setId(target.getName());
+		metaInfo.setName(target.getName());
 		metaInfo.setAccess(Access.PRIVATE);
 		metaInfo.setRequired(false);
 		metaInfo.setType(CastingUtil.getTargetClass(target, target.getReturnType()));
-		owner.getProperties().put(metaInfo.getId(), metaInfo);
+		return metaInfo;
 	}
 
-	public static void registerPropertyMeta(ClassMeta owner, Field target) {
-		String id = target.getName();
+	public static FieldMeta buildFieldMeta(ClassMeta owner, Field target) {
 		RelPtpMeta metaInfo = new RelPtpMeta(owner, target);
-		metaInfo.setId(id);
-		String name=target.getName();
-		metaInfo.setName(name);
-		metaInfo.setAccess(Access.PRIVATE);
+		metaInfo.setId(target.getName());
+		metaInfo.setName(target.getName());
+		metaInfo.setAccess(Access.valueOf(target.getModifiers()));
 		metaInfo.setRequired(false);
 		metaInfo.setType(CastingUtil.getTargetClass(target, target.getType()));
-		owner.getProperties().put(metaInfo.getId(), metaInfo);
-	}
-	
-	public static void registerPropertyMeta(ClassMeta owner, AccessibleObject target,
-			Relation property) {
-		if (target instanceof Field) {
-			registerPropertyMeta(owner, (Field) target, property);
-		} else {
-			registerPropertyMeta(owner, (Method) target, property);
-		}
+		return metaInfo;
 	}
 
-	public static void registerPropertyMeta(ClassMeta owner, AccessibleObject target,
-			Property property) {
+	public static FieldMeta buildFieldMeta(ClassMeta owner, AccessibleObject target, Property property) {
 		if (target instanceof Field) {
-			registerPropertyMeta(owner, (Field) target, property);
+			return buildFieldMeta(owner, (Field) target, property);
 		} else {
-			registerPropertyMeta(owner, (Method) target, property);
+			return buildFieldMeta(owner, (Method) target, property);
 		}
 	}
 	
-	public static void registerPropertyMeta(ClassMeta owner, Method target,Relation property) {
+	public static FieldMeta buildFieldMeta(ClassMeta owner, Field target,Property property) {
+		PropertyMeta metaInfo = new PropertyMeta(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
-		RelPtpMeta metaInfo = new RelPtpMeta(owner, target);
 		metaInfo.setId(id);
-		String name=target.getName();
-		metaInfo.setName(name);
+		metaInfo.setName(target.getName());
 		metaInfo.setAccess(property.access());
 		metaInfo.setValue(property.value());
 		metaInfo.setRequired(property.required());
 		metaInfo.setType(property.type());
-		owner.getProperties().put(metaInfo.getId(), metaInfo);
+		return metaInfo;
 	}
 	
-	public static void registerPropertyMeta(ClassMeta owner, Field target,Relation property) {
+	public static FieldMeta buildFieldMeta(ClassMeta owner, Method target,Property property) {
+		PropertyMeta metaInfo = new PropertyMeta(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
+		metaInfo.setId(id);
+		metaInfo.setName(target.getName());
+		metaInfo.setAccess(property.access());
+		metaInfo.setValue(property.value());
+		metaInfo.setRequired(property.required());
+		metaInfo.setType(property.type());
+		return metaInfo;
+	}
+
+	public static FieldMeta buildFieldMeta(ClassMeta owner, AccessibleObject target, FieldMetaSetup metaSetup) {
+		if (target instanceof Field) {
+			return buildFieldMeta(owner, (Field) target, metaSetup);
+		} else {
+			return buildFieldMeta(owner, (Method) target, metaSetup);
+		}
+	}
+	
+	public static FieldMeta buildFieldMeta(ClassMeta owner, Method target,FieldMetaSetup property) {
+		PropertyMeta metaInfo = new PropertyMeta(owner, target);
+		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
+		metaInfo.setId(id);
+		metaInfo.setName(target.getName());
+		metaInfo.setAccess(Access.valueOf(property.getAccess()));
+		metaInfo.setValue(property.getValue());
+		metaInfo.setRequired(property.isRequired());
+		if(property.getType()!=null && !property.getType().isEmpty())
+		metaInfo.setType(ClassUtil.getClass(property.getType()));
+		return metaInfo;
+	}
+	
+	public static FieldMeta buildFieldMeta(ClassMeta owner, Field target,FieldMetaSetup property) {
+		PropertyMeta metaInfo = new PropertyMeta(owner, target);
+		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
+		metaInfo.setId(id);
+		metaInfo.setName(target.getName());
+		metaInfo.setAccess(Access.valueOf(property.getAccess()));
+		metaInfo.setRequired(property.isRequired());
+		if(property.getType()!=null && !property.getType().isEmpty()) {
+			metaInfo.setType(ClassUtil.getClass(property.getType()));
+		}
+		return metaInfo;
+	}
+	
+	/*
+	 * Relation meta builder
+	 */
+	/**
+	 * 
+	 * @param owner
+	 * @param target
+	 * @param metaSetup
+	 * @return
+	 */
+	
+	public static ReferMeta buildFieldMeta(ClassMeta owner, AccessibleObject target,RelationMetaSetup metaSetup) {
+		if (target instanceof Field) {
+			return buildFieldMeta(owner, (Field) target, metaSetup);
+		} else {
+			return buildFieldMeta(owner, (Method) target, metaSetup);
+		}
+	}
+	
+	public static ReferMeta buildFieldMeta(ClassMeta owner, Field target,RelationMetaSetup property) {
 		RelPtpMeta metaInfo = new RelPtpMeta(owner, target);
+		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
+		metaInfo.setId(id);
+		metaInfo.setName(target.getName());
+		metaInfo.setAccess(Access.valueOf(property.getAccess()));
+		metaInfo.setValue(property.getValue());
+		metaInfo.setRequired(property.isRequired());
+		if(property.getType()!=null && !property.getType().isEmpty()) {
+			metaInfo.setType(ClassUtil.getClass(property.getType()));
+		}
+		return metaInfo;
+	}
+	
+
+	public static ReferMeta buildFieldMeta(ClassMeta owner, Method target,RelationMetaSetup property) {
+		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
+		RelPtpMeta metaInfo = new RelPtpMeta(owner, target);
+		metaInfo.setId(id);
+		metaInfo.setName(target.getName());
+		metaInfo.setAccess(Access.valueOf(property.getAccess()));
+		metaInfo.setValue(property.getValue());
+		metaInfo.setRequired(property.isRequired());
+		if(property.getType()!=null && !property.getType().isEmpty()) {
+			metaInfo.setType(ClassUtil.getClass(property.getType()));
+		}
+		return metaInfo;
+	}
+	
+	
+	public static ReferMeta buildFieldMeta(ClassMeta owner, AccessibleObject target, Relation property) {
+		if (target instanceof Field) {
+			return buildFieldMeta(owner, (Field) target, property);
+		} else {
+			return buildFieldMeta(owner, (Method) target, property);
+		}
+	}
+	
+	public static ReferMeta buildFieldMeta(ClassMeta owner, Field target,Relation property) {
+		RelPtpMeta metaInfo = new RelPtpMeta(owner, target);
+		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(property.access());
@@ -216,112 +396,20 @@ public class MetaHelper {
 		metaInfo.setRequired(property.required());
 		metaInfo.setMappedBy(property.mappedBy());
 		metaInfo.setType(property.type());
-		owner.getProperties().put(metaInfo.getId(), metaInfo);
+		return metaInfo;
 	}
 	
-	
-	public static void registerPropertyMeta(ClassMeta owner, Field target,Property property) {
+	public static RelPtpMeta buildFieldMeta(ClassMeta owner, Method target,Relation property) {
+		RelPtpMeta metaInfo = new RelPtpMeta(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
-		PropertyMeta metaInfo = new PropertyMeta(owner, target);
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(property.access());
 		metaInfo.setValue(property.value());
 		metaInfo.setRequired(property.required());
 		metaInfo.setType(property.type());
-		owner.getProperties().put(metaInfo.getId(), metaInfo);
-	}
-	
-	public static void registerPropertyMeta(ClassMeta owner, Method target,Property property) {
-		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
-		PropertyMeta metaInfo = new PropertyMeta(owner, target);
-		metaInfo.setId(id);
-		String name=target.getName();
-		metaInfo.setName(name);
-		metaInfo.setAccess(property.access());
-		metaInfo.setValue(property.value());
-		metaInfo.setRequired(property.required());
-		metaInfo.setType(property.type());
-		owner.getProperties().put(metaInfo.getId(), metaInfo);
-	}
-	
-	public static PropertyMeta getPropertyMetaInfo(ClassMeta owner, Method target,FieldMetaSetup property) {
-		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
-		PropertyMeta metaInfo = new PropertyMeta(owner, target);
-		metaInfo.setId(id);
-		String name=target.getName();
-		metaInfo.setName(name);
-		metaInfo.setAccess(Access.valueOf(property.getAccess()));
-		metaInfo.setValue(property.getValue());
-		metaInfo.setRequired(property.isRequired());
-		if(property.getType()!=null && !property.getType().isEmpty())
-		metaInfo.setType(ClassUtil.getClass(property.getType()));
-		PropertyKey keyInfo=new PropertyKey(metaInfo);
-		keyInfo.init();
 		return metaInfo;
 	}
 	
-	public static PropertyMeta getPropertyMetaInfo(ClassMeta owner, Field target,FieldMetaSetup property) {
-		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
-		PropertyMeta metaInfo = new PropertyMeta(owner, target);
-		metaInfo.setId(id);
-		String name=target.getName();
-		metaInfo.setName(name);
-		metaInfo.setAccess(Access.valueOf(property.getAccess()));
-		metaInfo.setRequired(property.isRequired());
-		if(property.getType()!=null && !property.getType().isEmpty())
-			metaInfo.setType(ClassUtil.getClass(property.getType()));
-		PropertyKey keyInfo=new PropertyKey(metaInfo);
-		keyInfo.init();
-		return metaInfo;
-	}
 	
-	public static RelPtpMeta getPropertyMetaInfo(ClassMeta owner, Field target,RelationMetaSetup property) {
-		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
-		RelPtpMeta metaInfo = new RelPtpMeta(owner, target);
-		metaInfo.setId(id);
-		String name=target.getName();
-		metaInfo.setName(name);
-		metaInfo.setAccess(Access.valueOf(property.getAccess()));
-		metaInfo.setValue(property.getValue());
-		metaInfo.setRequired(property.isRequired());
-		if(property.getType()!=null && !property.getType().isEmpty())
-			metaInfo.setType(ClassUtil.getClass(property.getType()));
-		PropertyKey keyInfo=new PropertyKey(metaInfo);
-		keyInfo.init();
-		return metaInfo;
-	}
-	
-	public static RelPtpMeta getPropertyMetaInfo(ClassMeta owner, Method target,RelationMetaSetup property) {
-		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
-		RelPtpMeta metaInfo = new RelPtpMeta(owner, target);
-		metaInfo.setId(id);
-		String name=target.getName();
-		metaInfo.setName(name);
-		metaInfo.setAccess(Access.valueOf(property.getAccess()));
-		metaInfo.setValue(property.getValue());
-		metaInfo.setRequired(property.isRequired());
-		if(property.getType()!=null && !property.getType().isEmpty())
-			metaInfo.setType(ClassUtil.getClass(property.getType()));
-		PropertyKey keyInfo=new PropertyKey(metaInfo);
-		keyInfo.init();
-		return metaInfo;
-	}
-
-	public static PropertyMeta registerPropertyMeta(ClassMeta owner, AccessibleObject target, FieldMetaSetup metaSetup) {
-		if (target instanceof Field) {
-			return getPropertyMetaInfo(owner, (Field) target, metaSetup);
-		} else {
-			return getPropertyMetaInfo(owner, (Method) target, metaSetup);
-		}
-	}
-	
-	public static RelPtpMeta getPropertyMetaInfo(ClassMeta owner, AccessibleObject target,
-			RelationMetaSetup metaSetup) {
-		if (target instanceof Field) {
-			return getPropertyMetaInfo(owner, (Field) target, metaSetup);
-		} else {
-			return getPropertyMetaInfo(owner, (Method) target, metaSetup);
-		}
-	}
 }

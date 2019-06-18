@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.brijframework.meta.reflect.ClassMeta;
-import org.brijframework.meta.reflect.FieldMeta;
+import org.brijframework.meta.reflect.FieldGroup;
 
 public abstract class AbstractClassMeta extends AbstractMetaInfo<Class<?>> implements ClassMeta{
 	
-	private Map<String,FieldMeta>  properties;
+	private Map<String,FieldGroup>  properties;
 	
 	private Class<?> target;
 	private String type;
@@ -16,7 +16,6 @@ public abstract class AbstractClassMeta extends AbstractMetaInfo<Class<?>> imple
 	public void setType(String type) {
 		this.type = type;
 	}
-
 	@Override
 	public String getType() {
 		return type;
@@ -32,9 +31,9 @@ public abstract class AbstractClassMeta extends AbstractMetaInfo<Class<?>> imple
 	}
 
 	@Override
-	public Map<String, FieldMeta> getProperties() {
+	public Map<String, FieldGroup> getProperties() {
 		if(properties==null) {
-			properties=new HashMap<String, FieldMeta>();
+			properties=new HashMap<String, FieldGroup>();
 		}
 		return properties;
 	}

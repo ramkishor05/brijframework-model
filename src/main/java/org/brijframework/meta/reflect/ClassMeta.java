@@ -16,6 +16,6 @@ public interface ClassMeta extends MetaInfo<Class<?>> {
 
 	public ConstMeta getConstructor();
 
-	public Map<String,FieldMeta> getProperties();
+	public Map<String, FieldGroup> getProperties();
 
 }
