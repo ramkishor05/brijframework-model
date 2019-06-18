@@ -7,17 +7,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.brijframework.container.Container;
 import org.brijframework.group.Group;
-import org.brijframework.meta.KeyInfo;
 import org.brijframework.meta.factories.MetaFactory;
-import org.brijframework.meta.helper.ModelMetaHelper;
+import org.brijframework.meta.helper.MetaHelper;
 import org.brijframework.meta.reflect.ClassMeta;
 import org.brijframework.meta.setup.ClassMetaSetup;
 import org.brijframework.support.model.Assignable;
 import org.brijframework.support.model.Model;
 
 public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
-	public final static String MODELS = "MODELS";
-	private ConcurrentHashMap<KeyInfo, ClassMeta> cache = new ConcurrentHashMap<>();
+	
+	private ConcurrentHashMap<String, ClassMeta> cache = new ConcurrentHashMap<>();
 	
 	private Container container;
 	
@@ -39,7 +38,7 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ConcurrentHashMap<KeyInfo, ClassMeta> getCache() {
+	public ConcurrentHashMap<String, ClassMeta> getCache() {
 		if(cache==null) {
 			return null;
 		}
@@ -48,7 +47,7 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 				Group  group=entry.getValue();
 				if(group!=null)
 				group.getCache().forEach((key,value)->{
-					cache.put((KeyInfo)key, (ClassMeta)value);
+					cache.put((String)key, (ClassMeta)value);
 				});
 			}
 		}
@@ -74,16 +73,16 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 	}
 
 	public void register(Class<?> target, Model metaSetup) {
-		ClassMeta metaInfo = ModelMetaHelper.getModelInfo(getContainer(),target, metaSetup);
-		this.getCache().put(metaInfo.getKeyInfo(), metaInfo);
-		System.err.println("Meta Info    : "+metaInfo.getKeyInfo());
+		ClassMeta metaInfo = MetaHelper.getModelInfo(getContainer(),target, metaSetup);
+		this.getCache().put(metaInfo.getId(), metaInfo);
+		System.err.println("Meta Info    : "+metaInfo.getId());
 		loadContainer(metaInfo);
 	}
 	
 	public void register(Class<?> target, ClassMetaSetup metaSetup) {
-		ClassMeta metaInfo = ModelMetaHelper.getModelInfo(getContainer(),target, metaSetup);
-		this.getCache().put(metaInfo.getKeyInfo(), metaInfo);
-		System.err.println("Meta Info    : "+metaInfo.getKeyInfo());
+		ClassMeta metaInfo = MetaHelper.getModelInfo(getContainer(),target, metaSetup);
+		this.getCache().put(metaInfo.getId(), metaInfo);
+		System.err.println("Meta Info    : "+metaInfo.getId());
 		loadContainer( metaInfo);
 	}
 	
@@ -91,11 +90,11 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 		if (getContainer() == null) {
 			return;
 		}
-		Group group = getContainer().load(metaInfo.getOwner().getName());
-		if(!group.containsKey(metaInfo.getKeyInfo())) {
-			group.add(metaInfo.getKeyInfo(), metaInfo);
+		Group group = getContainer().load(metaInfo.getName());
+		if(!group.containsKey(metaInfo.getId())) {
+			group.add(metaInfo.getId(), metaInfo);
 		}else {
-			group.update(metaInfo.getKeyInfo(), metaInfo);
+			group.update(metaInfo.getId(), metaInfo);
 		}
 	}
 	
@@ -107,15 +106,9 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 		return getContainer().find(modelKey);
 	}
 
-	@Override
-	public Object groupKey() {
-		return null;
-	}
-	
-
 	public ClassMeta getMeta(String id) {
-		for(Entry<KeyInfo, ClassMeta> entry:getCache().entrySet()) {
-			if(entry.getKey().getId().equals(id)) {
+		for(Entry<String, ClassMeta> entry:getCache().entrySet()) {
+			if(entry.getKey().equals(id)) {
 				return entry.getValue();
 			}
 		}

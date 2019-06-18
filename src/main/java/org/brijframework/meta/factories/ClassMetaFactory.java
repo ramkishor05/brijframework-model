@@ -3,7 +3,6 @@ package org.brijframework.meta.factories;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.brijframework.meta.KeyInfo;
 import org.brijframework.meta.reflect.ClassMeta;
 
 public interface ClassMetaFactory extends MetaFactory<ClassMeta>{
@@ -14,5 +13,5 @@ public interface ClassMetaFactory extends MetaFactory<ClassMeta>{
 
 	ClassMeta getClassInfo(String parentID);
 	
-	ConcurrentHashMap<KeyInfo, ClassMeta> getCache();
+	ConcurrentHashMap<String, ClassMeta> getCache();
 }

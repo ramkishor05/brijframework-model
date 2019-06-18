@@ -1,7 +1,6 @@
 package org.brijframework.meta.impl;
 
 import java.lang.reflect.AccessibleObject;
-import java.util.Map;
 
 import org.brijframework.meta.asm.AbstractFieldMeta;
 import org.brijframework.meta.reflect.ClassMeta;
@@ -16,10 +15,4 @@ public class PropertyMeta extends AbstractFieldMeta {
 		this(target);
 		this.setOwner(owner);
 	}
-
-	@Override
-	public void papulate(Map<String, Object> properties) {
-
-	}
-	
 }

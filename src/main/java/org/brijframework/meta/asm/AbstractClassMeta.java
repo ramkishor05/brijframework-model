@@ -3,13 +3,12 @@ package org.brijframework.meta.asm;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.brijframework.meta.KeyInfo;
 import org.brijframework.meta.reflect.ClassMeta;
 import org.brijframework.meta.reflect.FieldMeta;
 
 public abstract class AbstractClassMeta extends AbstractMetaInfo<Class<?>> implements ClassMeta{
 	
-	private Map<KeyInfo,FieldMeta>  properties;
+	private Map<String,FieldMeta>  properties;
 	
 	private Class<?> target;
 	private String type;
@@ -33,9 +32,9 @@ public abstract class AbstractClassMeta extends AbstractMetaInfo<Class<?>> imple
 	}
 
 	@Override
-	public Map<KeyInfo, FieldMeta> getProperties() {
+	public Map<String, FieldMeta> getProperties() {
 		if(properties==null) {
-			properties=new HashMap<KeyInfo, FieldMeta>();
+			properties=new HashMap<String, FieldMeta>();
 		}
 		return properties;
 	}

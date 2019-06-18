@@ -1,7 +1,5 @@
 package org.brijframework.meta.impl;
 
-import java.util.Map;
-
 import org.brijframework.meta.asm.AbstractClassMeta;
 import org.brijframework.meta.reflect.ConstMeta;
 import org.brijframework.meta.reflect.FieldMeta;
@@ -18,10 +16,6 @@ public class ModelMeta extends AbstractClassMeta{
 		this(target);
 		this.setId(id);
 		this.setName(name);
-	}
-
-	@Override
-	public void papulate(Map<String, Object> map) {
 	}
 
 	@Override

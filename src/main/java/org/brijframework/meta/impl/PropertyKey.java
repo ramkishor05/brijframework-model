@@ -20,6 +20,5 @@ public class PropertyKey extends AbstractKeyInfo<Object>{
 		this.setId(inner.getOwner().getId()+"_"+inner.getId());
 		this.setName(inner.getName());
 		this.setTarget(inner.getTarget());
-		inner.setKeyInfo(this);
 	}
 }

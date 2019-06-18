@@ -25,7 +25,6 @@ public class ClassKey extends AbstractKeyInfo<Class<?>>{
 		this.setId(this.getOwner().getId());
 		this.setTarget(this.getOwner().getTarget());
 		this.setName(this.getOwner().getName());
-		this.getOwner().setKeyInfo(this);
 	}
 }
 
