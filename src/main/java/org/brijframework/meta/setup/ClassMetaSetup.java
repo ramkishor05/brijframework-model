@@ -14,4 +14,6 @@ public interface ClassMetaSetup extends MetaSetup<String>{
 
 	ConstMetaSetup getConstructor();
 
+	String getExtend();
+
 }

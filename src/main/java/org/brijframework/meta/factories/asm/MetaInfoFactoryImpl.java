@@ -5,18 +5,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.brijframework.container.Container;
 import org.brijframework.group.Group;
-import org.brijframework.meta.MetaSetup;
+import org.brijframework.meta.MetaInfo;
 import org.brijframework.meta.factories.MetaFactory;
 
-public abstract class MetaSetupFactoryImpl<T extends MetaSetup<?>> implements MetaFactory<T>{
-	
+public abstract class MetaInfoFactoryImpl<T extends MetaInfo<?>> implements MetaFactory<T>{
+
 	private ConcurrentHashMap<String, T> cache = new ConcurrentHashMap<>();
 	
-	private Container container;
-	
-	protected MetaSetupFactoryImpl() {
-	}
-
 	@SuppressWarnings("unchecked")
 	public ConcurrentHashMap<String, T> getCache() {
 		if(cache==null) {
@@ -34,6 +29,12 @@ public abstract class MetaSetupFactoryImpl<T extends MetaSetup<?>> implements Me
 		return cache;
 	}
 
+	
+	private Container container;
+	
+	protected MetaInfoFactoryImpl() {
+	}
+
 	@Override
 	public Container getContainer() {
 		return container;
@@ -45,7 +46,7 @@ public abstract class MetaSetupFactoryImpl<T extends MetaSetup<?>> implements Me
 	}
 
 	@Override
-	public MetaSetupFactoryImpl<T> clear() {
+	public MetaInfoFactoryImpl<T> clear() {
 		if (getCache() != null) {
 			getCache().clear();
 		}
@@ -63,7 +64,6 @@ public abstract class MetaSetupFactoryImpl<T extends MetaSetup<?>> implements Me
 			group.update(metaInfo.getId(), metaInfo);
 		}
 	}
-	
 
 	public T getContainer(String modelKey) {
 		if (getContainer() == null) {
@@ -72,7 +72,7 @@ public abstract class MetaSetupFactoryImpl<T extends MetaSetup<?>> implements Me
 		return getContainer().find(modelKey);
 	}
 
-	public T getMeta(String id) {
+	public T getMetaInfo(String id) {
 		for(Entry<String, T> entry:getCache().entrySet()) {
 			if(entry.getKey().equals(id)) {
 				return entry.getValue();
@@ -80,16 +80,5 @@ public abstract class MetaSetupFactoryImpl<T extends MetaSetup<?>> implements Me
 		}
 		return getContainer(id);
 	}
-
-	@Override
-	public MetaSetupFactoryImpl<?> loadFactory() {
-		return this;
-	}
-	
-	public void register(T metaInfo) {
-		this.getCache().put(metaInfo.getId(), metaInfo);
-		loadContainer(metaInfo);
-	}
-
 
 }

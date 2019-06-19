@@ -1,12 +1,12 @@
 package org.brijframework.meta;
 
-public interface MetaSetup<T> {
+public interface MetaSetup<E> {
 
 	String getId();
 
 	String getName();
 
-	T getTarget();
+	E getTarget();
 
 	String getAccess();
 }

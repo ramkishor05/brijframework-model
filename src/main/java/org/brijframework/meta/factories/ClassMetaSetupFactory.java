@@ -3,10 +3,9 @@ package org.brijframework.meta.factories;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.brijframework.meta.MetaInfo;
 import org.brijframework.meta.setup.ClassMetaSetup;
 
-public interface ClassMetaSetupFactory extends MetaFactory<MetaInfo<?>>{
+public interface ClassMetaSetupFactory extends MetaFactory<ClassMetaSetup>{
 
 	List<ClassMetaSetup> getClassSetupList(Class<?> cls);
 
@@ -14,5 +13,5 @@ public interface ClassMetaSetupFactory extends MetaFactory<MetaInfo<?>>{
 
 	ClassMetaSetup getClassSetup(String parentID);
 	
-	ConcurrentHashMap<String, MetaInfo<?>> getCache();
+	ConcurrentHashMap<String, ClassMetaSetup> getCache();
 }
