@@ -1,4 +1,4 @@
-package org.brijframework.meta.reflect;
+package org.brijframework.meta.info;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 
 import org.brijframework.meta.MetaInfo;
 
-public interface FieldMeta extends MetaInfo<AccessibleObject>{
+public interface FieldMetaInfo extends MetaInfo<AccessibleObject>{
 
 	public void setValue(Object value);
 	
@@ -34,7 +34,7 @@ public interface FieldMeta extends MetaInfo<AccessibleObject>{
 		return (Field)getTarget();
 	}
 
-	public ClassMeta getOwner();
+	public ClassMetaInfo getOwner();
 
 	public Class<?> getType();
 

@@ -1,14 +1,14 @@
 package org.brijframework.meta.asm;
 
 import org.brijframework.meta.MetaInfo;
-import org.brijframework.meta.reflect.ClassMeta;
+import org.brijframework.meta.info.ClassMetaInfo;
 import org.brijframework.util.support.Access;
 
 public abstract class AbstractMetaInfo<E> implements MetaInfo<E>{
 	private String id;
 	private String name;
 	private Access access;
-	private ClassMeta owner;
+	private ClassMetaInfo owner;
 	
 	public void setId(String id) {
 		this.id = id;
@@ -38,12 +38,12 @@ public abstract class AbstractMetaInfo<E> implements MetaInfo<E>{
 	}
 
 	@Override
-	public ClassMeta getOwner() {
+	public ClassMetaInfo getOwner() {
 		return owner;
 	}
 	
 	@Override
-	public void setOwner(ClassMeta owner) {
+	public void setOwner(ClassMetaInfo owner) {
 		this.owner = owner;
 	}
 

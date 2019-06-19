@@ -5,20 +5,20 @@ import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.brijframework.meta.reflect.ClassMeta;
-import org.brijframework.meta.reflect.ConstMeta;
-import org.brijframework.meta.reflect.ParamMeta;
+import org.brijframework.meta.info.ClassMetaInfo;
+import org.brijframework.meta.info.ConstMetaInfo;
+import org.brijframework.meta.setup.ParamMetaSetup;
 
-public abstract class AbstractConsMeta extends AbstractMetaInfo<Constructor<?>> implements ConstMeta{
+public abstract class AbstractConstMetaInfo extends AbstractMetaInfo<Constructor<?>> implements ConstMetaInfo{
 
-	private ClassMeta owner;
+	private ClassMetaInfo owner;
 	private Constructor<?> target;
-	private Set<ParamMeta> parametersInfo;
+	private Set<ParamMetaSetup> parametersInfo;
 	private Type[] arguments;
 	private Object[] values;
 	
 	@Override
-	public ClassMeta getOwner() {
+	public ClassMetaInfo getOwner() {
 		return owner;
 	}
 
@@ -28,7 +28,7 @@ public abstract class AbstractConsMeta extends AbstractMetaInfo<Constructor<?>> 
 	}
 
 	@Override
-	public Set<ParamMeta> getParams() {
+	public Set<ParamMetaSetup> getParams() {
 		if(parametersInfo==null) {
 			parametersInfo=new HashSet<>();
 		}
@@ -36,7 +36,7 @@ public abstract class AbstractConsMeta extends AbstractMetaInfo<Constructor<?>> 
 	}
 
 	@Override
-	public void setParametersInfo(Set<ParamMeta> parametersInfo) {
+	public void setParametersInfo(Set<ParamMetaSetup> parametersInfo) {
 		this.parametersInfo=parametersInfo;
 	}
 
@@ -50,7 +50,7 @@ public abstract class AbstractConsMeta extends AbstractMetaInfo<Constructor<?>> 
 		return arguments;
 	}
 
-	public void setOwner(ClassMeta owner) {
+	public void setOwner(ClassMetaInfo owner) {
 		this.owner = owner;
 	}
 

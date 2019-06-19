@@ -8,37 +8,37 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.brijframework.container.Container;
 import org.brijframework.group.Group;
 import org.brijframework.meta.factories.MetaFactory;
-import org.brijframework.meta.helper.MetaHelper;
-import org.brijframework.meta.reflect.ClassMeta;
+import org.brijframework.meta.helper.MetaBuilderHelper;
+import org.brijframework.meta.info.ClassMetaInfo;
 import org.brijframework.meta.setup.ClassMetaSetup;
 import org.brijframework.support.model.Assignable;
 import org.brijframework.support.model.Model;
 
-public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
+public class MetaSetupFactoryImpl implements MetaFactory<ClassMetaInfo> {
 	
-	private ConcurrentHashMap<String, ClassMeta> cache = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<String, ClassMetaInfo> cache = new ConcurrentHashMap<>();
 	
 	private Container container;
 	
-	protected MetaFactoryImpl() {
+	protected MetaSetupFactoryImpl() {
 	}
 
-	protected static MetaFactoryImpl factory;
+	protected static MetaSetupFactoryImpl factory;
 
 	@Assignable
-	public static MetaFactoryImpl getFactory() {
+	public static MetaSetupFactoryImpl getFactory() {
 		if (factory == null) {
-			factory = new MetaFactoryImpl();
+			factory = new MetaSetupFactoryImpl();
 		}
 		return factory;
 	}
 
-	public MetaFactoryImpl loadFactory() {
+	public MetaSetupFactoryImpl loadFactory() {
 		return this;
 	}
 
 	@SuppressWarnings("unchecked")
-	public ConcurrentHashMap<String, ClassMeta> getCache() {
+	public ConcurrentHashMap<String, ClassMetaInfo> getCache() {
 		if(cache==null) {
 			return null;
 		}
@@ -47,7 +47,7 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 				Group  group=entry.getValue();
 				if(group!=null)
 				group.getCache().forEach((key,value)->{
-					cache.put((String)key, (ClassMeta)value);
+					cache.put((String)key, (ClassMetaInfo)value);
 				});
 			}
 		}
@@ -65,7 +65,7 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 	}
 
 	@Override
-	public MetaFactoryImpl clear() {
+	public MetaSetupFactoryImpl clear() {
 		if (getCache() != null) {
 			getCache().clear();
 		}
@@ -73,20 +73,20 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 	}
 
 	public void register(Class<?> target, Model metaSetup) {
-		ClassMeta metaInfo = MetaHelper.getModelInfo(getContainer(),target, metaSetup);
+		ClassMetaInfo metaInfo = MetaBuilderHelper.getModelInfo(getContainer(),target, metaSetup);
 		this.getCache().put(metaInfo.getId(), metaInfo);
 		System.err.println("Meta Info    : "+metaInfo.getId());
 		loadContainer(metaInfo);
 	}
 	
 	public void register(Class<?> target, ClassMetaSetup metaSetup) {
-		ClassMeta metaInfo = MetaHelper.getModelInfo(getContainer(),target, metaSetup);
+		ClassMetaInfo metaInfo = MetaBuilderHelper.getModelInfo(getContainer(),target, metaSetup);
 		this.getCache().put(metaInfo.getId(), metaInfo);
 		System.err.println("Meta Info    : "+metaInfo.getId());
 		loadContainer( metaInfo);
 	}
 	
-	public void loadContainer(ClassMeta metaInfo) {
+	public void loadContainer(ClassMetaInfo metaInfo) {
 		if (getContainer() == null) {
 			return;
 		}
@@ -99,15 +99,15 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 	}
 	
 
-	public ClassMeta getContainer(String modelKey) {
+	public ClassMetaInfo getContainer(String modelKey) {
 		if (getContainer() == null) {
 			return null;
 		}
 		return getContainer().find(modelKey);
 	}
 
-	public ClassMeta getMeta(String id) {
-		for(Entry<String, ClassMeta> entry:getCache().entrySet()) {
+	public ClassMetaInfo getMeta(String id) {
+		for(Entry<String, ClassMetaInfo> entry:getCache().entrySet()) {
 			if(entry.getKey().equals(id)) {
 				return entry.getValue();
 			}
@@ -115,9 +115,9 @@ public class MetaFactoryImpl implements MetaFactory<ClassMeta> {
 		return getContainer(id);
 	}
 
-	public List<ClassMeta> getMetaList(Class<?> model) {
-		List<ClassMeta> list=new ArrayList<>();
-		for(ClassMeta classMeta:getCache().values()) {
+	public List<ClassMetaInfo> getMetaList(Class<?> model) {
+		List<ClassMetaInfo> list=new ArrayList<>();
+		for(ClassMetaInfo classMeta:getCache().values()) {
 			if(model.isAssignableFrom(classMeta.getTarget())) {
 				list.add(classMeta);
 			}

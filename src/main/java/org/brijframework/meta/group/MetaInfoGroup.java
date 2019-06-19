@@ -6,7 +6,7 @@ import org.brijframework.asm.group.DefaultGroup;
 import org.brijframework.meta.MetaInfo;
 import org.brijframework.util.asserts.Assertion;
 
-public class MetaGroup implements DefaultGroup{
+public class MetaInfoGroup implements DefaultGroup{
 
 	/**
 	 * 
@@ -16,7 +16,7 @@ public class MetaGroup implements DefaultGroup{
 	
 	private ConcurrentHashMap<String,MetaInfo<?>> cache=new ConcurrentHashMap<>();
 	
-	public MetaGroup(Object groupKey) {
+	public MetaInfoGroup(Object groupKey) {
 		this.groupKey=groupKey;
 		Assertion.notNull(this.groupKey, "Group key is required.");
 	}

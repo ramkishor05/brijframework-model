@@ -2,10 +2,10 @@ package org.brijframework.meta.impl;
 
 import java.lang.reflect.AccessibleObject;
 
-import org.brijframework.meta.reflect.ClassMeta;
+import org.brijframework.meta.info.ClassMetaInfo;
 import org.brijframework.support.enums.Wiring;
 
-public class RelPtpMeta extends PropertyMeta implements org.brijframework.meta.reflect.ReferMeta{
+public class ReferMetaImpl extends FieldMetaInfoImpl implements org.brijframework.meta.info.RelMetaInfo{
 
 	Class<?> mappedTo;
 	
@@ -13,11 +13,11 @@ public class RelPtpMeta extends PropertyMeta implements org.brijframework.meta.r
 	
 	Wiring referred;
 	
-	public RelPtpMeta(AccessibleObject target) {
+	public ReferMetaImpl(AccessibleObject target) {
 		super(target);
 	}
 	
-	public RelPtpMeta(ClassMeta owner, AccessibleObject target) {
+	public ReferMetaImpl(ClassMetaInfo owner, AccessibleObject target) {
 		super(owner,target);
 	}
 
@@ -32,7 +32,7 @@ public class RelPtpMeta extends PropertyMeta implements org.brijframework.meta.r
 	}
 
 	@Override
-	public ClassMeta getRelationClassMeta() {
+	public ClassMetaInfo getTargetClassMetaInfo() {
 		return this.getOwner();
 	}
 

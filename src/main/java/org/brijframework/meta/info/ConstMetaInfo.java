@@ -1,4 +1,4 @@
-package org.brijframework.meta.reflect;
+package org.brijframework.meta.info;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
@@ -6,17 +6,18 @@ import java.util.Map;
 import java.util.Set;
 
 import org.brijframework.meta.MetaInfo;
+import org.brijframework.meta.setup.ParamMetaSetup;
 
-public interface ConstMeta extends MetaInfo<Constructor<?>> {
+public interface ConstMetaInfo extends MetaInfo<Constructor<?>> {
 
 	@Override
 	public Constructor<?> getTarget();
 
 	public void papulate(Map<String, Object> map);
 
-	public Set<ParamMeta> getParams();
+	public Set<ParamMetaSetup> getParams();
 	
-	public void setParametersInfo(Set<ParamMeta> params);
+	public void setParametersInfo(Set<ParamMetaSetup> params);
 
 	public void setArguments(Type[] arguments);
 
@@ -31,6 +32,6 @@ public interface ConstMeta extends MetaInfo<Constructor<?>> {
 		return getParams().size();
 	}
 
-	public ClassMeta getOwner();
+	public ClassMetaInfo getOwner();
 
 }

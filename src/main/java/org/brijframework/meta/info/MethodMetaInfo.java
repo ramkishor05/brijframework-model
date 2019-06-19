@@ -1,4 +1,4 @@
-package org.brijframework.meta.reflect;
+package org.brijframework.meta.info;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -7,8 +7,9 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.brijframework.meta.MetaInfo;
+import org.brijframework.meta.setup.ParamMetaSetup;
 
-public interface MethodMeta extends MetaInfo<Method>{
+public interface MethodMetaInfo extends MetaInfo<Method>{
 	
 	@Override
 	public default void init() {
@@ -25,14 +26,14 @@ public interface MethodMeta extends MetaInfo<Method>{
 	
 	public Type[] getArguments();
 	
-	public Set<ParamMeta> getParametersInfo();
+	public Set<ParamMetaSetup> getParametersInfo();
 
 	public void papulate(Map<String, Object> annotationData);
 
 	public String getParentID();
 	
 	public default Object[] getParamValues() {
-		Set<ParamMeta> params= getParametersInfo();
+		Set<ParamMetaSetup> params= getParametersInfo();
 		if(params==null) {
 			return null;
 		}
@@ -44,5 +45,5 @@ public interface MethodMeta extends MetaInfo<Method>{
 		return values;
 	}
 
-	ClassMeta getClassMetaInfo();
+	ClassMetaInfo getClassMetaInfo();
 }

@@ -3,10 +3,10 @@ package org.brijframework.meta.asm;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.brijframework.meta.reflect.ClassMeta;
-import org.brijframework.meta.reflect.FieldGroup;
+import org.brijframework.meta.info.ClassMetaInfo;
+import org.brijframework.meta.info.FieldGroup;
 
-public abstract class AbstractClassMeta extends AbstractMetaInfo<Class<?>> implements ClassMeta{
+public abstract class AbstractClassMetaInfo extends AbstractMetaInfo<Class<?>> implements ClassMetaInfo{
 	
 	private Map<String,FieldGroup>  properties;
 	

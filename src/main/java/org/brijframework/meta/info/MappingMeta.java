@@ -1,4 +1,4 @@
-package org.brijframework.meta.reflect;
+package org.brijframework.meta.info;
 
 public interface MappingMeta {
 

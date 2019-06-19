@@ -2,16 +2,16 @@ package org.brijframework.meta.asm;
 
 import java.lang.reflect.Method;
 
-import org.brijframework.meta.reflect.ClassMeta;
-import org.brijframework.meta.reflect.MethodMeta;
+import org.brijframework.meta.info.ClassMetaInfo;
+import org.brijframework.meta.info.MethodMetaInfo;
 
-public abstract class AbstractMethodMeta extends AbstractMetaInfo<Method> implements MethodMeta {
+public abstract class AbstractMethodMetaInfo extends AbstractMetaInfo<Method> implements MethodMetaInfo {
 
-	private ClassMeta owner;
+	private ClassMetaInfo owner;
 	private Method target;
 	private Object value;
 	
-	public ClassMeta getOwner() {
+	public ClassMetaInfo getOwner() {
 		return owner;
 	}
 	

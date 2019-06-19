@@ -2,9 +2,9 @@ package org.brijframework.meta.asm;
 
 import java.lang.reflect.AccessibleObject;
 
-import org.brijframework.meta.reflect.FieldMeta;
+import org.brijframework.meta.info.FieldMetaInfo;
 
-public abstract class AbstractFieldMeta extends AbstractMetaInfo<AccessibleObject> implements FieldMeta {
+public abstract class AbstractFieldMetaInfo extends AbstractMetaInfo<AccessibleObject> implements FieldMetaInfo {
 
 	private AccessibleObject target;
 	private Object value;

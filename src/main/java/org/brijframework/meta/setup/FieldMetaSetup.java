@@ -1,6 +1,8 @@
 package org.brijframework.meta.setup;
 
-public interface FieldMetaSetup extends MetaSetup {
+import org.brijframework.meta.MetaSetup;
+
+public interface FieldMetaSetup extends MetaSetup<String> {
 
 	boolean isRequired();
 

@@ -3,9 +3,9 @@ package org.brijframework.meta.asm;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 
-import org.brijframework.meta.reflect.ParamMeta;
+import org.brijframework.meta.setup.ParamMetaSetup;
 
-public abstract class AbstractParamMeta extends AbstractMetaInfo<Parameter> implements ParamMeta {
+public abstract class AbstractParamMetaInfo extends AbstractMetaInfo<Parameter> implements ParamMetaSetup {
 
 	private Class<?> parent;
 	private Parameter target;

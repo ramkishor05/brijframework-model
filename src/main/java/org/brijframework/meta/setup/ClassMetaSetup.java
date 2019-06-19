@@ -2,9 +2,9 @@ package org.brijframework.meta.setup;
 
 import java.util.Map;
 
-import org.brijframework.meta.reflect.ConstMeta;
+import org.brijframework.meta.MetaSetup;
 
-public interface ClassMetaSetup extends MetaSetup{
+public interface ClassMetaSetup extends MetaSetup<String>{
 
 	String getScope();
 	
@@ -12,6 +12,6 @@ public interface ClassMetaSetup extends MetaSetup{
 	
 	Map<String, FieldMetaSetup> getProperties();
 
-	ConstMeta getConstructor();
+	ConstMetaSetup getConstructor();
 
 }

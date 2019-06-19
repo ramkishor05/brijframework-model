@@ -1,24 +1,24 @@
 package org.brijframework.meta.asm;
 
-import org.brijframework.meta.reflect.ClassMeta;
-import org.brijframework.meta.reflect.FieldGroup;
-import org.brijframework.meta.reflect.FieldMeta;
+import org.brijframework.meta.info.ClassMetaInfo;
+import org.brijframework.meta.info.FieldGroup;
+import org.brijframework.meta.info.FieldMetaInfo;
 
 public abstract class AbstractFieldGroup implements FieldGroup {
 	
 	private String id;
 	private String name;
-	private FieldMeta fieldMeta;
-	private FieldMeta setterMeta;
-	private FieldMeta getterMeta;
-	private ClassMeta owner;
+	private FieldMetaInfo fieldMeta;
+	private FieldMetaInfo setterMeta;
+	private FieldMetaInfo getterMeta;
+	private ClassMetaInfo owner;
 	
-	public AbstractFieldGroup(ClassMeta owner) {
+	public AbstractFieldGroup(ClassMetaInfo owner) {
 		this.owner=owner;
 	}
 	
 	@Override
-	public ClassMeta getOwner() {
+	public ClassMetaInfo getOwner() {
 		return owner;
 	}
 
@@ -42,29 +42,29 @@ public abstract class AbstractFieldGroup implements FieldGroup {
 	
 	
 	@Override
-	public FieldMeta getFieldMeta() {
+	public FieldMetaInfo getFieldMeta() {
 		return fieldMeta;
 	}
 	
-	public void setFieldMeta(FieldMeta fieldMeta) {
+	public void setFieldMeta(FieldMetaInfo fieldMeta) {
 		this.fieldMeta = fieldMeta;
 	}
 
 	@Override
-	public FieldMeta getSetterMeta() {
+	public FieldMetaInfo getSetterMeta() {
 		return setterMeta;
 	}
 	
-	public void setSetterMeta(FieldMeta setterMeta) {
+	public void setSetterMeta(FieldMetaInfo setterMeta) {
 		this.setterMeta = setterMeta;
 	}
 
 	@Override
-	public FieldMeta getGetterMeta() {
+	public FieldMetaInfo getGetterMeta() {
 		return getterMeta;
 	}
 	
-	public void setGetterMeta(FieldMeta getterMeta) {
+	public void setGetterMeta(FieldMetaInfo getterMeta) {
 		this.getterMeta = getterMeta;
 	}
 

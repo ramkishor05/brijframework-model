@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.brijframework.group.Group;
-import org.brijframework.meta.factories.ClassMetaFactory;
-import org.brijframework.meta.reflect.ClassMeta;
-import org.brijframework.meta.reflect.FieldMeta;
+import org.brijframework.meta.factories.ClassMetaInfoFactory;
+import org.brijframework.meta.info.ClassMetaInfo;
+import org.brijframework.meta.info.FieldMetaInfo;
 import org.brijframework.support.model.Assignable;
 
-public class ClassMetaFactoryImpl extends MetaFactoryImpl implements ClassMetaFactory {
+public class ClassMetaFactoryImpl extends MetaSetupFactoryImpl implements ClassMetaInfoFactory {
 	
 	
 	protected ClassMetaFactoryImpl() {
@@ -33,8 +33,8 @@ public class ClassMetaFactoryImpl extends MetaFactoryImpl implements ClassMetaFa
 		return this;
 	}
 
-	public ClassMeta getClassInfo(String id) {
-		for(Entry<String, ClassMeta> entry:getCache().entrySet()) {
+	public ClassMetaInfo getClassInfo(String id) {
+		for(Entry<String, ClassMetaInfo> entry:getCache().entrySet()) {
 			if(entry.getKey().equals(id)) {
 				return entry.getValue();
 			}
@@ -42,12 +42,12 @@ public class ClassMetaFactoryImpl extends MetaFactoryImpl implements ClassMetaFa
 		return getContainer(id);
 	}
 
-	public void register(Class<?> target, ClassMeta metaInfo) {
+	public void register(Class<?> target, ClassMetaInfo metaInfo) {
 		this.getCache().put(metaInfo.getId(), metaInfo);
 		loadContainer(metaInfo);
 	}
 	
-	public void loadContainer(String groupKey, ClassMeta metaInfo) {
+	public void loadContainer(String groupKey, ClassMetaInfo metaInfo) {
 		if (getContainer() == null) {
 			return;
 		}
@@ -60,7 +60,7 @@ public class ClassMetaFactoryImpl extends MetaFactoryImpl implements ClassMetaFa
 		getContainer().merge(groupKey, group);
 	}
 
-	public ClassMeta getContainer(String groupKey, String modelKey) {
+	public ClassMetaInfo getContainer(String groupKey, String modelKey) {
 		if (getContainer() == null) {
 			return null;
 		}
@@ -72,17 +72,17 @@ public class ClassMetaFactoryImpl extends MetaFactoryImpl implements ClassMetaFa
 	}
 
 	@Override
-	public List<ClassMeta> getClassInfoList(Class<?> cls) {
+	public List<ClassMetaInfo> getClassInfoList(Class<?> cls) {
 		return null;
 	}
 
 	@Override
-	public List<ClassMeta> getClassInfoList(Class<?> target, String parentID) {
+	public List<ClassMetaInfo> getClassInfoList(Class<?> target, String parentID) {
 		return null;
 	}
 
-	public FieldMeta getFieldMeta(String simpleName, String _keyPath) {
-		ClassMeta classMeta=getClassInfo(simpleName);
+	public FieldMetaInfo getFieldMeta(String simpleName, String _keyPath) {
+		ClassMetaInfo classMeta=getClassInfo(simpleName);
 		if(classMeta==null) {
 			return null;
 		}

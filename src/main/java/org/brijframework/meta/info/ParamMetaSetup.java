@@ -1,12 +1,12 @@
-package org.brijframework.meta.reflect;
+package org.brijframework.meta.info;
 
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import org.brijframework.meta.MetaInfo;
+import org.brijframework.meta.MetaSetup;
 
-public interface ParamMeta  extends Comparable<ParamMeta> , MetaInfo<Parameter>{
+public interface ParamMetaSetup  extends Comparable<ParamMetaSetup> , MetaSetup<Parameter>{
 
 	public int getIndex() ;
 	
@@ -19,7 +19,7 @@ public interface ParamMeta  extends Comparable<ParamMeta> , MetaInfo<Parameter>{
 	public void papulate(Map<String, Object> map);
 	
 	@Override
-	default int compareTo(ParamMeta param) {
+	default int compareTo(ParamMetaSetup param) {
 		if(param.getIndex()<getIndex()) {
 			return 1;
 		}else {
