@@ -12,6 +12,8 @@ import org.brijframework.meta.info.FieldMetaInfo;
 import org.brijframework.meta.setup.ClassMetaSetup;
 import org.brijframework.support.model.Assignable;
 import org.brijframework.support.model.Model;
+import org.brijframework.util.asserts.Assertion;
+import org.brijframework.util.reflect.ClassUtil;
 
 public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<ClassMetaInfo> implements ClassMetaInfoFactory {
 	
@@ -27,6 +29,24 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<ClassMetaInfo>
 		}
 		return factory;
 	}
+
+
+	@Override
+	public ClassMetaInfoFactoryImpl loadFactory() {
+		ClassMetaSetupFactoryImpl.getFactory().getCache().forEach((key,metaSetup)->{
+			register(key, metaSetup);
+		});
+		return this;
+	}
+
+	
+	private void register(String key, ClassMetaSetup metaSetup) {
+		Class<?> target=ClassUtil.getClass(metaSetup.getTarget());
+		Assertion.notNull(target, "Target class not found for "+metaSetup.getId());;
+		ClassMetaInfo classMetaInfo=MetaBuilderHelper.getModelInfo(getContainer(), target, metaSetup);
+		register(target, classMetaInfo);
+	}
+
 
 	@Override
 	public ClassMetaInfoFactoryImpl clear() {
@@ -46,21 +66,22 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<ClassMetaInfo>
 	}
 
 	public void register(Class<?> target, ClassMetaInfo metaInfo) {
-		this.getCache().put(metaInfo.getId(), metaInfo);
 		loadContainer(metaInfo);
+		System.err.println("Data Info    : "+metaInfo.getId());
+		this.getCache().put(metaInfo.getId(), metaInfo);
 	}
 	
 	public void loadContainer(ClassMetaInfo metaInfo) {
 		if (getContainer() == null) {
 			return;
 		}
-		Group group = getContainer().load(metaInfo.getOwner().getName());
+		Group group = getContainer().load(metaInfo.getName());
 		if(!group.containsKey(metaInfo.getId())) {
 			group.add(metaInfo.getId(), metaInfo);
 		}else {
 			group.update(metaInfo.getId(), metaInfo);
 		}
-		getContainer().merge(metaInfo.getOwner().getName(), group);
+		getContainer().merge(metaInfo.getName(), group);
 	}
 
 	public ClassMetaInfo getContainer(String modelKey) {
@@ -113,9 +134,4 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<ClassMetaInfo>
 		return list;
 	}
 	
-	@Override
-	public ClassMetaInfoFactoryImpl loadFactory() {
-		return this;
-	}
-
 }

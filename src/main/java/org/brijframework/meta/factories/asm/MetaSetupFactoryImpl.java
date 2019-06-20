@@ -87,8 +87,10 @@ public abstract class MetaSetupFactoryImpl<T extends MetaSetup<?>> implements Me
 	}
 	
 	public void register(T metaInfo) {
-		this.getCache().put(metaInfo.getId(), metaInfo);
 		loadContainer(metaInfo);
+		System.err.println("Meta Setup   : "+metaInfo.getId());
+		this.getCache().put(metaInfo.getId(), metaInfo);
+		
 	}
 
 

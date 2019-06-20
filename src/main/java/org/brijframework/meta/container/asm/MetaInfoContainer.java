@@ -6,9 +6,11 @@ import org.brijframework.meta.container.MetaContainer;
 import org.brijframework.meta.factories.ClassMetaInfoFactory;
 import org.brijframework.meta.group.MetaInfoGroup;
 import org.brijframework.support.model.Assignable;
+import org.brijframework.support.model.DepandOn;
 import org.brijframework.util.reflect.InstanceUtil;
 import org.brijframework.util.reflect.ReflectionUtils;
 
+@DepandOn(depand=MetaSetupContainer.class)
 public class MetaInfoContainer extends AbstractContainer implements MetaContainer {
 
 	private static MetaInfoContainer container;
