@@ -36,7 +36,7 @@ import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.support.Access;
 import org.brijframework.util.support.Constants;
 
-public class MetaBuilderHelper {
+public class MetaInfoHelper {
 
 	public static ClassMetaInfo getModelInfo(Container container, Class<?> _class, ClassMetaSetup metaSetup) {
 		Objects.requireNonNull(metaSetup, "MetaSetup should be required");
@@ -393,9 +393,7 @@ public class MetaBuilderHelper {
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(property.access());
-		metaInfo.setValue(property.value());
 		metaInfo.setRequired(property.required());
-		metaInfo.setMappedBy(property.mappedBy());
 		metaInfo.setType(property.type());
 		return metaInfo;
 	}
@@ -406,7 +404,6 @@ public class MetaBuilderHelper {
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(property.access());
-		metaInfo.setValue(property.value());
 		metaInfo.setRequired(property.required());
 		metaInfo.setType(property.type());
 		return metaInfo;

@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import org.brijframework.group.Group;
 import org.brijframework.meta.factories.ClassMetaInfoFactory;
-import org.brijframework.meta.helper.MetaBuilderHelper;
+import org.brijframework.meta.helper.MetaInfoHelper;
 import org.brijframework.meta.info.ClassMetaInfo;
 import org.brijframework.meta.info.FieldMetaInfo;
 import org.brijframework.meta.setup.ClassMetaSetup;
@@ -43,7 +43,7 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<ClassMetaInfo>
 	private void register(String key, ClassMetaSetup metaSetup) {
 		Class<?> target=ClassUtil.getClass(metaSetup.getTarget());
 		Assertion.notNull(target, "Target class not found for "+metaSetup.getId());;
-		ClassMetaInfo classMetaInfo=MetaBuilderHelper.getModelInfo(getContainer(), target, metaSetup);
+		ClassMetaInfo classMetaInfo=MetaInfoHelper.getModelInfo(getContainer(), target, metaSetup);
 		register(target, classMetaInfo);
 	}
 
@@ -110,14 +110,14 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<ClassMetaInfo>
 	}
 
 	public void register(Class<?> target, Model metaSetup) {
-		ClassMetaInfo metaInfo = MetaBuilderHelper.getModelInfo(getContainer(),target, metaSetup);
+		ClassMetaInfo metaInfo = MetaInfoHelper.getModelInfo(getContainer(),target, metaSetup);
 		this.getCache().put(metaInfo.getId(), metaInfo);
 		System.err.println("Meta Info    : "+metaInfo.getId());
 		loadContainer(metaInfo);
 	}
 	
 	public void register(Class<?> target, ClassMetaSetup metaSetup) {
-		ClassMetaInfo metaInfo = MetaBuilderHelper.getModelInfo(getContainer(),target, metaSetup);
+		ClassMetaInfo metaInfo = MetaInfoHelper.getModelInfo(getContainer(),target, metaSetup);
 		this.getCache().put(metaInfo.getId(), metaInfo);
 		System.err.println("Meta Info    : "+metaInfo.getId());
 		loadContainer( metaInfo);
