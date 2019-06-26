@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.brijframework</groupId>
-	<artifactId>org.brijframework-meta</artifactId>
+	<artifactId>brijframework-meta</artifactId>
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
@@ -27,31 +27,25 @@
 		
 		<dependency>
 			<groupId>org.brijframework</groupId>
-			<artifactId>org.brijframework-base</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.brijframework</groupId>
-			<artifactId>org.brijframework-asm</artifactId>
+			<artifactId>brijframework-asm</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.brijframework</groupId>
-			<artifactId>org.brijframework-support</artifactId>
+			<artifactId>brijframework-support</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.brijframework</groupId>
-			<artifactId>org.brijframework-util</artifactId>
+			<artifactId>brijframework-util</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.brijframework</groupId>
-			<artifactId>org.brijframework-resources</artifactId>
+			<artifactId>brijframework-resources</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 		
