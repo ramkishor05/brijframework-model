@@ -3,7 +3,7 @@ package org.brijframework.meta.context;
 import org.brijframework.asm.context.AbstractModuleContext;
 import org.brijframework.meta.container.MetaContainer;
 import org.brijframework.resources.context.ResourceContext;
-import org.brijframework.support.model.DepandOn;
+import org.brijframework.support.config.DepandOn;
 import org.brijframework.util.reflect.InstanceUtil;
 import org.brijframework.util.reflect.ReflectionUtils;
 

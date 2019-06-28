@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import org.brijframework.meta.factories.ClassMetaSetupFactory;
 import org.brijframework.meta.setup.ClassMetaSetup;
-import org.brijframework.support.model.Assignable;
+import org.brijframework.support.config.Assignable;
 
 public class ClassMetaSetupFactoryImpl extends MetaSetupFactoryImpl<ClassMetaSetup> implements ClassMetaSetupFactory {
 	

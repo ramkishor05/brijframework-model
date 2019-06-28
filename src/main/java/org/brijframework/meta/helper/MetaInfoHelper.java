@@ -10,8 +10,8 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.brijframework.container.Container;
-import org.brijframework.meta.impl.ConstMetaInfoImpl;
 import org.brijframework.meta.impl.ClassMetaInfoImpl;
+import org.brijframework.meta.impl.ConstMetaInfoImpl;
 import org.brijframework.meta.impl.FieldGroupImpl;
 import org.brijframework.meta.impl.FieldMetaInfoImpl;
 import org.brijframework.meta.impl.ReferMetaImpl;

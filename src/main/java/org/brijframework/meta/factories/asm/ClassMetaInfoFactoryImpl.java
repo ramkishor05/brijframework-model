@@ -10,7 +10,7 @@ import org.brijframework.meta.helper.MetaInfoHelper;
 import org.brijframework.meta.info.ClassMetaInfo;
 import org.brijframework.meta.info.FieldMetaInfo;
 import org.brijframework.meta.setup.ClassMetaSetup;
-import org.brijframework.support.model.Assignable;
+import org.brijframework.support.config.Assignable;
 import org.brijframework.support.model.Model;
 import org.brijframework.util.asserts.Assertion;
 import org.brijframework.util.reflect.ClassUtil;

@@ -5,7 +5,7 @@ import org.brijframework.group.Group;
 import org.brijframework.meta.container.MetaContainer;
 import org.brijframework.meta.factories.ClassMetaSetupFactory;
 import org.brijframework.meta.group.MetaInfoGroup;
-import org.brijframework.support.model.Assignable;
+import org.brijframework.support.config.Assignable;
 import org.brijframework.util.reflect.InstanceUtil;
 import org.brijframework.util.reflect.ReflectionUtils;
 
