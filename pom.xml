@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.brijframework</groupId>
-	<artifactId>brijframework-meta</artifactId>
+	<artifactId>brijframework-model</artifactId>
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
