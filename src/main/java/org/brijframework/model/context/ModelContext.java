@@ -41,9 +41,9 @@ public class ModelContext extends AbstractModuleContext{
 	}
 
 	@Override
-	public void destory() {
+	public void stop() {
 		System.err.println("MetaContext destory start.");
-		super.destory();
+		super.stop();
 		System.err.println("MetaContext destory done.");
 	}
 }
