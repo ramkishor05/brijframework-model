@@ -37,6 +37,18 @@ import org.brijframework.util.support.Access;
 import org.brijframework.util.support.Constants;
 
 public class MetaInfoHelper {
+	
+	public static OwnerModelInfo getModelInfo(Container container, Class<?> targetClass) {
+		String id=targetClass.getSimpleName();
+		String name=targetClass.getSimpleName();
+		ClassMetaInfoImpl owner=new ClassMetaInfoImpl(targetClass,id,name);
+		owner.setAccess(Access.PUBLIC);
+		owner.setConstructor(getConsMetaInfo(owner));
+		for (Field field : FieldUtil.getAllField(targetClass, Access.PRIVATE)) {
+			owner.getProperties().put(field.getName(), buldPropertyGroup(owner, field.getName()));
+		}
+		return owner;
+	}
 
 	public static OwnerModelInfo getModelInfo(Container container, Class<?> _class, ClassMetaSetup metaSetup) {
 		Objects.requireNonNull(metaSetup, "MetaSetup should be required");
@@ -61,17 +73,17 @@ public class MetaInfoHelper {
 	
 	public static PptModelInfoGroup buldPropertyGroup(ClassMetaInfoImpl owner,String key, Property setup ) {
 		FieldModelInfoGroupImpl propertyGroup=new  FieldModelInfoGroupImpl(owner);
-		AccessibleObject field=MetaAccessorUtil.getFieldMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getTarget(),key, Access.PRIVATE);
 		if(field!=null) {
 			PptModelInfo fieldMeta=buildFieldMeta(owner, field, setup);
 			propertyGroup.setFieldMeta(fieldMeta);
 		}
-		AccessibleObject getter=MetaAccessorUtil.getPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getTarget(),key, Access.PRIVATE);
 		if(getter!=null) {
 			PptModelInfo getterMeta=buildFieldMeta(owner, getter, setup);
 			propertyGroup.setGetterMeta(getterMeta);
 		}
-		AccessibleObject setter=MetaAccessorUtil.setPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getTarget(),key, Access.PRIVATE);
 		if(setter!=null) {
 			PptModelInfo setterMeta=buildFieldMeta(owner, setter, setup);
 			propertyGroup.setSetterMeta(setterMeta);
@@ -81,17 +93,17 @@ public class MetaInfoHelper {
 	
 	public static PptModelInfoGroup buldPropertyGroup(ClassMetaInfoImpl owner,String key, Relation setup ) {
 		FieldModelInfoGroupImpl propertyGroup=new  FieldModelInfoGroupImpl(owner);
-		AccessibleObject field=MetaAccessorUtil.getFieldMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getTarget(),key, Access.PRIVATE);
 		if(field!=null) {
 			PptModelInfo fieldMeta=buildFieldMeta(owner, field, setup);
 			propertyGroup.setFieldMeta(fieldMeta);
 		}
-		AccessibleObject getter=MetaAccessorUtil.getPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getTarget(),key, Access.PRIVATE);
 		if(getter!=null) {
 			PptModelInfo getterMeta=buildFieldMeta(owner, getter, setup);
 			propertyGroup.setGetterMeta(getterMeta);
 		}
-		AccessibleObject setter=MetaAccessorUtil.setPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getTarget(),key, Access.PRIVATE);
 		if(setter!=null) {
 			PptModelInfo setterMeta=buildFieldMeta(owner, setter, setup);
 			propertyGroup.setSetterMeta(setterMeta);
@@ -101,17 +113,17 @@ public class MetaInfoHelper {
 	
 	public static PptModelInfoGroup buldPropertyGroup(ClassMetaInfoImpl owner,String key, FieldMetaSetup setup ) {
 		FieldModelInfoGroupImpl propertyGroup=new  FieldModelInfoGroupImpl(owner);
-		AccessibleObject field=MetaAccessorUtil.getFieldMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getTarget(),key, Access.PRIVATE);
 		if(field!=null) {
 			PptModelInfo fieldMeta=buildFieldMeta(owner, field, setup);
 			propertyGroup.setFieldMeta(fieldMeta);
 		}
-		AccessibleObject getter=MetaAccessorUtil.getPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getTarget(),key, Access.PRIVATE);
 		if(getter!=null) {
 			PptModelInfo getterMeta=buildFieldMeta(owner, getter, setup);
 			propertyGroup.setGetterMeta(getterMeta);
 		}
-		AccessibleObject setter=MetaAccessorUtil.setPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getTarget(),key, Access.PRIVATE);
 		if(setter!=null) {
 			PptModelInfo setterMeta=buildFieldMeta(owner, setter, setup);
 			propertyGroup.setSetterMeta(setterMeta);
@@ -123,17 +135,17 @@ public class MetaInfoHelper {
 		FieldModelInfoGroupImpl propertyGroup=new  FieldModelInfoGroupImpl(owner);
 		propertyGroup.setId(key);
 		propertyGroup.setName(key);
-		AccessibleObject field=MetaAccessorUtil.getFieldMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getTarget(),key, Access.PRIVATE);
 		if(field!=null) {
 			PptModelInfo fieldMeta=buildFieldMeta(owner, field);
 			propertyGroup.setFieldMeta(fieldMeta);
 		}
-		AccessibleObject getter=MetaAccessorUtil.getPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getTarget(),key, Access.PRIVATE);
 		if(getter!=null) {
 			PptModelInfo getterMeta=buildFieldMeta(owner, getter);
 			propertyGroup.setGetterMeta(getterMeta);
 		}
-		AccessibleObject setter=MetaAccessorUtil.setPropertyMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getTarget(),key, Access.PRIVATE);
 		if(setter!=null) {
 			PptModelInfo setterMeta=buildFieldMeta(owner, setter);
 			propertyGroup.setSetterMeta(setterMeta);

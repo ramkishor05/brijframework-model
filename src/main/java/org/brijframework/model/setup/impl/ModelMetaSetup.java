@@ -18,7 +18,6 @@ public class ModelMetaSetup implements ClassMetaSetup {
 	private String extend;
 	private Map<String, FieldMetaSetup> properties;
 	private ConstMetaSetup constructor;
-	
 
 	@Override
 	public String getId() {

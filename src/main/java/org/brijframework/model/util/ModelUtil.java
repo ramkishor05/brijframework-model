@@ -43,7 +43,7 @@ public class ModelUtil {
 	}
 
 	private static Class<?> findCurrentFromObject(Class<?> current, String key) {
-		Field field=MetaAccessorUtil.getFieldMeta(current, key,  Access.PRIVATE);
+		Field field=MetaAccessorUtil.findFieldMeta(current, key,  Access.PRIVATE);
 		if(field==null) {
 			return null;
 		}
@@ -72,7 +72,7 @@ public class ModelUtil {
 
 
 	private static Class<?> typeProperty(Class<?> current, Access access, String key) {
-		Field field=MetaAccessorUtil.getFieldMeta(current, key,  Access.PRIVATE);
+		Field field=MetaAccessorUtil.findFieldMeta(current, key,  Access.PRIVATE);
 		if(field==null) {
 			return null;
 		}

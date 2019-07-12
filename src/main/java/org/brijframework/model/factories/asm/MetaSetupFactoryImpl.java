@@ -90,8 +90,6 @@ public abstract class MetaSetupFactoryImpl<T extends ModelSetup<?>> implements M
 		loadContainer(metaInfo);
 		System.err.println("Meta Setup   : "+metaInfo.getId());
 		this.getCache().put(metaInfo.getId(), metaInfo);
-		
 	}
-
 
 }

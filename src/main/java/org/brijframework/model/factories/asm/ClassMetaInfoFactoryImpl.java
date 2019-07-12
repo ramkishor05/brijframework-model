@@ -40,13 +40,12 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<OwnerModelInfo
 	}
 
 	
-	private void register(String key, ClassMetaSetup metaSetup) {
+	public void register(String key, ClassMetaSetup metaSetup) {
 		Class<?> target=ClassUtil.getClass(metaSetup.getTarget());
 		Assertion.notNull(target, "Target class not found for "+metaSetup.getId());;
 		OwnerModelInfo classMetaInfo=MetaInfoHelper.getModelInfo(getContainer(), target, metaSetup);
 		register(target, classMetaInfo);
 	}
-
 
 	@Override
 	public ClassMetaInfoFactoryImpl clear() {
@@ -119,8 +118,8 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<OwnerModelInfo
 	public void register(Class<?> target, ClassMetaSetup metaSetup) {
 		OwnerModelInfo metaInfo = MetaInfoHelper.getModelInfo(getContainer(),target, metaSetup);
 		this.getCache().put(metaInfo.getId(), metaInfo);
-		System.err.println("Meta Info    : "+metaInfo.getId());
 		loadContainer( metaInfo);
+		System.err.println("Registered Meta Info                     : "+metaInfo.getId());
 	}
 	
 
@@ -132,6 +131,16 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<OwnerModelInfo
 			}
 		}
 		return list;
+	}
+
+	public OwnerModelInfo register(String target) {
+		Class<?> targetClass =ClassUtil.getClass(target);
+		Assertion.notNull(targetClass, "Target not found for : "+target);
+		OwnerModelInfo metaInfo = MetaInfoHelper.getModelInfo(getContainer(),targetClass);
+		this.getCache().put(metaInfo.getId(), metaInfo);
+		loadContainer( metaInfo);
+		System.err.println("Registered Meta Info                     : "+metaInfo.getId());
+		return metaInfo;
 	}
 	
 }
