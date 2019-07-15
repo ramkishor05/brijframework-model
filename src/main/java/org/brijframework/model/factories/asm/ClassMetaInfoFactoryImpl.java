@@ -66,7 +66,7 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<OwnerModelInfo
 
 	public void register(Class<?> target, OwnerModelInfo metaInfo) {
 		loadContainer(metaInfo);
-		System.err.println("Data Info    : "+metaInfo.getId());
+		System.err.println("Model Info    : "+metaInfo.getId());
 		this.getCache().put(metaInfo.getId(), metaInfo);
 	}
 	
@@ -135,12 +135,24 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<OwnerModelInfo
 
 	public OwnerModelInfo register(String target) {
 		Class<?> targetClass =ClassUtil.getClass(target);
-		Assertion.notNull(targetClass, "Target not found for : "+target);
+		return register(targetClass);
+	}
+
+	public OwnerModelInfo register(Class<?> targetClass) {
+		Assertion.notNull(targetClass, "Target not found for : "+targetClass);
 		OwnerModelInfo metaInfo = MetaInfoHelper.getModelInfo(getContainer(),targetClass);
 		this.getCache().put(metaInfo.getId(), metaInfo);
 		loadContainer( metaInfo);
 		System.err.println("Registered Meta Info                     : "+metaInfo.getId());
 		return metaInfo;
+	}
+
+	public OwnerModelInfo load(Class<?> targetClass) {
+		OwnerModelInfo metaInfo =getClassInfo(targetClass.getSimpleName());
+		if(metaInfo!=null) {
+			return metaInfo;
+		}
+		return register(targetClass);
 	}
 	
 }

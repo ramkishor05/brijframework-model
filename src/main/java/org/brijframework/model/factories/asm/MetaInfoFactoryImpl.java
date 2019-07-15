@@ -80,5 +80,10 @@ public abstract class MetaInfoFactoryImpl<T extends ModelInfo<?>> implements Met
 		}
 		return getContainer(id);
 	}
+	
+	public void register(T meta) {
+		System.err.println("Model Info     : "+meta.getId());
+		getCache().put(meta.getId(), meta);
+	}
 
 }
