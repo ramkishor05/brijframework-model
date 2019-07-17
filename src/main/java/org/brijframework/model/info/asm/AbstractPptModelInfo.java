@@ -1,6 +1,8 @@
 package org.brijframework.model.info.asm;
 
 import java.lang.reflect.AccessibleObject;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.brijframework.model.info.PptModelInfo;
 
@@ -10,6 +12,7 @@ public abstract class AbstractPptModelInfo extends AbstractModelInfo<AccessibleO
 	private Object value;
 	public boolean required;
 	private Class<?> type;
+	private Map<String,String> mapper;
 	
 	public void setValue(Object value) {
 		this.value = value;
@@ -45,6 +48,17 @@ public abstract class AbstractPptModelInfo extends AbstractModelInfo<AccessibleO
 	
 	public Class<?> getType() {
 		return type;
+	}
+	
+	public void setMapper(Map<String, String> mapper) {
+		this.mapper = mapper;
+	}
+	
+	public Map<String, String> getMapper() {
+		if(mapper==null) {
+			mapper=new HashMap<String, String>();
+		}
+		return mapper;
 	}
 
 }
