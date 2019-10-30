@@ -2,7 +2,7 @@ package org.brijframework.model.group;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.brijframework.asm.group.DefaultGroup;
+import org.brijframework.group.impl.DefaultGroup;
 import org.brijframework.model.ModelInfo;
 import org.brijframework.util.asserts.Assertion;
 

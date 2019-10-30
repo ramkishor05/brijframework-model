@@ -1,6 +1,6 @@
 package org.brijframework.model.container;
 
-import org.brijframework.asm.container.DefaultContainer;
+import org.brijframework.container.impl.DefaultContainer;
 
 public  interface ModelContainer extends DefaultContainer{
 

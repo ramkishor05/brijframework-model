@@ -37,12 +37,12 @@ public class JsonMetaSetupFactory extends ClassMetaSetupFactoryImpl{
 	
 	@SuppressWarnings("unchecked")
 	public List<ResourcesModelConfig> configration() {
-		Object resources=getContainer().getContext().getProperties().get(ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_JSON_LOCATION);
+		Object resources=getContainer().getContext().getProperties().get(ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_LOCATION);
 		if (resources==null) {
-			System.err.println("Model configration not found :"+ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_JSON_LOCATION);
+			System.err.println("Model configration not found :"+ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_LOCATION);
 			return null;
 		}
-		System.err.println("Model configration found :"+ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_JSON_LOCATION+" | "+resources);
+		System.err.println("Model configration found :"+ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_LOCATION+" | "+resources);
 		if(resources instanceof List) {
 			return build((List<Map<String, Object>>)resources);
 		}else if(resources instanceof Map) {

@@ -1,6 +1,6 @@
 package org.brijframework.model.context;
 
-import org.brijframework.asm.context.AbstractModuleContext;
+import org.brijframework.context.impl.AbstractModuleContext;
 import org.brijframework.model.container.ModelContainer;
 import org.brijframework.resources.context.ResourceContext;
 import org.brijframework.support.config.DepandOn;
