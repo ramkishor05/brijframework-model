@@ -37,7 +37,7 @@ public class JsonMetaSetupFactory extends ClassMetaSetupFactoryImpl{
 	
 	@SuppressWarnings("unchecked")
 	public List<ResourcesModelConfig> configration() {
-		Object resources=getContainer().getContext().getProperties().get(ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_LOCATION);
+		Object resources=getContainer().getContext().getEnvironment().get(ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_LOCATION);
 		if (resources==null) {
 			System.err.println("Model configration not found :"+ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_LOCATION);
 			return null;

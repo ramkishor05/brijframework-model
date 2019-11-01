@@ -36,6 +36,7 @@ public class ModelContextFactory extends AbstractFactory<String, ModelContext>{
 			return context;
 		}
 		context=new ModelContext();
+		context.load();
 		context.init();
 		context.start();
 		register(ModelContext.class.getName(), context);

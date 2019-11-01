@@ -3,7 +3,7 @@ package org.brijframework.model.info.impl;
 import java.lang.reflect.AccessibleObject;
 
 import org.brijframework.model.info.OwnerModelInfo;
-import org.brijframework.support.enums.Wiring;
+import org.brijframework.support.enums.MappedBy;
 
 public class ReferMetaImpl extends FieldMetaInfoImpl implements org.brijframework.model.info.RelMetaInfo{
 
@@ -11,7 +11,7 @@ public class ReferMetaImpl extends FieldMetaInfoImpl implements org.brijframewor
 	
 	String mappedBy;
 	
-	Wiring referred;
+	MappedBy referred;
 	
 	public ReferMetaImpl(AccessibleObject target) {
 		super(target);
@@ -44,11 +44,11 @@ public class ReferMetaImpl extends FieldMetaInfoImpl implements org.brijframewor
 		this.mappedTo = mappedTo;
 	}
 
-	public Wiring getReferred() {
+	public MappedBy getReferred() {
 		return referred;
 	}
 
-	public void setReferred(Wiring referred) {
+	public void setReferred(MappedBy referred) {
 		this.referred = referred;
 	}
 
