@@ -32,18 +32,4 @@ public class ModelContext extends AbstractModuleContext{
 			e.printStackTrace();
 		}
 	}
-	
-	@Override
-	public void start() {
-		System.err.println("MetaContext register start.");
-		super.start();
-		System.err.println("MetaContext register done.");
-	}
-
-	@Override
-	public void stop() {
-		System.err.println("MetaContext destory start.");
-		super.stop();
-		System.err.println("MetaContext destory done.");
-	}
 }
