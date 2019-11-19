@@ -47,7 +47,7 @@
 		
 		<dependency>
 			<groupId>org.brijframework</groupId>
-			<artifactId>brijframework-api</artifactId>
+			<artifactId>brijframework-boot</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 
