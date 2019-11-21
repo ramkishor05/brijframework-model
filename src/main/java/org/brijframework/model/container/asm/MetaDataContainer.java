@@ -1,22 +1,24 @@
 package org.brijframework.model.container.asm;
 
-import org.brijframework.container.impl.AbstractContainer;
+import org.brijframework.container.impl.AbstractModuleContainer;
 import org.brijframework.group.Group;
 import org.brijframework.model.container.ModelContainer;
-import org.brijframework.model.factories.ClassMetaSetupFactory;
+import org.brijframework.model.factories.ClassMetaDataFactory;
 import org.brijframework.model.group.MetaInfoGroup;
 import org.brijframework.support.config.Assignable;
+import org.brijframework.support.config.DepandOn;
 import org.brijframework.util.reflect.InstanceUtil;
 import org.brijframework.util.reflect.ReflectionUtils;
 
-public class MetaSetupContainer extends AbstractContainer implements ModelContainer {
+@DepandOn(depand=MetaResourceContainer.class)
+public class MetaDataContainer extends AbstractModuleContainer implements ModelContainer{
 
-	private static MetaSetupContainer container;
+	private static MetaDataContainer container;
 
 	@Assignable
-	public static MetaSetupContainer getContainer() {
+	public static MetaDataContainer getContainer() {
 		if (container == null) {
-			container = InstanceUtil.getSingletonInstance(MetaSetupContainer.class);
+			container = InstanceUtil.getSingletonInstance(MetaDataContainer.class);
 		}
 		return container;
 	}
@@ -26,8 +28,8 @@ public class MetaSetupContainer extends AbstractContainer implements ModelContai
 	public void init() {
 		try {
 			ReflectionUtils.getClassListFromExternal().forEach(cls -> {
-				if (ClassMetaSetupFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
-					register((Class<? extends ClassMetaSetupFactory>) cls);
+				if (ClassMetaDataFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
+					register((Class<? extends ClassMetaDataFactory>) cls);
 				}
 			});
 		} catch (Exception e) {
@@ -35,8 +37,8 @@ public class MetaSetupContainer extends AbstractContainer implements ModelContai
 		}
 		try {
 			ReflectionUtils.getClassListFromInternal().forEach(cls -> {
-				if (ClassMetaSetupFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
-					register((Class<? extends ClassMetaSetupFactory>) cls);
+				if (ClassMetaDataFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
+					register((Class<? extends ClassMetaDataFactory>) cls);
 				}
 			});
 		} catch (Exception e) {

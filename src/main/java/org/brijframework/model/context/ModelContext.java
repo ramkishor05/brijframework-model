@@ -2,12 +2,9 @@ package org.brijframework.model.context;
 
 import org.brijframework.context.module.impl.AbstractModuleContext;
 import org.brijframework.model.container.ModelContainer;
-import org.brijframework.resources.context.ResourceContext;
-import org.brijframework.support.config.DepandOn;
 import org.brijframework.util.reflect.InstanceUtil;
 import org.brijframework.util.reflect.ReflectionUtils;
 
-@DepandOn(depand=ResourceContext.class)
 public class ModelContext extends AbstractModuleContext{
 
 	@Override

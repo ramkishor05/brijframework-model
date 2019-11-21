@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.brijframework.group.Group;
-import org.brijframework.model.factories.ClassMetaInfoFactory;
+import org.brijframework.model.factories.ClassMetaDataFactory;
 import org.brijframework.model.helper.MetaInfoHelper;
 import org.brijframework.model.info.OwnerModelInfo;
 import org.brijframework.model.info.PptModelInfo;
@@ -15,7 +15,7 @@ import org.brijframework.support.model.Model;
 import org.brijframework.util.asserts.Assertion;
 import org.brijframework.util.reflect.ClassUtil;
 
-public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<OwnerModelInfo> implements ClassMetaInfoFactory {
+public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<OwnerModelInfo> implements ClassMetaDataFactory {
 	
 	protected ClassMetaInfoFactoryImpl() {
 	}
@@ -44,7 +44,7 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<OwnerModelInfo
 		Class<?> target=ClassUtil.getClass(metaSetup.getTarget());
 		Assertion.notNull(target, "Target class not found for "+metaSetup.getId());;
 		OwnerModelInfo classMetaInfo=MetaInfoHelper.getModelInfo(getContainer(), target, metaSetup);
-		register(target, classMetaInfo);
+		register(classMetaInfo);
 	}
 
 	@Override
@@ -64,11 +64,12 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<OwnerModelInfo
 		return getContainer(id);
 	}
 
-	public void register(Class<?> target, OwnerModelInfo metaInfo) {
+	/*public void register(Class<?> target, OwnerModelInfo metaInfo) {
+		ConsolePrint.screen("Meta data", "Registery meta data");
 		loadContainer(metaInfo);
 		System.err.println("Model Info    : "+metaInfo.getId());
 		this.getCache().put(metaInfo.getId(), metaInfo);
-	}
+	}*/
 	
 	public void loadContainer(OwnerModelInfo metaInfo) {
 		if (getContainer() == null) {

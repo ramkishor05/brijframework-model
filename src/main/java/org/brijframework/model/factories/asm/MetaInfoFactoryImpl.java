@@ -7,6 +7,7 @@ import org.brijframework.container.Container;
 import org.brijframework.group.Group;
 import org.brijframework.model.ModelInfo;
 import org.brijframework.model.factories.MetaFactory;
+import org.brijframework.util.printer.ConsolePrint;
 
 public abstract class MetaInfoFactoryImpl<T extends ModelInfo<?>> implements MetaFactory<T>{
 
@@ -82,7 +83,7 @@ public abstract class MetaInfoFactoryImpl<T extends ModelInfo<?>> implements Met
 	}
 	
 	public void register(T meta) {
-		System.err.println("Model Info     : "+meta.getId());
+		ConsolePrint.screen("Resource", "Registery for meta data with id : "+meta.getId());
 		getCache().put(meta.getId(), meta);
 		loadContainer(meta);
 	}

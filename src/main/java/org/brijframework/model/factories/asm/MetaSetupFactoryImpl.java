@@ -7,6 +7,7 @@ import org.brijframework.container.Container;
 import org.brijframework.group.Group;
 import org.brijframework.model.ModelSetup;
 import org.brijframework.model.factories.MetaFactory;
+import org.brijframework.util.printer.ConsolePrint;
 
 public abstract class MetaSetupFactoryImpl<T extends ModelSetup<?>> implements MetaFactory<T>{
 	
@@ -87,8 +88,8 @@ public abstract class MetaSetupFactoryImpl<T extends ModelSetup<?>> implements M
 	}
 	
 	public void register(T metaInfo) {
+		ConsolePrint.screen("Resource", "Registery for meta resource with id : "+metaInfo.getId());
 		loadContainer(metaInfo);
-		System.err.println("Meta Setup   : "+metaInfo.getId());
 		this.getCache().put(metaInfo.getId(), metaInfo);
 	}
 

@@ -1,14 +1,16 @@
 package org.brijframework.model.context.factories;
 
-import org.brijframework.factories.BootstrapFactory;
 import org.brijframework.factories.Factory;
-import org.brijframework.factories.impl.AbstractFactory;
+import org.brijframework.factories.impl.AbstractBootstrapFactory;
 import org.brijframework.model.context.ModelContext;
 import org.brijframework.support.config.Assignable;
+import org.brijframework.support.config.OrderOn;
+import org.brijframework.util.printer.ConsolePrint;
 import org.brijframework.util.reflect.InstanceUtil;
 import org.brijframework.util.reflect.ReflectionUtils;
 
-public class ModelContextFactory extends AbstractFactory<String, ModelContext> implements BootstrapFactory{
+@OrderOn(2)
+public class ModelContextFactory extends AbstractBootstrapFactory<String, ModelContext>{
 	
 	private static ModelContextFactory factory ;
 	
@@ -23,6 +25,7 @@ public class ModelContextFactory extends AbstractFactory<String, ModelContext> i
 	@Override
 	public Factory loadFactory() {
 		try {
+			ConsolePrint.screen("BootstrapFactory - > "+this.getClass().getSimpleName(), "Lunching model context factory to start the model context");
 			ReflectionUtils.getClassListFromExternal().forEach(cls->{
 				if(ModelContext.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
 					ModelContext modelContext = (ModelContext) InstanceUtil.getInstance(cls);
@@ -39,6 +42,7 @@ public class ModelContextFactory extends AbstractFactory<String, ModelContext> i
 					this.register(modelContext.getClass().getSimpleName(), modelContext);
 				}
 			});
+			ConsolePrint.screen("BootstrapFactory - > "+this.getClass().getSimpleName(), "Lunched model context factory to start the model context");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

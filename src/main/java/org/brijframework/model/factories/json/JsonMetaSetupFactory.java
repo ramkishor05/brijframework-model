@@ -15,6 +15,7 @@ import org.brijframework.resources.files.json.JsonResource;
 import org.brijframework.support.config.Assignable;
 import org.brijframework.util.accessor.PropertyAccessorUtil;
 import org.brijframework.util.asserts.Assertion;
+import org.brijframework.util.printer.ConsolePrint;
 import org.brijframework.util.reflect.InstanceUtil;
 import org.brijframework.util.support.Access;
 import org.json.JSONException;
@@ -39,16 +40,16 @@ public class JsonMetaSetupFactory extends ClassMetaSetupFactoryImpl{
 	public List<ResourcesModelConfig> configration() {
 		Object resources=getContainer().getContext().getEnvironment().get(ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_LOCATION);
 		if (resources==null) {
-			System.err.println("Model configration not found :"+ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_LOCATION);
+			ConsolePrint.screen("ModelConfigration", "Model configration not found :"+ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_LOCATION);
 			return null;
 		}
-		System.err.println("Model configration found :"+ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_LOCATION+" | "+resources);
+		ConsolePrint.screen("ModelConfigration", "Model configration found :"+ModelConstants.APPLICATION_BOOTSTRAP_CONFIG_MODEL_LOCATION+" | "+resources);
 		if(resources instanceof List) {
 			return build((List<Map<String, Object>>)resources);
 		}else if(resources instanceof Map) {
 			return build((Map<String, Object>)resources);
 		}else {
-			System.err.println("Invalid model configration : "+resources);
+			ConsolePrint.screen("ModelConfigration","Invalid model configration : "+resources);
 			return null;
 		}
 	}
@@ -71,17 +72,16 @@ public class JsonMetaSetupFactory extends ClassMetaSetupFactoryImpl{
 	public JsonMetaSetupFactory loadFactory() {
 		List<ResourcesModelConfig> configs=configration();
 		if(configs==null) {
-			System.err.println("Invalid model configration : "+configs);
+			ConsolePrint.screen("ModelConfigration","Invalid model configration : "+configs);
 			return this;
 		}
 		for(ResourcesModelConfig modelConfig:configs) {
 			System.out.println(modelConfig.getLocation());
 			if(!modelConfig.isEnable()) {
-				System.err.println("Model configration disabled found :"+modelConfig.getLocation());
+				ConsolePrint.screen("ModelConfigration","Model configration disabled found :"+modelConfig.getLocation());
 				continue;
 			}
 			Collection<JsonResource> resources=JsonResourceFactory.factory().getResources(modelConfig.getLocation());
-			System.out.println(resources);
 			for(JsonResource resource:resources) {
 				if(resource.isJsonList()) {
 				   try {
