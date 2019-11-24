@@ -2,16 +2,16 @@ package org.brijframework.model.factories;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.brijframework.factories.Factory;
+import org.brijframework.factories.module.ModuleFactory;
 
-public interface MetaFactory<T> extends Factory{
+public interface MetaFactory<K, T> extends ModuleFactory<K, T>{
 
 	@Override
-	default MetaFactory<T> clear() {
+	default MetaFactory<K, T> clear() {
 		this.getCache().clear();
 		return this;
 	}
 	
-	ConcurrentHashMap<String, T> getCache();
+	ConcurrentHashMap<K, T> getCache();
 
 }

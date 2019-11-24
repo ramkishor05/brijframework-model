@@ -1,6 +1,6 @@
 package org.brijframework.model.container.asm;
 
-import org.brijframework.container.impl.AbstractModuleContainer;
+import org.brijframework.container.impl.module.AbstractModuleContainer;
 import org.brijframework.group.Group;
 import org.brijframework.model.container.ModelContainer;
 import org.brijframework.model.factories.ClassMetaSetupFactory;
@@ -27,7 +27,7 @@ public class MetaResourceContainer extends AbstractModuleContainer implements Mo
 		try {
 			ReflectionUtils.getClassListFromExternal().forEach(cls -> {
 				if (ClassMetaSetupFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
-					register((Class<? extends ClassMetaSetupFactory>) cls);
+					register((Class<? extends ClassMetaSetupFactory<?,?>>) cls);
 				}
 			});
 		} catch (Exception e) {
@@ -36,7 +36,7 @@ public class MetaResourceContainer extends AbstractModuleContainer implements Mo
 		try {
 			ReflectionUtils.getClassListFromInternal().forEach(cls -> {
 				if (ClassMetaSetupFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
-					register((Class<? extends ClassMetaSetupFactory>) cls);
+					register((Class<? extends ClassMetaSetupFactory<?,?>>) cls);
 				}
 			});
 		} catch (Exception e) {

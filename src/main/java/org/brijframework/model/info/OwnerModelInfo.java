@@ -2,9 +2,9 @@ package org.brijframework.model.info;
 
 import java.util.Map;
 
-import org.brijframework.model.ModelInfo;
+import org.brijframework.model.MetaData;
 
-public interface OwnerModelInfo extends ModelInfo<Class<?>> {
+public interface OwnerModelInfo extends MetaData<Class<?>> {
 
 	public String getType();
 

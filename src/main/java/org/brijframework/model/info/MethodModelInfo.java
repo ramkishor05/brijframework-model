@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.brijframework.model.ModelInfo;
+import org.brijframework.model.MetaData;
 import org.brijframework.model.setup.ParamMetaSetup;
 
-public interface MethodModelInfo extends ModelInfo<Method>{
+public interface MethodModelInfo extends MetaData<Method>{
 	
 	@Override
 	public default void init() {

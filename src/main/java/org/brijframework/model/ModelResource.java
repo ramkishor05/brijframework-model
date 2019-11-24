@@ -1,6 +1,6 @@
 package org.brijframework.model;
 
-public interface ModelSetup<E> {
+public interface ModelResource<E> {
 
 	String getId();
 

@@ -5,10 +5,10 @@ import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Set;
 
-import org.brijframework.model.ModelInfo;
+import org.brijframework.model.MetaData;
 import org.brijframework.model.setup.ParamMetaSetup;
 
-public interface ConstModelInfo extends ModelInfo<Constructor<?>> {
+public interface ConstModelInfo extends MetaData<Constructor<?>> {
 
 	@Override
 	public Constructor<?> getTarget();

@@ -4,9 +4,9 @@ import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import org.brijframework.model.ModelInfo;
+import org.brijframework.model.MetaData;
 
-public interface ParameterModelInfo  extends Comparable<ParameterModelInfo> , ModelInfo<Parameter>{
+public interface ParameterModelInfo  extends Comparable<ParameterModelInfo> , MetaData<Parameter>{
 
 	public int getIndex() ;
 	

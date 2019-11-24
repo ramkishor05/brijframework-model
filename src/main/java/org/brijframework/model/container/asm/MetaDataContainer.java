@@ -1,6 +1,6 @@
 package org.brijframework.model.container.asm;
 
-import org.brijframework.container.impl.AbstractModuleContainer;
+import org.brijframework.container.impl.module.AbstractModuleContainer;
 import org.brijframework.group.Group;
 import org.brijframework.model.container.ModelContainer;
 import org.brijframework.model.factories.ClassMetaDataFactory;

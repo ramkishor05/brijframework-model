@@ -1,8 +1,8 @@
 package org.brijframework.model.setup;
 
-import org.brijframework.model.ModelSetup;
+import org.brijframework.model.ModelResource;
 
-public interface FieldMetaSetup extends ModelSetup<String> {
+public interface FieldMetaSetup extends ModelResource<String> {
 
 	boolean isRequired();
 

@@ -7,7 +7,7 @@ import org.brijframework.model.factories.ClassMetaSetupFactory;
 import org.brijframework.model.setup.ClassMetaSetup;
 import org.brijframework.support.config.Assignable;
 
-public class ClassMetaSetupFactoryImpl extends MetaSetupFactoryImpl<ClassMetaSetup> implements ClassMetaSetupFactory {
+public class ClassMetaSetupFactoryImpl extends MetaSetupFactoryImpl<String,ClassMetaSetup> implements ClassMetaSetupFactory<String,ClassMetaSetup>{
 	
 	protected ClassMetaSetupFactoryImpl() {
 	}
@@ -57,6 +57,16 @@ public class ClassMetaSetupFactoryImpl extends MetaSetupFactoryImpl<ClassMetaSet
 	@Override
 	public ClassMetaSetup getClassSetup(String id) {
 		return null;
+	}
+
+	@Override
+	protected void preregister(String key, ClassMetaSetup value) {
+		
+	}
+
+	@Override
+	protected void postregister(String key, ClassMetaSetup value) {
+		
 	}
 
 }

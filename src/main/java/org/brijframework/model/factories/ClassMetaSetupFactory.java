@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.brijframework.model.setup.ClassMetaSetup;
 
-public interface ClassMetaSetupFactory extends MetaFactory<ClassMetaSetup>{
+public interface ClassMetaSetupFactory<K,T> extends MetaFactory<String,ClassMetaSetup>{
 
 	List<ClassMetaSetup> getClassSetupList(Class<?> cls);
 

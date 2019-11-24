@@ -3,7 +3,7 @@ package org.brijframework.model.group;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.brijframework.group.impl.DefaultGroup;
-import org.brijframework.model.ModelSetup;
+import org.brijframework.model.ModelResource;
 import org.brijframework.util.asserts.Assertion;
 
 public class MetaSetupGroup implements DefaultGroup{
@@ -15,7 +15,7 @@ public class MetaSetupGroup implements DefaultGroup{
 	
 	private Object groupKey;
 	
-	private ConcurrentHashMap<String, ModelSetup<?>> cache=new ConcurrentHashMap<>();
+	private ConcurrentHashMap<String, ModelResource<?>> cache=new ConcurrentHashMap<>();
 	
 	public MetaSetupGroup(Object groupKey) {
 		this.groupKey=groupKey;
@@ -28,7 +28,7 @@ public class MetaSetupGroup implements DefaultGroup{
 	}
 
 	@Override
-	public ConcurrentHashMap<String,ModelSetup<?>> getCache() {
+	public ConcurrentHashMap<String,ModelResource<?>> getCache() {
 		return cache;
 	}
 

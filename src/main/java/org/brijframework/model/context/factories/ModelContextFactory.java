@@ -1,7 +1,6 @@
 package org.brijframework.model.context.factories;
 
-import org.brijframework.factories.Factory;
-import org.brijframework.factories.impl.AbstractBootstrapFactory;
+import org.brijframework.factories.impl.bootstrap.AbstractBootstrapFactory;
 import org.brijframework.model.context.ModelContext;
 import org.brijframework.support.config.Assignable;
 import org.brijframework.support.config.OrderOn;
@@ -23,7 +22,7 @@ public class ModelContextFactory extends AbstractBootstrapFactory<String, ModelC
 	}
 
 	@Override
-	public Factory loadFactory() {
+	public ModelContextFactory loadFactory() {
 		try {
 			ConsolePrint.screen("BootstrapFactory - > "+this.getClass().getSimpleName(), "Lunching model context factory to start the model context");
 			ReflectionUtils.getClassListFromExternal().forEach(cls->{

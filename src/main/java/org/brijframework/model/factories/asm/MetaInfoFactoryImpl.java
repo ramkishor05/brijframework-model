@@ -4,17 +4,18 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.brijframework.container.Container;
+import org.brijframework.factories.impl.AbstractFactory;
 import org.brijframework.group.Group;
-import org.brijframework.model.ModelInfo;
+import org.brijframework.model.MetaData;
 import org.brijframework.model.factories.MetaFactory;
 import org.brijframework.util.printer.ConsolePrint;
 
-public abstract class MetaInfoFactoryImpl<T extends ModelInfo<?>> implements MetaFactory<T>{
+public abstract class MetaInfoFactoryImpl<K,T extends MetaData<?>> extends AbstractFactory<K, T> implements MetaFactory<K, T>{
 
-	private ConcurrentHashMap<String, T> cache = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<K, T> cache = new ConcurrentHashMap<>();
 	
 	@SuppressWarnings("unchecked")
-	public ConcurrentHashMap<String, T> getCache() {
+	public ConcurrentHashMap<K,T> getCache() {
 		if(cache==null) {
 			return null;
 		}
@@ -23,7 +24,7 @@ public abstract class MetaInfoFactoryImpl<T extends ModelInfo<?>> implements Met
 				Group  group=entry.getValue();
 				if(group!=null)
 				group.getCache().forEach((key,value)->{
-					cache.put((String)key, (T)value);
+					cache.put((K)key, (T)value);
 				});
 			}
 		}
@@ -47,7 +48,7 @@ public abstract class MetaInfoFactoryImpl<T extends ModelInfo<?>> implements Met
 	}
 
 	@Override
-	public MetaInfoFactoryImpl<T> clear() {
+	public MetaInfoFactoryImpl<K, T> clear() {
 		if (getCache() != null) {
 			getCache().clear();
 		}
@@ -74,7 +75,7 @@ public abstract class MetaInfoFactoryImpl<T extends ModelInfo<?>> implements Met
 	}
 
 	public T getMetaInfo(String id) {
-		for(Entry<String, T> entry:getCache().entrySet()) {
+		for(Entry<K, T> entry:getCache().entrySet()) {
 			if(entry.getKey().equals(id)) {
 				return entry.getValue();
 			}
@@ -82,9 +83,10 @@ public abstract class MetaInfoFactoryImpl<T extends ModelInfo<?>> implements Met
 		return getContainer(id);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void register(T meta) {
 		ConsolePrint.screen("Resource", "Registery for meta data with id : "+meta.getId());
-		getCache().put(meta.getId(), meta);
+		getCache().put((K)meta.getId(), meta);
 		loadContainer(meta);
 	}
 

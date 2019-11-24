@@ -4,9 +4,9 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import org.brijframework.model.ModelInfo;
+import org.brijframework.model.MetaData;
 
-public interface PptModelInfo extends ModelInfo<AccessibleObject>{
+public interface PptModelInfo extends MetaData<AccessibleObject>{
 
 	public void setValue(Object value);
 	

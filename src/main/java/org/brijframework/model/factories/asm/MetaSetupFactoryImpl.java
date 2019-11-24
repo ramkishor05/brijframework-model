@@ -4,14 +4,15 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.brijframework.container.Container;
+import org.brijframework.factories.impl.AbstractFactory;
 import org.brijframework.group.Group;
-import org.brijframework.model.ModelSetup;
+import org.brijframework.model.ModelResource;
 import org.brijframework.model.factories.MetaFactory;
 import org.brijframework.util.printer.ConsolePrint;
 
-public abstract class MetaSetupFactoryImpl<T extends ModelSetup<?>> implements MetaFactory<T>{
+public abstract class MetaSetupFactoryImpl<K, T extends ModelResource<?>> extends AbstractFactory<K, T> implements MetaFactory<K, T>{
 	
-	private ConcurrentHashMap<String, T> cache = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<K, T> cache = new ConcurrentHashMap<>();
 	
 	private Container container;
 	
@@ -19,7 +20,7 @@ public abstract class MetaSetupFactoryImpl<T extends ModelSetup<?>> implements M
 	}
 
 	@SuppressWarnings("unchecked")
-	public ConcurrentHashMap<String, T> getCache() {
+	public ConcurrentHashMap<K, T> getCache() {
 		if(cache==null) {
 			return null;
 		}
@@ -28,7 +29,7 @@ public abstract class MetaSetupFactoryImpl<T extends ModelSetup<?>> implements M
 				Group  group=entry.getValue();
 				if(group!=null)
 				group.getCache().forEach((key,value)->{
-					cache.put((String)key, (T)value);
+					cache.put((K)key, (T)value);
 				});
 			}
 		}
@@ -46,7 +47,7 @@ public abstract class MetaSetupFactoryImpl<T extends ModelSetup<?>> implements M
 	}
 
 	@Override
-	public MetaSetupFactoryImpl<T> clear() {
+	public MetaSetupFactoryImpl<K, T> clear() {
 		if (getCache() != null) {
 			getCache().clear();
 		}
@@ -74,7 +75,7 @@ public abstract class MetaSetupFactoryImpl<T extends ModelSetup<?>> implements M
 	}
 
 	public T getMeta(String id) {
-		for(Entry<String, T> entry:getCache().entrySet()) {
+		for(Entry<K, T> entry:getCache().entrySet()) {
 			if(entry.getKey().equals(id)) {
 				return entry.getValue();
 			}
@@ -83,14 +84,15 @@ public abstract class MetaSetupFactoryImpl<T extends ModelSetup<?>> implements M
 	}
 
 	@Override
-	public MetaSetupFactoryImpl<?> loadFactory() {
+	public MetaSetupFactoryImpl<K, T> loadFactory() {
 		return this;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void register(T metaInfo) {
 		ConsolePrint.screen("Resource", "Registery for meta resource with id : "+metaInfo.getId());
 		loadContainer(metaInfo);
-		this.getCache().put(metaInfo.getId(), metaInfo);
+		this.getCache().put((K)metaInfo.getId(), metaInfo);
 	}
 
 }

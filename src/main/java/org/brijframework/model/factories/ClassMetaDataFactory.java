@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.brijframework.model.info.OwnerModelInfo;
 
-public interface ClassMetaDataFactory extends MetaFactory<OwnerModelInfo>{
+public interface ClassMetaDataFactory extends MetaFactory<String, OwnerModelInfo>{
 
 	List<OwnerModelInfo> getClassInfoList(Class<?> cls);
 

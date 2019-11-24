@@ -4,7 +4,7 @@ import org.brijframework.lifecycle.Initializer;
 import org.brijframework.model.info.OwnerModelInfo;
 import org.brijframework.util.support.Access;
 
-public interface ModelInfo<E> extends Initializer{
+public interface MetaData<E> extends Initializer{
 	
 	public String getId();
 	

@@ -15,7 +15,7 @@ import org.brijframework.support.model.Model;
 import org.brijframework.util.asserts.Assertion;
 import org.brijframework.util.reflect.ClassUtil;
 
-public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<OwnerModelInfo> implements ClassMetaDataFactory {
+public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<String,OwnerModelInfo> implements ClassMetaDataFactory {
 	
 	protected ClassMetaInfoFactoryImpl() {
 	}
@@ -154,6 +154,18 @@ public class ClassMetaInfoFactoryImpl extends MetaInfoFactoryImpl<OwnerModelInfo
 			return metaInfo;
 		}
 		return register(targetClass);
+	}
+
+
+	@Override
+	protected void preregister(String key, OwnerModelInfo value) {
+		
+	}
+
+
+	@Override
+	protected void postregister(String key, OwnerModelInfo value) {
+		
 	}
 	
 }

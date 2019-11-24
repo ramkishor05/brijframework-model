@@ -1,10 +1,10 @@
 package org.brijframework.model.info.asm;
 
-import org.brijframework.model.ModelInfo;
+import org.brijframework.model.MetaData;
 import org.brijframework.model.info.OwnerModelInfo;
 import org.brijframework.util.support.Access;
 
-public abstract class AbstractModelInfo<E> implements ModelInfo<E>{
+public abstract class AbstractModelInfo<E> implements MetaData<E>{
 	private String id;
 	private String name;
 	private Access access;

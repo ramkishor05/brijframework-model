@@ -2,9 +2,9 @@ package org.brijframework.model.setup;
 
 import java.lang.reflect.Type;
 
-import org.brijframework.model.ModelInfo;
+import org.brijframework.model.MetaData;
 
-public interface ParamMetaSetup  extends Comparable<ParamMetaSetup> , ModelInfo<String>{
+public interface ParamMetaSetup  extends Comparable<ParamMetaSetup> , MetaData<String>{
 
 	public int getIndex() ;
 	
