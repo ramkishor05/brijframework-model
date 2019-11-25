@@ -3,7 +3,7 @@ package org.brijframework.model.container.asm;
 import org.brijframework.container.impl.module.AbstractModuleContainer;
 import org.brijframework.group.Group;
 import org.brijframework.model.container.ModelContainer;
-import org.brijframework.model.factories.ClassMetaSetupFactory;
+import org.brijframework.model.factories.resource.ClassModelResourceFactory;
 import org.brijframework.model.group.MetaInfoGroup;
 import org.brijframework.support.config.Assignable;
 import org.brijframework.util.reflect.InstanceUtil;
@@ -26,8 +26,8 @@ public class MetaResourceContainer extends AbstractModuleContainer implements Mo
 	public void init() {
 		try {
 			ReflectionUtils.getClassListFromExternal().forEach(cls -> {
-				if (ClassMetaSetupFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
-					register((Class<? extends ClassMetaSetupFactory<?,?>>) cls);
+				if (ClassModelResourceFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
+					register((Class<? extends ClassModelResourceFactory<?,?>>) cls);
 				}
 			});
 		} catch (Exception e) {
@@ -35,8 +35,8 @@ public class MetaResourceContainer extends AbstractModuleContainer implements Mo
 		}
 		try {
 			ReflectionUtils.getClassListFromInternal().forEach(cls -> {
-				if (ClassMetaSetupFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
-					register((Class<? extends ClassMetaSetupFactory<?,?>>) cls);
+				if (ClassModelResourceFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
+					register((Class<? extends ClassModelResourceFactory<?,?>>) cls);
 				}
 			});
 		} catch (Exception e) {

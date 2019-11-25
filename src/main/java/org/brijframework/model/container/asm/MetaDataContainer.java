@@ -3,7 +3,7 @@ package org.brijframework.model.container.asm;
 import org.brijframework.container.impl.module.AbstractModuleContainer;
 import org.brijframework.group.Group;
 import org.brijframework.model.container.ModelContainer;
-import org.brijframework.model.factories.ClassMetaDataFactory;
+import org.brijframework.model.factories.metadata.ClassMetaDataFactory;
 import org.brijframework.model.group.MetaInfoGroup;
 import org.brijframework.support.config.Assignable;
 import org.brijframework.support.config.DepandOn;
