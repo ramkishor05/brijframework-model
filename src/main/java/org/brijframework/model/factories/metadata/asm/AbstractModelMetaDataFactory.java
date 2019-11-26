@@ -1,54 +1,17 @@
 package org.brijframework.model.factories.metadata.asm;
 
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
-import org.brijframework.container.Container;
 import org.brijframework.factories.impl.AbstractFactory;
 import org.brijframework.group.Group;
 import org.brijframework.model.ModelMetaData;
 import org.brijframework.model.factories.MetaFactory;
 import org.brijframework.util.printer.ConsolePrint;
 
-public abstract class ModelMetaDataFactoryImpl<K,T extends ModelMetaData<?>> extends AbstractFactory<K, T> implements MetaFactory<K, T>{
-
-	private ConcurrentHashMap<K, T> cache = new ConcurrentHashMap<>();
-	
-	@SuppressWarnings("unchecked")
-	public ConcurrentHashMap<K,T> getCache() {
-		if(cache==null) {
-			return null;
-		}
-		if(getContainer()!=null) {
-			for(Entry<Object, Group>  entry:getContainer().getCache().entrySet()) {
-				Group  group=entry.getValue();
-				if(group!=null)
-				group.getCache().forEach((key,value)->{
-					cache.put((K)key, (T)value);
-				});
-			}
-		}
-		return cache;
-	}
-
-	
-	private Container container;
-	
-	protected ModelMetaDataFactoryImpl() {
-	}
+public abstract class AbstractModelMetaDataFactory<K,T extends ModelMetaData<?>> extends AbstractFactory<K, T> implements MetaFactory<K, T>{
 
 	@Override
-	public Container getContainer() {
-		return container;
-	}
-
-	@Override
-	public void setContainer(Container container) {
-		this.container=container;
-	}
-
-	@Override
-	public ModelMetaDataFactoryImpl<K, T> clear() {
+	public AbstractModelMetaDataFactory<K, T> clear() {
 		if (getCache() != null) {
 			getCache().clear();
 		}

@@ -7,13 +7,14 @@ import java.util.Map;
 
 import org.brijframework.model.config.ModelConstants;
 import org.brijframework.model.config.asm.ModelConfigration;
-import org.brijframework.model.factories.resource.asm.impl.ClassModelResourceFactoryImpl;
+import org.brijframework.model.factories.resource.asm.AbstractClassModelResourceFactory;
 import org.brijframework.model.resource.ClassModelResource;
 import org.brijframework.model.setup.impl.ClassModelResourceObject;
 import org.brijframework.model.setup.impl.PropertyModelResourceObject;
 import org.brijframework.resources.factory.json.JsonResourceFactory;
 import org.brijframework.resources.files.json.JsonResource;
-import org.brijframework.support.config.Assignable;
+import org.brijframework.support.config.OrderOn;
+import org.brijframework.support.config.SingletonFactory;
 import org.brijframework.util.accessor.PropertyAccessorUtil;
 import org.brijframework.util.asserts.Assertion;
 import org.brijframework.util.printer.ConsolePrint;
@@ -21,15 +22,15 @@ import org.brijframework.util.reflect.InstanceUtil;
 import org.brijframework.util.support.Access;
 import org.json.JSONException;
 
-
-public class JsonClassModelResourceFactory extends ClassModelResourceFactoryImpl{
+@OrderOn(1)
+public class JsonClassModelResourceFactory extends AbstractClassModelResourceFactory{
 	
 	public JsonClassModelResourceFactory() {
 	}
 	
 	private static JsonClassModelResourceFactory factory;
 
-	@Assignable
+	@SingletonFactory
 	public static JsonClassModelResourceFactory getFactory() {
 		if (factory == null) {
 			factory = new JsonClassModelResourceFactory();

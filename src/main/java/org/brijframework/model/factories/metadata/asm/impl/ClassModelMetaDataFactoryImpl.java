@@ -6,25 +6,25 @@ import java.util.Map.Entry;
 
 import org.brijframework.group.Group;
 import org.brijframework.model.factories.metadata.ClassMetaDataFactory;
-import org.brijframework.model.factories.metadata.asm.ModelMetaDataFactoryImpl;
-import org.brijframework.model.factories.resource.asm.impl.ClassModelResourceFactoryImpl;
+import org.brijframework.model.factories.metadata.asm.AbstractModelMetaDataFactory;
+import org.brijframework.model.factories.resource.impl.ClassModelResourceFactoryImpl;
 import org.brijframework.model.helper.MetaDataHelper;
 import org.brijframework.model.info.ClassModelMetaData;
 import org.brijframework.model.info.PropertyModelMetaDataGroup;
 import org.brijframework.model.resource.ClassModelResource;
-import org.brijframework.support.config.Assignable;
+import org.brijframework.support.config.SingletonFactory;
 import org.brijframework.support.model.Model;
 import org.brijframework.util.asserts.Assertion;
 import org.brijframework.util.reflect.ClassUtil;
 
-public class ClassModelMetaDataFactoryImpl extends ModelMetaDataFactoryImpl<String,ClassModelMetaData> implements ClassMetaDataFactory {
+public final class ClassModelMetaDataFactoryImpl extends AbstractModelMetaDataFactory<String,ClassModelMetaData> implements ClassMetaDataFactory<String,ClassModelMetaData> {
 	
 	protected ClassModelMetaDataFactoryImpl() {
 	}
 
 	protected static ClassModelMetaDataFactoryImpl factory;
 
-	@Assignable
+	@SingletonFactory
 	public static ClassModelMetaDataFactoryImpl getFactory() {
 		if (factory == null) {
 			factory = new ClassModelMetaDataFactoryImpl();
@@ -94,12 +94,12 @@ public class ClassModelMetaDataFactoryImpl extends ModelMetaDataFactoryImpl<Stri
 	}
 
 	@Override
-	public List<ClassModelMetaData> getClassInfoList(Class<?> cls) {
+	public List<ClassModelMetaData> findByType(Class<?> cls) {
 		return null;
 	}
 
 	@Override
-	public List<ClassModelMetaData> getClassInfoList(Class<?> target, String parentID) {
+	public List<ClassModelMetaData> findByTypeWithParent(Class<?> target, String parentID) {
 		return null;
 	}
 
@@ -114,7 +114,6 @@ public class ClassModelMetaDataFactoryImpl extends ModelMetaDataFactoryImpl<Stri
 	public void register(Class<?> target, Model metaSetup) {
 		ClassModelMetaData metaInfo = MetaDataHelper.getModelInfo(getContainer(),target, metaSetup);
 		this.getCache().put(metaInfo.getId(), metaInfo);
-		System.err.println("Meta Info    : "+metaInfo.getId());
 		loadContainer(metaInfo);
 	}
 	
@@ -122,7 +121,6 @@ public class ClassModelMetaDataFactoryImpl extends ModelMetaDataFactoryImpl<Stri
 		ClassModelMetaData metaInfo = MetaDataHelper.getModelInfo(getContainer(),target, metaSetup);
 		this.getCache().put(metaInfo.getId(), metaInfo);
 		loadContainer( metaInfo);
-		System.err.println("Registered Meta Info                     : "+metaInfo.getId());
 	}
 	
 
@@ -146,7 +144,6 @@ public class ClassModelMetaDataFactoryImpl extends ModelMetaDataFactoryImpl<Stri
 		ClassModelMetaData metaInfo = MetaDataHelper.getModelInfo(getContainer(),targetClass);
 		this.getCache().put(metaInfo.getId(), metaInfo);
 		loadContainer( metaInfo);
-		System.err.println("Registered Meta Info                     : "+metaInfo.getId());
 		return metaInfo;
 	}
 

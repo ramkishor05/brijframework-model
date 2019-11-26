@@ -5,18 +5,18 @@ import org.brijframework.group.Group;
 import org.brijframework.model.container.ModelContainer;
 import org.brijframework.model.factories.resource.ClassModelResourceFactory;
 import org.brijframework.model.group.MetaInfoGroup;
-import org.brijframework.support.config.Assignable;
+import org.brijframework.support.config.SingletonFactory;
 import org.brijframework.util.reflect.InstanceUtil;
 import org.brijframework.util.reflect.ReflectionUtils;
 
-public class MetaResourceContainer extends AbstractModuleContainer implements ModelContainer{
+public class ModelMetaResourceContainer extends AbstractModuleContainer implements ModelContainer{
 
-	private static MetaResourceContainer container;
+	private static ModelMetaResourceContainer container;
 
-	@Assignable
-	public static MetaResourceContainer getContainer() {
+	@SingletonFactory
+	public static ModelMetaResourceContainer getContainer() {
 		if (container == null) {
-			container = InstanceUtil.getSingletonInstance(MetaResourceContainer.class);
+			container = InstanceUtil.getSingletonInstance(ModelMetaResourceContainer.class);
 		}
 		return container;
 	}

@@ -2,7 +2,7 @@ package org.brijframework.model.context.factories;
 
 import org.brijframework.factories.impl.bootstrap.AbstractBootstrapFactory;
 import org.brijframework.model.context.ModelContext;
-import org.brijframework.support.config.Assignable;
+import org.brijframework.support.config.SingletonFactory;
 import org.brijframework.support.config.OrderOn;
 import org.brijframework.util.printer.ConsolePrint;
 import org.brijframework.util.reflect.InstanceUtil;
@@ -13,7 +13,7 @@ public class ModelContextFactory extends AbstractBootstrapFactory<String, ModelC
 	
 	private static ModelContextFactory factory ;
 	
-	@Assignable
+	@SingletonFactory
 	public static ModelContextFactory getFactory() {
 		if(factory==null) {
 		    factory=new ModelContextFactory();

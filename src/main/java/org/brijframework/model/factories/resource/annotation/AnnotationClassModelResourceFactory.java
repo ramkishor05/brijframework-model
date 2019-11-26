@@ -4,12 +4,13 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.brijframework.model.factories.resource.asm.impl.ClassModelResourceFactoryImpl;
+import org.brijframework.model.factories.resource.asm.AbstractClassModelResourceFactory;
 import org.brijframework.model.resource.ClassModelResource;
 import org.brijframework.model.setup.impl.ClassModelResourceObject;
 import org.brijframework.model.setup.impl.PropertyModelResourceObject;
 import org.brijframework.model.setup.impl.RelationPropertyModelResourceObject;
-import org.brijframework.support.config.Assignable;
+import org.brijframework.support.config.OrderOn;
+import org.brijframework.support.config.SingletonFactory;
 import org.brijframework.support.model.Model;
 import org.brijframework.support.model.Models;
 import org.brijframework.support.model.Property;
@@ -22,14 +23,15 @@ import org.brijframework.util.reflect.ReflectionUtils;
 import org.brijframework.util.support.Access;
 import org.brijframework.util.support.Constants;
 
-public class AnnotationClassModelResourceFactory extends ClassModelResourceFactoryImpl{
+@OrderOn(3)
+public class AnnotationClassModelResourceFactory extends AbstractClassModelResourceFactory{
 	
 	private AnnotationClassModelResourceFactory() {
 	}
 	
 	private static AnnotationClassModelResourceFactory factory;
 
-	@Assignable
+	@SingletonFactory
 	public static AnnotationClassModelResourceFactory getFactory() {
 		if (factory == null) {
 			factory = new AnnotationClassModelResourceFactory();
@@ -64,6 +66,7 @@ public class AnnotationClassModelResourceFactory extends ClassModelResourceFacto
 		Map<String,Object> properties=new HashMap<String, Object>();
 		ClassModelResourceObject metaSetup=InstanceUtil.getInstance(ClassModelResourceObject.class);
 		properties.putAll(AnnotationUtil.getAnnotationData(model));
+		PropertyAccessorUtil.setProperties(metaSetup, properties,Access.PRIVATE);
 		for(Field field: FieldUtil.getAllField(target,Access.PRIVATE)) {
 			if(field.isAnnotationPresent(Property.class)) {
 				Map<String, Object> map=AnnotationUtil.getAnnotationData(field.getAnnotation(Property.class));
@@ -74,7 +77,6 @@ public class AnnotationClassModelResourceFactory extends ClassModelResourceFacto
 				metaSetup.getProperties().put(field.getName(), InstanceUtil.getInstance(RelationPropertyModelResourceObject.class,map));
 			}
 		}
-		PropertyAccessorUtil.setProperties(metaSetup, properties,Access.PRIVATE);
 		if(metaSetup.getId()==null || Constants.DEFAULT.equals(metaSetup.getId())) {
 			metaSetup.setId(target.getSimpleName());
 		}

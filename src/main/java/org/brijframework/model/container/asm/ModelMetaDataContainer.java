@@ -5,20 +5,20 @@ import org.brijframework.group.Group;
 import org.brijframework.model.container.ModelContainer;
 import org.brijframework.model.factories.metadata.ClassMetaDataFactory;
 import org.brijframework.model.group.MetaInfoGroup;
-import org.brijframework.support.config.Assignable;
 import org.brijframework.support.config.DepandOn;
+import org.brijframework.support.config.SingletonFactory;
 import org.brijframework.util.reflect.InstanceUtil;
 import org.brijframework.util.reflect.ReflectionUtils;
 
-@DepandOn(depand=MetaResourceContainer.class)
-public class MetaDataContainer extends AbstractModuleContainer implements ModelContainer{
+@DepandOn(depand=ModelMetaResourceContainer.class)
+public class ModelMetaDataContainer extends AbstractModuleContainer implements ModelContainer{
 
-	private static MetaDataContainer container;
+	private static ModelMetaDataContainer container;
 
-	@Assignable
-	public static MetaDataContainer getContainer() {
+	@SingletonFactory
+	public static ModelMetaDataContainer getContainer() {
 		if (container == null) {
-			container = InstanceUtil.getSingletonInstance(MetaDataContainer.class);
+			container = InstanceUtil.getSingletonInstance(ModelMetaDataContainer.class);
 		}
 		return container;
 	}
@@ -29,7 +29,7 @@ public class MetaDataContainer extends AbstractModuleContainer implements ModelC
 		try {
 			ReflectionUtils.getClassListFromExternal().forEach(cls -> {
 				if (ClassMetaDataFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
-					register((Class<? extends ClassMetaDataFactory>) cls);
+					register((Class<? extends ClassMetaDataFactory<?,?>>) cls);
 				}
 			});
 		} catch (Exception e) {
@@ -38,7 +38,7 @@ public class MetaDataContainer extends AbstractModuleContainer implements ModelC
 		try {
 			ReflectionUtils.getClassListFromInternal().forEach(cls -> {
 				if (ClassMetaDataFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
-					register((Class<? extends ClassMetaDataFactory>) cls);
+					register((Class<? extends ClassMetaDataFactory<?,?>>) cls);
 				}
 			});
 		} catch (Exception e) {
