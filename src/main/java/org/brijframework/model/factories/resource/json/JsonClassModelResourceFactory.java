@@ -40,7 +40,7 @@ public class JsonClassModelResourceFactory extends AbstractClassModelResourceFac
 	
 	@SuppressWarnings("unchecked")
 	public List<ModelConfigration> configration() {
-		Object resources=getContainer().getContext().getEnvironment().get(ModelConstants.APPLICATION_MODEL_CONFIG);
+		Object resources=getEnvProperty(ModelConstants.APPLICATION_MODEL_CONFIG);
 		if (resources==null) {
 			ConsolePrint.screen("ModelConfigration", "Model configration not found :"+ModelConstants.APPLICATION_MODEL_CONFIG);
 			return null;
@@ -125,4 +125,6 @@ public class JsonClassModelResourceFactory extends AbstractClassModelResourceFac
 		PropertyAccessorUtil.setProperties(metaSetup, resourceMap,Access.PRIVATE);
 		this.register(metaSetup);
 	}
+
+	
 }

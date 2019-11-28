@@ -18,26 +18,26 @@ public abstract class AbstractModelMetaDataFactory<K,T extends ModelMetaData<?>>
 		return this;
 	}
 
-	public void loadContainer(T metaInfo) {
+	protected void loadContainer(K key,T metaInfo) {
 		if (getContainer() == null) {
 			return;
 		}
 		Group group = getContainer().load(metaInfo.getName());
-		if(!group.containsKey(metaInfo.getId())) {
-			group.add(metaInfo.getId(), metaInfo);
+		if(!group.containsKey(key)) {
+			group.add(key, metaInfo);
 		}else {
-			group.update(metaInfo.getId(), metaInfo);
+			group.update(key, metaInfo);
 		}
 	}
 
-	public T getContainer(String modelKey) {
+	public T getContainer(K modelKey) {
 		if (getContainer() == null) {
 			return null;
 		}
 		return getContainer().find(modelKey);
 	}
 
-	public T getMetaInfo(String id) {
+	public T getMetaInfo(K id) {
 		for(Entry<K, T> entry:getCache().entrySet()) {
 			if(entry.getKey().equals(id)) {
 				return entry.getValue();
@@ -47,10 +47,23 @@ public abstract class AbstractModelMetaDataFactory<K,T extends ModelMetaData<?>>
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void register(T meta) {
-		ConsolePrint.screen("Resource", "Registery for meta data with id : "+meta.getId());
-		getCache().put((K)meta.getId(), meta);
-		loadContainer(meta);
+	public void register(T value) {
+		K key=(K)value.getId();
+		preregister(key, value);
+		getCache().put(key, value);
+		loadContainer(key, value);
+		postregister(key, value);
 	}
 
+	@Override
+	protected void preregister(K key, T value) {
+		ConsolePrint.screen("Resource", "Registering for meta data with id : "+key);
+	}
+	
+	@Override
+	protected void postregister(K key, T value) {
+		ConsolePrint.screen("Resource", "Registered for meta data with id : "+key);
+	}
+	
+	
 }
