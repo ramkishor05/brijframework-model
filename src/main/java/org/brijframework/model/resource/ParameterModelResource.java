@@ -5,11 +5,11 @@ import java.util.Map;
 
 import org.brijframework.model.ModelResource;
 
-public interface ParameterModelResource<T>  extends Comparable<ParameterModelResource<T>> , ModelResource<T>{
+public interface ParameterModelResource<T extends Type>  extends Comparable<ParameterModelResource<Type>> , ModelResource<Type>{
 
 	public int getIndex() ;
 	
-	public Type getType() ;
+	public T getType() ;
 	
 	public Object getValue();
 	
@@ -18,7 +18,7 @@ public interface ParameterModelResource<T>  extends Comparable<ParameterModelRes
 	public void papulate(Map<String, Object> map);
 	
 	@Override
-	default int compareTo(ParameterModelResource<T> param) {
+	default int compareTo(ParameterModelResource<Type> param) {
 		if(param.getIndex()<getIndex()) {
 			return 1;
 		}else {

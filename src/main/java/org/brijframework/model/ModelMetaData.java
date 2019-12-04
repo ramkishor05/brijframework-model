@@ -11,5 +11,5 @@ public interface ModelMetaData<E> extends Initializer{
 
 	public Access getAccess();
 	
-	public E getTarget();
+	public E getType();
 }

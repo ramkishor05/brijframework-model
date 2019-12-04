@@ -6,7 +6,7 @@ public abstract class AbstractModelResource<E> implements ModelResource<E> {
 	
 	private String id;
 	private String name;
-	private E target;
+	private E type;
 	private String access;
 
 	public String getId() {
@@ -17,8 +17,8 @@ public abstract class AbstractModelResource<E> implements ModelResource<E> {
 		return name;
 	}
 
-	public E getTarget() {
-		return target;
+	public E getType() {
+		return type;
 	}
 
 	public String getAccess() {
@@ -33,8 +33,8 @@ public abstract class AbstractModelResource<E> implements ModelResource<E> {
 		this.name = name;
 	}
 
-	public void setTarget(E target) {
-		this.target = target;
+	public void setType(E target) {
+		this.type = target;
 	}
 
 	public void setAccess(String access) {

@@ -10,17 +10,17 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.brijframework.container.Container;
-import org.brijframework.model.info.ClassModelMetaData;
-import org.brijframework.model.info.ConstructorModelMetaData;
-import org.brijframework.model.info.PropertyModelMetaData;
-import org.brijframework.model.info.PropertyModelMetaDataGroup;
-import org.brijframework.model.info.RelationPropertyModelMetaData;
-import org.brijframework.model.info.impl.ClassModelMetaDataObject;
-import org.brijframework.model.info.impl.ConstructorModelMetaDataObject;
-import org.brijframework.model.info.impl.PropertyModelMetaDataGroupObject;
-import org.brijframework.model.info.impl.PropertyModelMetaDataObject;
-import org.brijframework.model.info.impl.RelationPropertyModelMetaDataObject;
-import org.brijframework.model.resource.ClassModelResource;
+import org.brijframework.model.metadata.ConstructorModelMetaData;
+import org.brijframework.model.metadata.PropertyModelMetaData;
+import org.brijframework.model.metadata.PropertyModelMetaDataGroup;
+import org.brijframework.model.metadata.RelationPropertyModelMetaData;
+import org.brijframework.model.metadata.TypeModelMetaData;
+import org.brijframework.model.metadata.impl.TypeModelMetaDataImpl;
+import org.brijframework.model.metadata.impl.ConstructorModelMetaDataObject;
+import org.brijframework.model.metadata.impl.PropertyModelMetaDataGroupObject;
+import org.brijframework.model.metadata.impl.PropertyModelMetaDataObject;
+import org.brijframework.model.metadata.impl.RelationPropertyModelMetaDataObject;
+import org.brijframework.model.resource.TypeModelResource;
 import org.brijframework.model.resource.ConstructorModelResource;
 import org.brijframework.model.resource.PropertyModelResource;
 import org.brijframework.model.resource.RelationPropertyModelResource;
@@ -38,10 +38,10 @@ import org.brijframework.util.support.Constants;
 
 public class MetaDataHelper {
 	
-	public static ClassModelMetaData getModelInfo(Container container, Class<?> targetClass) {
+	public static TypeModelMetaData getModelInfo(Container container, Class<?> targetClass) {
 		String id=targetClass.getSimpleName();
 		String name=targetClass.getSimpleName();
-		ClassModelMetaDataObject owner=new ClassModelMetaDataObject(targetClass,id,name);
+		TypeModelMetaDataImpl owner=new TypeModelMetaDataImpl(targetClass,id,name);
 		owner.setAccess(Access.PUBLIC);
 		owner.setConstructor(getConsMetaInfo(owner));
 		for (Field field : FieldUtil.getAllField(targetClass, Access.PRIVATE)) {
@@ -50,13 +50,13 @@ public class MetaDataHelper {
 		return owner;
 	}
 
-	public static ClassModelMetaData getModelInfo(Container container, Class<?> _class, ClassModelResource metaSetup) {
+	public static TypeModelMetaData getModelInfo(Container container, Class<?> _class, TypeModelResource metaSetup) {
 		Objects.requireNonNull(metaSetup, "MetaSetup should be required");
-		final Class<?>targetClass =_class==null?ClassUtil.getClass(metaSetup.getTarget()):_class;
+		final Class<?>targetClass =_class==null?ClassUtil.getClass(metaSetup.getType()):_class;
 		Objects.requireNonNull(targetClass, "Target should be required");
 		String id=metaSetup.getId()==null|| metaSetup.getId().equals(Constants.DEFAULT)?targetClass.getSimpleName():metaSetup.getId();
 		String name=metaSetup.getName()==null|| metaSetup.getName().equals(Constants.DEFAULT)?targetClass.getSimpleName():metaSetup.getName();
-		ClassModelMetaDataObject owner=new ClassModelMetaDataObject(targetClass,id,name);
+		TypeModelMetaDataImpl owner=new TypeModelMetaDataImpl(targetClass,id,name);
 		owner.setAccess(metaSetup.getAccess()!=null?Access.valueOf(metaSetup.getAccess()):Access.DEFAULT);
 		if(metaSetup.getConstructor()!=null) {
 			owner.setConstructor(getConsMetaInfo(owner, metaSetup.getConstructor()));
@@ -71,19 +71,19 @@ public class MetaDataHelper {
 		return owner;
 	}
 	
-	public static PropertyModelMetaDataGroup buldPropertyGroup(ClassModelMetaDataObject owner,String key, Property setup ) {
+	public static PropertyModelMetaDataGroup buldPropertyGroup(TypeModelMetaDataImpl owner,String key, Property setup ) {
 		PropertyModelMetaDataGroupObject propertyGroup=new  PropertyModelMetaDataGroupObject(owner);
-		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getType(),key, Access.PRIVATE);
 		if(field!=null) {
 			PropertyModelMetaData fieldMeta=buildFieldMeta(owner, field, setup);
 			propertyGroup.setFieldMeta(fieldMeta);
 		}
-		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getType(),key, Access.PRIVATE);
 		if(getter!=null) {
 			PropertyModelMetaData getterMeta=buildFieldMeta(owner, getter, setup);
 			propertyGroup.setGetterMeta(getterMeta);
 		}
-		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getType(),key, Access.PRIVATE);
 		if(setter!=null) {
 			PropertyModelMetaData setterMeta=buildFieldMeta(owner, setter, setup);
 			propertyGroup.setSetterMeta(setterMeta);
@@ -91,19 +91,19 @@ public class MetaDataHelper {
 		return propertyGroup;
 	}
 	
-	public static PropertyModelMetaDataGroup buldPropertyGroup(ClassModelMetaDataObject owner,String key, Relation setup ) {
+	public static PropertyModelMetaDataGroup buldPropertyGroup(TypeModelMetaDataImpl owner,String key, Relation setup ) {
 		PropertyModelMetaDataGroupObject propertyGroup=new  PropertyModelMetaDataGroupObject(owner);
-		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getType(),key, Access.PRIVATE);
 		if(field!=null) {
 			PropertyModelMetaData fieldMeta=buildFieldMeta(owner, field, setup);
 			propertyGroup.setFieldMeta(fieldMeta);
 		}
-		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getType(),key, Access.PRIVATE);
 		if(getter!=null) {
 			PropertyModelMetaData getterMeta=buildFieldMeta(owner, getter, setup);
 			propertyGroup.setGetterMeta(getterMeta);
 		}
-		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getType(),key, Access.PRIVATE);
 		if(setter!=null) {
 			PropertyModelMetaData setterMeta=buildFieldMeta(owner, setter, setup);
 			propertyGroup.setSetterMeta(setterMeta);
@@ -111,19 +111,19 @@ public class MetaDataHelper {
 		return propertyGroup;
 	}
 	
-	public static PropertyModelMetaDataGroup buldPropertyGroup(ClassModelMetaDataObject owner,String key, PropertyModelResource<?> setup ) {
+	public static PropertyModelMetaDataGroup buldPropertyGroup(TypeModelMetaDataImpl owner,String key, PropertyModelResource<?> setup ) {
 		PropertyModelMetaDataGroupObject propertyGroup=new  PropertyModelMetaDataGroupObject(owner);
-		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getType(),key, Access.PRIVATE);
 		if(field!=null) {
 			PropertyModelMetaData fieldMeta=buildFieldMeta(owner, field, setup);
 			propertyGroup.setFieldMeta(fieldMeta);
 		}
-		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getType(),key, Access.PRIVATE);
 		if(getter!=null) {
 			PropertyModelMetaData getterMeta=buildFieldMeta(owner, getter, setup);
 			propertyGroup.setGetterMeta(getterMeta);
 		}
-		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getType(),key, Access.PRIVATE);
 		if(setter!=null) {
 			PropertyModelMetaData setterMeta=buildFieldMeta(owner, setter, setup);
 			propertyGroup.setSetterMeta(setterMeta);
@@ -131,21 +131,21 @@ public class MetaDataHelper {
 		return propertyGroup;
 	}
 	
-	public static PropertyModelMetaDataGroup buldPropertyGroup(ClassModelMetaDataObject owner,String key) {
+	public static PropertyModelMetaDataGroup buldPropertyGroup(TypeModelMetaDataImpl owner,String key) {
 		PropertyModelMetaDataGroupObject propertyGroup=new  PropertyModelMetaDataGroupObject(owner);
 		propertyGroup.setId(key);
 		propertyGroup.setName(key);
-		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getType(),key, Access.PRIVATE);
 		if(field!=null) {
 			PropertyModelMetaData fieldMeta=buildFieldMeta(owner, field);
 			propertyGroup.setFieldMeta(fieldMeta);
 		}
-		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getType(),key, Access.PRIVATE);
 		if(getter!=null) {
 			PropertyModelMetaData getterMeta=buildFieldMeta(owner, getter);
 			propertyGroup.setGetterMeta(getterMeta);
 		}
-		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getTarget(),key, Access.PRIVATE);
+		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getType(),key, Access.PRIVATE);
 		if(setter!=null) {
 			PropertyModelMetaData setterMeta=buildFieldMeta(owner, setter);
 			propertyGroup.setSetterMeta(setterMeta);
@@ -153,12 +153,12 @@ public class MetaDataHelper {
 		return propertyGroup;
 	}
 
-	public static ClassModelMetaData getModelInfo(Container container,Class<?> target, Model metaSetup) {
+	public static TypeModelMetaData getModelInfo(Container container,Class<?> target, Model metaSetup) {
 		Objects.requireNonNull(target, "Target should be required");
 		Objects.requireNonNull(metaSetup, "Meta should be required");
 		String id=metaSetup.id()==null|| metaSetup.id().equals(Constants.DEFAULT)?target.getSimpleName():metaSetup.id();
 		String name=target.getSimpleName();
-		ClassModelMetaDataObject owner=new ClassModelMetaDataObject(target,id,name);
+		TypeModelMetaDataImpl owner=new TypeModelMetaDataImpl(target,id,name);
 		owner.setAccess(metaSetup.access()!=null?metaSetup.access():Access.DEFAULT);
 		if(metaSetup.constructor()!=null) {
 			owner.setConstructor(getConsMetaInfo(owner, metaSetup.constructor()));
@@ -182,15 +182,15 @@ public class MetaDataHelper {
 	 * Constructor builder
 	 */
 	
-	public static ConstructorModelMetaData getConsMetaInfo(ClassModelMetaDataObject owner) {
+	public static ConstructorModelMetaData getConsMetaInfo(TypeModelMetaDataImpl owner) {
 		ConstructorModelMetaDataObject consMetaInfo=new ConstructorModelMetaDataObject(owner);
 		consMetaInfo.setAccess(owner.getAccess());
 		consMetaInfo.setOwner(owner);
-		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getTarget(), owner.getAccess(), consMetaInfo.getArguments()));
+		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getType(), owner.getAccess(), consMetaInfo.getArguments()));
 		return consMetaInfo;
 	}
 	
-	public static ConstructorModelMetaDataObject getConsMetaInfo(ClassModelMetaDataObject owner,Construct constructor) {
+	public static ConstructorModelMetaDataObject getConsMetaInfo(TypeModelMetaDataImpl owner,Construct constructor) {
 		ConstructorModelMetaDataObject consMetaInfo=new ConstructorModelMetaDataObject(owner);
 		consMetaInfo.setAccess(constructor.access());
 		consMetaInfo.setOwner(owner);
@@ -213,11 +213,11 @@ public class MetaDataHelper {
 			consMetaInfo.setArguments(arguments);
 			consMetaInfo.setValues(values);
 		}
-		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getTarget(), constructor.access(), consMetaInfo.getArguments()));
+		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getType(), constructor.access(), consMetaInfo.getArguments()));
 		return consMetaInfo;
 	}
 
-	private static ConstructorModelMetaData getConsMetaInfo(ClassModelMetaDataObject owner, ConstructorModelResource constructor) {
+	private static ConstructorModelMetaData getConsMetaInfo(TypeModelMetaDataImpl owner, ConstructorModelResource constructor) {
 		ConstructorModelMetaDataObject consMetaInfo=new ConstructorModelMetaDataObject(owner);
 		consMetaInfo.setAccess(Access.valueOf(constructor.getAccess()));
 		consMetaInfo.setOwner(owner);
@@ -240,7 +240,7 @@ public class MetaDataHelper {
 			consMetaInfo.setArguments(arguments);
 			consMetaInfo.setValues(values);
 		}
-		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getTarget(), Access.valueOf(constructor.getAccess()), consMetaInfo.getArguments()));
+		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getType(), Access.valueOf(constructor.getAccess()), consMetaInfo.getArguments()));
 		return consMetaInfo;
 	}
 	
@@ -248,7 +248,7 @@ public class MetaDataHelper {
 	 * Default property builder
 	 */
 	
-	public static PropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, AccessibleObject target) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, AccessibleObject target) {
 		if (target instanceof Field) {
 			return buildFieldMeta(owner, (Field) target);
 		} else {
@@ -256,27 +256,25 @@ public class MetaDataHelper {
 		}
 	}
 
-	public static PropertyModelMetaData buildFieldMeta(ClassModelMetaData owner,Method target) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner,Method target) {
 		PropertyModelMetaDataObject metaInfo = new PropertyModelMetaDataObject(owner, target);
 		metaInfo.setId(target.getName());
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(Access.PRIVATE);
 		metaInfo.setRequired(false);
-		metaInfo.setType(CastingUtil.getTargetClass(target, target.getReturnType()));
 		return metaInfo;
 	}
 
-	public static PropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, Field target) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Field target) {
 		RelationPropertyModelMetaDataObject metaInfo = new RelationPropertyModelMetaDataObject(owner, target);
 		metaInfo.setId(target.getName());
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(Access.valueOf(target.getModifiers()));
 		metaInfo.setRequired(false);
-		metaInfo.setType(CastingUtil.getTargetClass(target, target.getType()));
 		return metaInfo;
 	}
 
-	public static PropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, AccessibleObject target, Property property) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, AccessibleObject target, Property property) {
 		if (target instanceof Field) {
 			return buildFieldMeta(owner, (Field) target, property);
 		} else {
@@ -284,7 +282,7 @@ public class MetaDataHelper {
 		}
 	}
 	
-	public static PropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, Field target,Property property) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Field target,Property property) {
 		PropertyModelMetaDataObject metaInfo = new PropertyModelMetaDataObject(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);
@@ -292,11 +290,10 @@ public class MetaDataHelper {
 		metaInfo.setAccess(property.access());
 		metaInfo.setValue(property.value());
 		metaInfo.setRequired(property.required());
-		metaInfo.setType(property.type());
 		return metaInfo;
 	}
 	
-	public static PropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, Method target,Property property) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Method target,Property property) {
 		PropertyModelMetaDataObject metaInfo = new PropertyModelMetaDataObject(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);
@@ -304,11 +301,10 @@ public class MetaDataHelper {
 		metaInfo.setAccess(property.access());
 		metaInfo.setValue(property.value());
 		metaInfo.setRequired(property.required());
-		metaInfo.setType(property.type());
 		return metaInfo;
 	}
 
-	public static PropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, AccessibleObject target, PropertyModelResource<?> metaSetup) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, AccessibleObject target, PropertyModelResource<?> metaSetup) {
 		if (target instanceof Field) {
 			return buildFieldMeta(owner, (Field) target, metaSetup);
 		} else {
@@ -316,7 +312,7 @@ public class MetaDataHelper {
 		}
 	}
 	
-	public static PropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, Method target,PropertyModelResource<?> property) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Method target,PropertyModelResource<?> property) {
 		PropertyModelMetaDataObject metaInfo = new PropertyModelMetaDataObject(owner, target);
 		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
 		metaInfo.setId(id);
@@ -324,21 +320,16 @@ public class MetaDataHelper {
 		metaInfo.setAccess(Access.valueOf(property.getAccess()));
 		metaInfo.setValue(property.getValue());
 		metaInfo.setRequired(property.isRequired());
-		if(property.getType()!=null && !property.getType().isEmpty())
-		metaInfo.setType(ClassUtil.getClass(property.getType()));
 		return metaInfo;
 	}
 	
-	public static PropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, Field target,PropertyModelResource<?> property) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Field target,PropertyModelResource<?> property) {
 		PropertyModelMetaDataObject metaInfo = new PropertyModelMetaDataObject(owner, target);
 		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(Access.valueOf(property.getAccess()));
 		metaInfo.setRequired(property.isRequired());
-		if(property.getType()!=null && !property.getType().isEmpty()) {
-			metaInfo.setType(ClassUtil.getClass(property.getType()));
-		}
 		return metaInfo;
 	}
 	
@@ -353,7 +344,7 @@ public class MetaDataHelper {
 	 * @return
 	 */
 	
-	public static RelationPropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, AccessibleObject target,RelationPropertyModelResource<?> metaSetup) {
+	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, AccessibleObject target,RelationPropertyModelResource<?> metaSetup) {
 		if (target instanceof Field) {
 			return buildFieldMeta(owner, (Field) target, metaSetup);
 		} else {
@@ -361,7 +352,7 @@ public class MetaDataHelper {
 		}
 	}
 	
-	public static RelationPropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, Field target,RelationPropertyModelResource<?> property) {
+	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Field target,RelationPropertyModelResource<?> property) {
 		RelationPropertyModelMetaDataObject metaInfo = new RelationPropertyModelMetaDataObject(owner, target);
 		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
 		metaInfo.setId(id);
@@ -369,14 +360,11 @@ public class MetaDataHelper {
 		metaInfo.setAccess(Access.valueOf(property.getAccess()));
 		metaInfo.setValue(property.getValue());
 		metaInfo.setRequired(property.isRequired());
-		if(property.getType()!=null && !property.getType().isEmpty()) {
-			metaInfo.setType(ClassUtil.getClass(property.getType()));
-		}
 		return metaInfo;
 	}
 	
 
-	public static RelationPropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, Method target,RelationPropertyModelResource<?> property) {
+	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Method target,RelationPropertyModelResource<?> property) {
 		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
 		RelationPropertyModelMetaDataObject metaInfo = new RelationPropertyModelMetaDataObject(owner, target);
 		metaInfo.setId(id);
@@ -384,14 +372,11 @@ public class MetaDataHelper {
 		metaInfo.setAccess(Access.valueOf(property.getAccess()));
 		metaInfo.setValue(property.getValue());
 		metaInfo.setRequired(property.isRequired());
-		if(property.getType()!=null && !property.getType().isEmpty()) {
-			metaInfo.setType(ClassUtil.getClass(property.getType()));
-		}
 		return metaInfo;
 	}
 	
 	
-	public static RelationPropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, AccessibleObject target, Relation property) {
+	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, AccessibleObject target, Relation property) {
 		if (target instanceof Field) {
 			return buildFieldMeta(owner, (Field) target, property);
 		} else {
@@ -399,25 +384,23 @@ public class MetaDataHelper {
 		}
 	}
 	
-	public static RelationPropertyModelMetaData buildFieldMeta(ClassModelMetaData owner, Field target,Relation property) {
+	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Field target,Relation property) {
 		RelationPropertyModelMetaDataObject metaInfo = new RelationPropertyModelMetaDataObject(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(property.access());
 		metaInfo.setRequired(property.required());
-		metaInfo.setType(property.type());
 		return metaInfo;
 	}
 	
-	public static RelationPropertyModelMetaDataObject buildFieldMeta(ClassModelMetaData owner, Method target,Relation property) {
+	public static RelationPropertyModelMetaDataObject buildFieldMeta(TypeModelMetaData owner, Method target,Relation property) {
 		RelationPropertyModelMetaDataObject metaInfo = new RelationPropertyModelMetaDataObject(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(property.access());
 		metaInfo.setRequired(property.required());
-		metaInfo.setType(property.type());
 		return metaInfo;
 	}
 	

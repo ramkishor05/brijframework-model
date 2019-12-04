@@ -3,8 +3,8 @@ package org.brijframework.model.container.asm;
 import org.brijframework.container.impl.module.AbstractModuleContainer;
 import org.brijframework.group.Group;
 import org.brijframework.model.container.ModelContainer;
-import org.brijframework.model.factories.resource.ClassModelResourceFactory;
-import org.brijframework.model.group.MetaInfoGroup;
+import org.brijframework.model.factories.resource.TypeModelResourceFactory;
+import org.brijframework.model.group.ModelMetaDataGroup;
 import org.brijframework.support.config.SingletonFactory;
 import org.brijframework.util.reflect.InstanceUtil;
 import org.brijframework.util.reflect.ReflectionUtils;
@@ -26,8 +26,8 @@ public class ModelMetaResourceContainer extends AbstractModuleContainer implemen
 	public void init() {
 		try {
 			ReflectionUtils.getClassListFromExternal().forEach(cls -> {
-				if (ClassModelResourceFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
-					register((Class<? extends ClassModelResourceFactory<?,?>>) cls);
+				if (TypeModelResourceFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
+					register((Class<? extends TypeModelResourceFactory<?,?>>) cls);
 				}
 			});
 		} catch (Exception e) {
@@ -35,8 +35,8 @@ public class ModelMetaResourceContainer extends AbstractModuleContainer implemen
 		}
 		try {
 			ReflectionUtils.getClassListFromInternal().forEach(cls -> {
-				if (ClassModelResourceFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
-					register((Class<? extends ClassModelResourceFactory<?,?>>) cls);
+				if (TypeModelResourceFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
+					register((Class<? extends TypeModelResourceFactory<?,?>>) cls);
 				}
 			});
 		} catch (Exception e) {
@@ -48,7 +48,7 @@ public class ModelMetaResourceContainer extends AbstractModuleContainer implemen
 	public Group load(Object groupKey) {
 		Group group = getCache().get(groupKey);
 		if (group == null) {
-			group = new MetaInfoGroup(groupKey);
+			group = new ModelMetaDataGroup(groupKey);
 			getCache().put(groupKey, group);
 		}
 		return group;

@@ -5,8 +5,18 @@ import org.brijframework.model.resource.PropertyModelResource;
 public class AbstractPropertyModelResource<E> extends AbstractModelResource<E> implements PropertyModelResource<E> {
 
 	private boolean required;
-	private String type;
+	private E type;
 	private Object value;
+	private String model;
+	
+	public void setModel(String model) {
+		this.model = model;
+	}
+	
+	@Override
+	public String getModel() {
+		return this.model;
+	}
 
 	@Override
 	public boolean isRequired() {
@@ -19,7 +29,7 @@ public class AbstractPropertyModelResource<E> extends AbstractModelResource<E> i
 	}
 
 	@Override
-	public String getType() {
+	public E getType() {
 		return type;
 	}
 
@@ -27,7 +37,7 @@ public class AbstractPropertyModelResource<E> extends AbstractModelResource<E> i
 		this.required = required;
 	}
 
-	public void setType(String type) {
+	public void setType(E type) {
 		this.type = type;
 	}
 

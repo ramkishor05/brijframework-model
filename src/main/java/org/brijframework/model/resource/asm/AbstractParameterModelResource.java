@@ -1,11 +1,10 @@
 package org.brijframework.model.resource.asm;
 
-import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 
 import org.brijframework.model.resource.ParameterModelResource;
 
-public abstract class AbstractParameterModelResource extends AbstractModelResource<Parameter> implements ParameterModelResource<Parameter> {
+public abstract class AbstractParameterModelResource extends AbstractModelResource<Type> implements ParameterModelResource<Type> {
 
 	private Class<?> parent;
 	private Type type;

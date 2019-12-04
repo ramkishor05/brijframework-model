@@ -8,6 +8,8 @@ public interface PropertyModelResource<E> extends ModelResource<E> {
 
 	Object getValue();
 
-	String getType();
+	E getType();
+
+	String getModel();
 
 }
