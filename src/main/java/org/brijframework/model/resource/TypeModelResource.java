@@ -6,14 +6,12 @@ import org.brijframework.model.ModelResource;
 
 public interface TypeModelResource extends ModelResource<String>{
 
-	String getScope();
-	
 	String getType();
+	
+	String getExtend();
+	
+	ConstructorModelResource getConstructor();
 		
 	Map<String, PropertyModelResource<?>> getProperties();
-
-	ConstructorModelResource getConstructor();
-
-	String getExtend();
 
 }

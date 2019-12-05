@@ -1,5 +1,6 @@
 package org.brijframework.model.factories.resource.json;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,8 +10,9 @@ import org.brijframework.model.config.ModelConstants;
 import org.brijframework.model.config.asm.ModelConfigration;
 import org.brijframework.model.factories.resource.asm.AbstractTypeModelResourceFactory;
 import org.brijframework.model.resource.TypeModelResource;
+import org.brijframework.model.resource.impl.PropertyModelResourceImpl;
+import org.brijframework.model.resource.impl.RelationPropertyModelResourceImpl;
 import org.brijframework.model.resource.impl.TypeModelResourceImpl;
-import org.brijframework.model.resource.impl.PropertyModelResourceObject;
 import org.brijframework.resources.factory.json.JsonResourceFactory;
 import org.brijframework.resources.files.json.JsonResource;
 import org.brijframework.support.config.OrderOn;
@@ -18,8 +20,12 @@ import org.brijframework.support.config.SingletonFactory;
 import org.brijframework.util.accessor.PropertyAccessorUtil;
 import org.brijframework.util.asserts.Assertion;
 import org.brijframework.util.printer.LoggerConsole;
+import org.brijframework.util.reflect.ClassUtil;
+import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.reflect.InstanceUtil;
+import org.brijframework.util.reflect.ReflectionUtils;
 import org.brijframework.util.support.Access;
+import org.brijframework.util.text.StringUtil;
 import org.json.JSONException;
 
 @OrderOn(2)
@@ -115,14 +121,39 @@ public class JsonTypeModelResourceFactory extends AbstractTypeModelResourceFacto
 
 	@SuppressWarnings("unchecked")
 	public void register(Map<String, Object> resourceMap) {
-		TypeModelResource metaSetup=InstanceUtil.getInstance(TypeModelResourceImpl.class);
+		TypeModelResourceImpl metaSetup=InstanceUtil.getInstance(TypeModelResourceImpl.class);
+		String id=(String) resourceMap.remove("id");
+		Assertion.notEmpty(id, "Invalid id for TypeModelResource");
+		metaSetup.setId(id);
+		String type=(String) resourceMap.remove("type");
+		Assertion.notEmpty(type, "Invalid type for TypeModelResource");
+		metaSetup.setType(type);
+		Class<?> typeClass=ClassUtil.getClass(type);
+		Assertion.notEmpty(typeClass, "Not found type for TypeModelResource");
+		String name=(String) resourceMap.remove("name");
+		if(StringUtil.isEmpty(name)) {
+			name=typeClass.getSimpleName();
+		}
+		metaSetup.setName(name);
+		String access=(String) resourceMap.get("access");
+		if(StringUtil.isEmpty(access)) {
+			access=Access.PUBLIC.toString();
+		}
+		metaSetup.setAccess(access);
+		Map<String, Field> fieldMap = FieldUtil.getAllFieldMap(typeClass, Access.PRIVATE);
 		Map<String,Map<String,Object>> properties=(Map<String, Map<String, Object>>) resourceMap.remove("properties");
 		if(properties!=null) {
 			properties.forEach((key,value)->{
-				metaSetup.getProperties().put(key, InstanceUtil.getInstance(PropertyModelResourceObject.class,value));
+				Field field = fieldMap.get(key);
+				Assertion.notEmpty(field, "Property not found for "+type+" of "+id);
+				if(!ReflectionUtils.isProjectClass(field.getType())) {
+					 metaSetup.getProperties().put(key, InstanceUtil.getInstance(PropertyModelResourceImpl.class,value));
+				}else {
+				     metaSetup.getProperties().put(key, InstanceUtil.getInstance(RelationPropertyModelResourceImpl.class,value));
+				}
 			});
 		}
-		PropertyAccessorUtil.setProperties(metaSetup, resourceMap,Access.PRIVATE);
+		PropertyAccessorUtil.setProperties(metaSetup, resourceMap, Access.PRIVATE);
 		this.register(metaSetup.getId(), metaSetup);
 	}
 	

@@ -30,12 +30,11 @@ public class TypeModelResourceImpl extends AbstractTypeModelResource{
 				+" id=" + getId() + 
 				"  type=" + getType() + 
 				", extend=" + getExtend() + 
-				", constructor="+ getConstructor() +
-				", getProperties=" + getProperties() +
-				", relations=" + getRelations()+ 
-				", scope=" + getScope() + 
+				", access=" + getAccess()+ 
 				", name=" + getName() + 
 				", access="+ getAccess() +
+				", constructor="+ getConstructor() +
+				", getProperties=" + getProperties() +
 				"]";
 	}
 	

@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import org.brijframework.group.Group;
 import org.brijframework.model.factories.asm.AbstractModelMetaDataFactory;
 import org.brijframework.model.factories.metadata.TypeModelMetaDataFactory;
+import org.brijframework.model.factories.resource.impl.TypeModelResourceFactoryImpl;
 import org.brijframework.model.helper.MetaDataHelper;
 import org.brijframework.model.metadata.PropertyModelMetaDataGroup;
 import org.brijframework.model.metadata.TypeModelMetaData;
@@ -38,6 +39,18 @@ public abstract class AbstractTypeModelMetaDataFactory<K,T extends TypeModelMeta
 		getContainer().merge(metaInfo.getName(), group);
 	}
 	
+	public TypeModelMetaData findOrCreate(K model) {
+		TypeModelMetaData find = find(model);
+		if(find!=null) {
+			return find;
+		}
+		TypeModelResource typeModelResource = TypeModelResourceFactoryImpl.getFactory().find((String)model);
+		if(typeModelResource==null) {
+			return null;
+		}
+		return register(model,typeModelResource);
+	}
+	
 	public TypeModelMetaData register(String target) {
 		Class<?> targetClass =ClassUtil.getClass(target);
 		return register(targetClass);
@@ -51,11 +64,11 @@ public abstract class AbstractTypeModelMetaDataFactory<K,T extends TypeModelMeta
 		return typeModelMetaData;
 	}
 	
-	public void register(K key, TypeModelResource metaSetup) {
+	public TypeModelMetaData register(K key, TypeModelResource metaSetup) {
 		Class<?> target=ClassUtil.getClass(metaSetup.getType());
 		Assertion.notNull(target, "Target class not found for "+metaSetup.getId());;
 		TypeModelMetaData classMetaInfo=MetaDataHelper.getModelInfo(getContainer(), target, metaSetup);
-		register(key,classMetaInfo);
+		return register(key,classMetaInfo);
 	}
 	
 	@SuppressWarnings("unchecked")

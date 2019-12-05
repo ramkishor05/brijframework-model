@@ -13,12 +13,8 @@ public abstract class AbstractTypeModelResource extends AbstractModelResource<St
 	private String extend;
 
 	private Map<String, PropertyModelResource<?>> properties;
-	
-	private Map<String, PropertyModelResource<?>> relations;
-	
+		
 	private ConstructorModelResource constructor;
-	
-	private String scope;
 	
 	public String getType() {
 		return type;
@@ -53,26 +49,6 @@ public abstract class AbstractTypeModelResource extends AbstractModelResource<St
 
 	public void setProperties(Map<String, PropertyModelResource<?>> properties) {
 		this.properties = properties;
-	}
-	
-	public Map<String, PropertyModelResource<?>> getRelations() {
-		if(relations==null) {
-			relations=new HashMap<>();
-		}
-		return relations;
-	}
-	
-	public void setRelations(Map<String, PropertyModelResource<?>> relations) {
-		this.relations = relations;
-	}
-
-	@Override
-	public String getScope() {
-		return this.scope;
-	}
-	
-	public void setScope(String scope) {
-		this.scope = scope;
 	}
 
 }

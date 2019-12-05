@@ -35,4 +35,5 @@ public final class TypeModelResourceFactoryImpl extends AbstractTypeModelResourc
 		}
 		return this;
 	}
+
 }
