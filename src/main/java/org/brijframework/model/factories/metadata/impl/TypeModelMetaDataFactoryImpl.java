@@ -1,13 +1,13 @@
 package org.brijframework.model.factories.metadata.impl;
 
 import org.brijframework.container.Container;
+import org.brijframework.model.diffination.TypeModelDiffination;
 import org.brijframework.model.factories.metadata.asm.AbstractTypeModelMetaDataFactory;
-import org.brijframework.model.metadata.TypeModelMetaData;
 import org.brijframework.support.config.OrderOn;
 import org.brijframework.support.config.SingletonFactory;
 
 @OrderOn(3)
-public final class TypeModelMetaDataFactoryImpl extends AbstractTypeModelMetaDataFactory<String,TypeModelMetaData> {
+public final class TypeModelMetaDataFactoryImpl extends AbstractTypeModelMetaDataFactory<String,TypeModelDiffination> {
 	
 	protected TypeModelMetaDataFactoryImpl() {
 	}
@@ -31,7 +31,7 @@ public final class TypeModelMetaDataFactoryImpl extends AbstractTypeModelMetaDat
 		}
 		container.getCache().forEach((groupkey, group)->{
 			group.getCache().forEach((key,metadata)->{
-				this.getCache().put((String)key, (TypeModelMetaData)metadata);
+				this.getCache().put((String)key, (TypeModelDiffination)metadata);
 			});
 		});
 		return this;

@@ -4,11 +4,11 @@ import java.util.Map.Entry;
 
 import org.brijframework.factories.impl.AbstractFactory;
 import org.brijframework.group.Group;
-import org.brijframework.model.ModelMetaData;
-import org.brijframework.model.factories.ModelMetaDataFactory;
+import org.brijframework.model.ModelDiffination;
+import org.brijframework.model.factories.ModelDiffinationFactory;
 import org.brijframework.util.printer.LoggerConsole;
 
-public abstract class AbstractModelMetaDataFactory<K, T extends ModelMetaData<?>> extends AbstractFactory<K, T> implements ModelMetaDataFactory<K, T> {
+public abstract class AbstractModelMetaDataFactory<K, T extends ModelDiffination<?>> extends AbstractFactory<K, T> implements ModelDiffinationFactory<K, T> {
 	
 	@Override
 	public AbstractModelMetaDataFactory<K, T> clear() {

@@ -5,20 +5,20 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.brijframework.group.Group;
+import org.brijframework.model.diffination.PropertyModelMetaDataGroup;
+import org.brijframework.model.diffination.TypeModelDiffination;
 import org.brijframework.model.factories.asm.AbstractModelMetaDataFactory;
-import org.brijframework.model.factories.metadata.TypeModelMetaDataFactory;
+import org.brijframework.model.factories.metadata.TypeModelDiffinationFactory;
 import org.brijframework.model.factories.resource.impl.TypeModelResourceFactoryImpl;
 import org.brijframework.model.helper.MetaDataHelper;
-import org.brijframework.model.metadata.PropertyModelMetaDataGroup;
-import org.brijframework.model.metadata.TypeModelMetaData;
 import org.brijframework.model.resource.TypeModelResource;
 import org.brijframework.support.model.Model;
 import org.brijframework.util.asserts.Assertion;
 import org.brijframework.util.reflect.ClassUtil;
 
-public abstract class AbstractTypeModelMetaDataFactory<K,T extends TypeModelMetaData> extends AbstractModelMetaDataFactory<K, TypeModelMetaData> implements TypeModelMetaDataFactory<K, TypeModelMetaData>{
+public abstract class AbstractTypeModelMetaDataFactory<K,T extends TypeModelDiffination> extends AbstractModelMetaDataFactory<K, TypeModelDiffination> implements TypeModelDiffinationFactory<K, TypeModelDiffination>{
 	
-	public TypeModelMetaData getContainer(K modelKey) {
+	public TypeModelDiffination getContainer(K modelKey) {
 		if (getContainer() == null) {
 			return null;
 		}
@@ -26,7 +26,7 @@ public abstract class AbstractTypeModelMetaDataFactory<K,T extends TypeModelMeta
 	}
 
 	@Override
-	public void loadContainer(K key, TypeModelMetaData metaInfo) {
+	public void loadContainer(K key, TypeModelDiffination metaInfo) {
 		if (getContainer() == null) {
 			return;
 		}
@@ -39,8 +39,8 @@ public abstract class AbstractTypeModelMetaDataFactory<K,T extends TypeModelMeta
 		getContainer().merge(metaInfo.getName(), group);
 	}
 	
-	public TypeModelMetaData findOrCreate(K model) {
-		TypeModelMetaData find = find(model);
+	public TypeModelDiffination findOrCreate(K model) {
+		TypeModelDiffination find = find(model);
 		if(find!=null) {
 			return find;
 		}
@@ -51,50 +51,50 @@ public abstract class AbstractTypeModelMetaDataFactory<K,T extends TypeModelMeta
 		return register(model,typeModelResource);
 	}
 	
-	public TypeModelMetaData register(String target) {
+	public TypeModelDiffination register(String target) {
 		Class<?> targetClass =ClassUtil.getClass(target);
 		return register(targetClass);
 	}
 
 	@SuppressWarnings("unchecked")
-	public TypeModelMetaData register(Class<?> targetClass) {
+	public TypeModelDiffination register(Class<?> targetClass) {
 		Assertion.notNull(targetClass, "Target not found for : "+targetClass);
-		TypeModelMetaData typeModelMetaData = MetaDataHelper.getModelInfo(getContainer(),targetClass);
+		TypeModelDiffination typeModelMetaData = MetaDataHelper.getModelInfo(getContainer(),targetClass);
 		register((K)typeModelMetaData.getId(), typeModelMetaData);
 		return typeModelMetaData;
 	}
 	
-	public TypeModelMetaData register(K key, TypeModelResource metaSetup) {
+	public TypeModelDiffination register(K key, TypeModelResource metaSetup) {
 		Class<?> target=ClassUtil.getClass(metaSetup.getType());
 		Assertion.notNull(target, "Target class not found for "+metaSetup.getId());;
-		TypeModelMetaData classMetaInfo=MetaDataHelper.getModelInfo(getContainer(), target, metaSetup);
+		TypeModelDiffination classMetaInfo=MetaDataHelper.getModelInfo(getContainer(), target, metaSetup);
 		return register(key,classMetaInfo);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void register(Class<?> target, TypeModelResource metaSetup) {
-		TypeModelMetaData typeModelMetaData = MetaDataHelper.getModelInfo(getContainer(),target, metaSetup);
+		TypeModelDiffination typeModelMetaData = MetaDataHelper.getModelInfo(getContainer(),target, metaSetup);
 		register((K)typeModelMetaData.getId(),typeModelMetaData);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void register(Class<?> target, Model metaSetup) {
-		TypeModelMetaData typeModelMetaData = MetaDataHelper.getModelInfo(getContainer(),target, metaSetup);
+		TypeModelDiffination typeModelMetaData = MetaDataHelper.getModelInfo(getContainer(),target, metaSetup);
 		register((K)typeModelMetaData.getId(), typeModelMetaData);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public TypeModelMetaData load(Class<?> targetClass) {
-		TypeModelMetaData metaInfo =find((K)targetClass.getSimpleName());
+	public TypeModelDiffination load(Class<?> targetClass) {
+		TypeModelDiffination metaInfo =find((K)targetClass.getSimpleName());
 		if(metaInfo!=null) {
 			return metaInfo;
 		}
 		return register(targetClass);
 	}
 
-	public List<TypeModelMetaData> findByType(Class<?> model) {
-		List<TypeModelMetaData> list=new ArrayList<>();
-		for(TypeModelMetaData meta:getCache().values()) {
+	public List<TypeModelDiffination> findByType(Class<?> model) {
+		List<TypeModelDiffination> list=new ArrayList<>();
+		for(TypeModelDiffination meta:getCache().values()) {
 			if(model.isAssignableFrom(meta.getType())) {
 				list.add(meta);
 			}
@@ -102,8 +102,8 @@ public abstract class AbstractTypeModelMetaDataFactory<K,T extends TypeModelMeta
 		return list;
 	}
 	
-	public TypeModelMetaData findById(K id) {
-		for(Entry<K, TypeModelMetaData> entry:getCache().entrySet()) {
+	public TypeModelDiffination findById(K id) {
+		for(Entry<K, TypeModelDiffination> entry:getCache().entrySet()) {
 			if(entry.getKey().equals(id)) {
 				return entry.getValue();
 			}
@@ -112,7 +112,7 @@ public abstract class AbstractTypeModelMetaDataFactory<K,T extends TypeModelMeta
 	}
 	
 	public PropertyModelMetaDataGroup getPropertyMetaData(K typeId, String _keyPath) {
-		TypeModelMetaData classMeta=findById(typeId);
+		TypeModelDiffination classMeta=findById(typeId);
 		if(classMeta==null) {
 			return null;
 		}

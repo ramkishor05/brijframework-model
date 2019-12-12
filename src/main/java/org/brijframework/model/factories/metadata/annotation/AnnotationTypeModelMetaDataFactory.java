@@ -1,13 +1,13 @@
 package org.brijframework.model.factories.metadata.annotation;
 
+import org.brijframework.model.diffination.TypeModelDiffination;
 import org.brijframework.model.factories.metadata.asm.AbstractTypeModelMetaDataFactory;
-import org.brijframework.model.factories.resource.annotation.AnnotationTypeModelResourceFactory;
-import org.brijframework.model.metadata.TypeModelMetaData;
+import org.brijframework.model.factories.resource.impl.AnnotationTypeModelResourceFactory;
 import org.brijframework.support.config.OrderOn;
 import org.brijframework.support.config.SingletonFactory;
 
 @OrderOn(1)
-public class AnnotationTypeModelMetaDataFactory extends AbstractTypeModelMetaDataFactory<String,TypeModelMetaData> {
+public class AnnotationTypeModelMetaDataFactory extends AbstractTypeModelMetaDataFactory<String,TypeModelDiffination> {
 
 	protected AnnotationTypeModelMetaDataFactory() {
 	}

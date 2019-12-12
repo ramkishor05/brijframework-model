@@ -3,7 +3,7 @@ package org.brijframework.model.context;
 import java.util.List;
 
 import org.brijframework.context.module.ModuleContext;
-import org.brijframework.model.ModelMetaData;
+import org.brijframework.model.ModelDiffination;
 import org.brijframework.model.ModelResource;
 
 public interface ModelContext extends ModuleContext{
@@ -22,11 +22,11 @@ public interface ModelContext extends ModuleContext{
 	
 	public List<?> getModelMetaDataNames(String model);
 	
-	public ModelMetaData<?> getModelMetaData(String name);
+	public ModelDiffination<?> getModelMetaData(String name);
 	
-	public List<? extends ModelMetaData<?>> getModelMetaDataList();
+	public List<? extends ModelDiffination<?>> getModelMetaDataList();
 	
-	public List<? extends ModelMetaData<?>> getModelMetaDataList(String model);
+	public List<? extends ModelDiffination<?>> getModelMetaDataList(String model);
 
-	public List<? extends ModelMetaData<?>> getModelMetaDataList(Class<?> metaClass);
+	public List<? extends ModelDiffination<?>> getModelMetaDataList(Class<?> metaClass);
 }

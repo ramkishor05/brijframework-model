@@ -10,16 +10,16 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.brijframework.container.Container;
-import org.brijframework.model.metadata.ConstructorModelMetaData;
-import org.brijframework.model.metadata.PropertyModelMetaData;
-import org.brijframework.model.metadata.PropertyModelMetaDataGroup;
-import org.brijframework.model.metadata.RelationPropertyModelMetaData;
-import org.brijframework.model.metadata.TypeModelMetaData;
-import org.brijframework.model.metadata.impl.TypeModelMetaDataImpl;
-import org.brijframework.model.metadata.impl.ConstructorModelMetaDataObject;
-import org.brijframework.model.metadata.impl.PropertyModelMetaDataGroupObject;
-import org.brijframework.model.metadata.impl.PropertyModelMetaDataObject;
-import org.brijframework.model.metadata.impl.RelationPropertyModelMetaDataObject;
+import org.brijframework.model.diffination.ConstructorModelMetaData;
+import org.brijframework.model.diffination.PropertyModelMetaData;
+import org.brijframework.model.diffination.PropertyModelMetaDataGroup;
+import org.brijframework.model.diffination.RelationPropertyModelMetaData;
+import org.brijframework.model.diffination.TypeModelDiffination;
+import org.brijframework.model.diffination.impl.ConstructorModelMetaDataObject;
+import org.brijframework.model.diffination.impl.PropertyModelMetaDataGroupObject;
+import org.brijframework.model.diffination.impl.PropertyModelMetaDataObject;
+import org.brijframework.model.diffination.impl.RelationPropertyModelMetaDataObject;
+import org.brijframework.model.diffination.impl.TypeModelMetaDataImpl;
 import org.brijframework.model.resource.TypeModelResource;
 import org.brijframework.model.resource.ConstructorModelResource;
 import org.brijframework.model.resource.PropertyModelResource;
@@ -38,7 +38,7 @@ import org.brijframework.util.support.Constants;
 
 public class MetaDataHelper {
 	
-	public static TypeModelMetaData getModelInfo(Container container, Class<?> targetClass) {
+	public static TypeModelDiffination getModelInfo(Container container, Class<?> targetClass) {
 		String id=targetClass.getSimpleName();
 		String name=targetClass.getSimpleName();
 		TypeModelMetaDataImpl owner=new TypeModelMetaDataImpl(targetClass,id,name);
@@ -50,7 +50,7 @@ public class MetaDataHelper {
 		return owner;
 	}
 
-	public static TypeModelMetaData getModelInfo(Container container, Class<?> _class, TypeModelResource metaSetup) {
+	public static TypeModelDiffination getModelInfo(Container container, Class<?> _class, TypeModelResource metaSetup) {
 		Objects.requireNonNull(metaSetup, "MetaSetup should be required");
 		final Class<?>targetClass =_class==null?ClassUtil.getClass(metaSetup.getType()):_class;
 		Objects.requireNonNull(targetClass, "Target should be required");
@@ -153,7 +153,7 @@ public class MetaDataHelper {
 		return propertyGroup;
 	}
 
-	public static TypeModelMetaData getModelInfo(Container container,Class<?> target, Model metaSetup) {
+	public static TypeModelDiffination getModelInfo(Container container,Class<?> target, Model metaSetup) {
 		Objects.requireNonNull(target, "Target should be required");
 		Objects.requireNonNull(metaSetup, "Meta should be required");
 		String id=metaSetup.id()==null|| metaSetup.id().equals(Constants.DEFAULT)?target.getSimpleName():metaSetup.id();
@@ -248,7 +248,7 @@ public class MetaDataHelper {
 	 * Default property builder
 	 */
 	
-	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, AccessibleObject target) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, AccessibleObject target) {
 		if (target instanceof Field) {
 			return buildFieldMeta(owner, (Field) target);
 		} else {
@@ -256,7 +256,7 @@ public class MetaDataHelper {
 		}
 	}
 
-	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner,Method target) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelDiffination owner,Method target) {
 		PropertyModelMetaDataObject metaInfo = new PropertyModelMetaDataObject(owner, target);
 		metaInfo.setId(target.getName());
 		metaInfo.setName(target.getName());
@@ -265,7 +265,7 @@ public class MetaDataHelper {
 		return metaInfo;
 	}
 
-	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Field target) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, Field target) {
 		RelationPropertyModelMetaDataObject metaInfo = new RelationPropertyModelMetaDataObject(owner, target);
 		metaInfo.setId(target.getName());
 		metaInfo.setName(target.getName());
@@ -274,7 +274,7 @@ public class MetaDataHelper {
 		return metaInfo;
 	}
 
-	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, AccessibleObject target, Property property) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, AccessibleObject target, Property property) {
 		if (target instanceof Field) {
 			return buildFieldMeta(owner, (Field) target, property);
 		} else {
@@ -282,7 +282,7 @@ public class MetaDataHelper {
 		}
 	}
 	
-	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Field target,Property property) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, Field target,Property property) {
 		PropertyModelMetaDataObject metaInfo = new PropertyModelMetaDataObject(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);
@@ -293,7 +293,7 @@ public class MetaDataHelper {
 		return metaInfo;
 	}
 	
-	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Method target,Property property) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, Method target,Property property) {
 		PropertyModelMetaDataObject metaInfo = new PropertyModelMetaDataObject(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);
@@ -304,7 +304,7 @@ public class MetaDataHelper {
 		return metaInfo;
 	}
 
-	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, AccessibleObject target, PropertyModelResource<?> metaSetup) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, AccessibleObject target, PropertyModelResource<?> metaSetup) {
 		if (target instanceof Field) {
 			return buildFieldMeta(owner, (Field) target, metaSetup);
 		} else {
@@ -312,7 +312,7 @@ public class MetaDataHelper {
 		}
 	}
 	
-	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Method target,PropertyModelResource<?> property) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, Method target,PropertyModelResource<?> property) {
 		PropertyModelMetaDataObject metaInfo = new PropertyModelMetaDataObject(owner, target);
 		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
 		metaInfo.setId(id);
@@ -323,7 +323,7 @@ public class MetaDataHelper {
 		return metaInfo;
 	}
 	
-	public static PropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Field target,PropertyModelResource<?> property) {
+	public static PropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, Field target,PropertyModelResource<?> property) {
 		PropertyModelMetaDataObject metaInfo = new PropertyModelMetaDataObject(owner, target);
 		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
 		metaInfo.setId(id);
@@ -344,7 +344,7 @@ public class MetaDataHelper {
 	 * @return
 	 */
 	
-	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, AccessibleObject target,RelationPropertyModelResource<?> metaSetup) {
+	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, AccessibleObject target,RelationPropertyModelResource<?> metaSetup) {
 		if (target instanceof Field) {
 			return buildFieldMeta(owner, (Field) target, metaSetup);
 		} else {
@@ -352,7 +352,7 @@ public class MetaDataHelper {
 		}
 	}
 	
-	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Field target,RelationPropertyModelResource<?> property) {
+	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, Field target,RelationPropertyModelResource<?> property) {
 		RelationPropertyModelMetaDataObject metaInfo = new RelationPropertyModelMetaDataObject(owner, target);
 		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
 		metaInfo.setId(id);
@@ -364,7 +364,7 @@ public class MetaDataHelper {
 	}
 	
 
-	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Method target,RelationPropertyModelResource<?> property) {
+	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, Method target,RelationPropertyModelResource<?> property) {
 		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
 		RelationPropertyModelMetaDataObject metaInfo = new RelationPropertyModelMetaDataObject(owner, target);
 		metaInfo.setId(id);
@@ -376,7 +376,7 @@ public class MetaDataHelper {
 	}
 	
 	
-	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, AccessibleObject target, Relation property) {
+	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, AccessibleObject target, Relation property) {
 		if (target instanceof Field) {
 			return buildFieldMeta(owner, (Field) target, property);
 		} else {
@@ -384,7 +384,7 @@ public class MetaDataHelper {
 		}
 	}
 	
-	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelMetaData owner, Field target,Relation property) {
+	public static RelationPropertyModelMetaData buildFieldMeta(TypeModelDiffination owner, Field target,Relation property) {
 		RelationPropertyModelMetaDataObject metaInfo = new RelationPropertyModelMetaDataObject(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);
@@ -394,7 +394,7 @@ public class MetaDataHelper {
 		return metaInfo;
 	}
 	
-	public static RelationPropertyModelMetaDataObject buildFieldMeta(TypeModelMetaData owner, Method target,Relation property) {
+	public static RelationPropertyModelMetaDataObject buildFieldMeta(TypeModelDiffination owner, Method target,Relation property) {
 		RelationPropertyModelMetaDataObject metaInfo = new RelationPropertyModelMetaDataObject(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);
