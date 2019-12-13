@@ -5,8 +5,8 @@ import org.brijframework.group.Group;
 import org.brijframework.model.container.ModelContainer;
 import org.brijframework.model.factories.metadata.TypeModelDiffinationFactory;
 import org.brijframework.model.group.ModelMetaDataGroup;
-import org.brijframework.support.config.DepandOn;
-import org.brijframework.support.config.SingletonFactory;
+import org.brijframework.support.factories.SingletonFactory;
+import org.brijframework.support.ordering.DepandOn;
 import org.brijframework.util.factories.ReflectionFactory;
 import org.brijframework.util.reflect.InstanceUtil;
 

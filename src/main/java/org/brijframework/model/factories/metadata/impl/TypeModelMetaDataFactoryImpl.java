@@ -3,8 +3,8 @@ package org.brijframework.model.factories.metadata.impl;
 import org.brijframework.container.Container;
 import org.brijframework.model.diffination.TypeModelDiffination;
 import org.brijframework.model.factories.metadata.asm.AbstractTypeModelMetaDataFactory;
-import org.brijframework.support.config.OrderOn;
-import org.brijframework.support.config.SingletonFactory;
+import org.brijframework.support.factories.SingletonFactory;
+import org.brijframework.support.ordering.OrderOn;
 
 @OrderOn(3)
 public final class TypeModelMetaDataFactoryImpl extends AbstractTypeModelMetaDataFactory<String,TypeModelDiffination> {

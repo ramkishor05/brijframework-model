@@ -14,7 +14,7 @@ import org.brijframework.model.mapper.model.PropertyModelMapperResource;
 import org.brijframework.model.mapper.model.TypeModelMapperResource;
 import org.brijframework.resources.factory.json.JsonResourceFactory;
 import org.brijframework.resources.files.json.JsonResource;
-import org.brijframework.support.config.SingletonFactory;
+import org.brijframework.support.factories.SingletonFactory;
 import org.brijframework.util.asserts.Assertion;
 import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.reflect.InstanceUtil;

@@ -5,9 +5,9 @@ import java.util.Map;
 import org.brijframework.factories.impl.module.AbstractModuleFactory;
 import org.brijframework.model.mapper.factories.ModelMapperFactory;
 import org.brijframework.model.mapper.model.TypeModelMapperResource;
-import org.brijframework.support.config.SingletonFactory;
-import org.brijframework.support.mapper.Mapper;
-import org.brijframework.support.mapper.Mappers;
+import org.brijframework.support.factories.SingletonFactory;
+import org.brijframework.support.model.mapper.ModelMapper;
+import org.brijframework.support.model.mapper.ModelMappers;
 import org.brijframework.util.accessor.PropertyAccessorUtil;
 import org.brijframework.util.factories.ReflectionFactory;
 import org.brijframework.util.reflect.AnnotationUtil;
@@ -36,17 +36,17 @@ public class AnnotationTypeModelMapperResourceFactory extends AbstractModuleFact
 	}
 
 	public void register(Class<?> target) {
-		if (target.isAnnotationPresent(Mappers.class)) {
-			Mappers mappers=target.getAnnotation(Mappers.class);
-			for(Mapper mapper:mappers.value()) {
+		if (target.isAnnotationPresent(ModelMappers.class)) {
+			ModelMappers mappers=target.getAnnotation(ModelMappers.class);
+			for(ModelMapper mapper:mappers.value()) {
 				register(target, mapper);
 			}
-		} else if (target.isAnnotationPresent(Mapper.class)) {
-			register(target, target.getAnnotation(Mapper.class));
+		} else if (target.isAnnotationPresent(ModelMapper.class)) {
+			register(target, target.getAnnotation(ModelMapper.class));
 		}
 	}
 
-	public TypeModelMapperResource register(Class<?> target, Mapper mapper) {
+	public TypeModelMapperResource register(Class<?> target, ModelMapper mapper) {
 		Map<String, Object> properties = AnnotationUtil.getAnnotationData(mapper);
 		TypeModelMapperResource owner = new TypeModelMapperResource();
 		PropertyAccessorUtil.setProperties(owner, properties);

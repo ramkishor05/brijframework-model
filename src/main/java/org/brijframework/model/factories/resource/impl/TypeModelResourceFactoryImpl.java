@@ -4,8 +4,8 @@ import org.brijframework.container.Container;
 import org.brijframework.group.Group;
 import org.brijframework.model.factories.resource.asm.AbstractTypeModelResourceFactory;
 import org.brijframework.model.resource.TypeModelResource;
-import org.brijframework.support.config.OrderOn;
-import org.brijframework.support.config.SingletonFactory;
+import org.brijframework.support.factories.SingletonFactory;
+import org.brijframework.support.ordering.OrderOn;
 
 @OrderOn(3)
 public final class TypeModelResourceFactoryImpl extends AbstractTypeModelResourceFactory<String, TypeModelResource>{

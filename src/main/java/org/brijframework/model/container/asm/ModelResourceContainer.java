@@ -5,7 +5,7 @@ import org.brijframework.group.Group;
 import org.brijframework.model.container.ModelContainer;
 import org.brijframework.model.factories.resource.TypeModelResourceFactory;
 import org.brijframework.model.group.ModelMetaDataGroup;
-import org.brijframework.support.config.SingletonFactory;
+import org.brijframework.support.factories.SingletonFactory;
 import org.brijframework.util.factories.ReflectionFactory;
 import org.brijframework.util.reflect.InstanceUtil;
 

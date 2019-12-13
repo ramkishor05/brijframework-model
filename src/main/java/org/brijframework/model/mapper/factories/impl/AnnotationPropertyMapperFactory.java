@@ -8,10 +8,10 @@ import org.brijframework.model.diffination.TypeModelDiffination;
 import org.brijframework.model.factories.metadata.impl.TypeModelMetaDataFactoryImpl;
 import org.brijframework.model.mapper.factories.ModelMapperFactory;
 import org.brijframework.model.mapper.model.PropertyModelMapperResource;
-import org.brijframework.support.config.DepandOn;
-import org.brijframework.support.config.SingletonFactory;
-import org.brijframework.support.mapper.Mapper;
-import org.brijframework.support.mapper.Mappers;
+import org.brijframework.support.factories.SingletonFactory;
+import org.brijframework.support.model.mapper.ModelMapper;
+import org.brijframework.support.model.mapper.ModelMappers;
+import org.brijframework.support.ordering.DepandOn;
 import org.brijframework.util.accessor.PropertyAccessorUtil;
 import org.brijframework.util.factories.ReflectionFactory;
 import org.brijframework.util.reflect.AnnotationUtil;
@@ -44,18 +44,18 @@ public class AnnotationPropertyMapperFactory extends AbstractModuleFactory<Strin
 
 	public void register(Class<?> target) {
 		for (Field field : FieldUtil.getAllField(target, Access.PRIVATE)) {
-			if (field.isAnnotationPresent(Mappers.class)) {
-				Mappers mappers=field.getAnnotation(Mappers.class);
-				for(Mapper mapper:mappers.value()) {
+			if (field.isAnnotationPresent(ModelMappers.class)) {
+				ModelMappers mappers=field.getAnnotation(ModelMappers.class);
+				for(ModelMapper mapper:mappers.value()) {
 					register(target, field, mapper);
 				}
-			} else if (field.isAnnotationPresent(Mapper.class)) {
-				register(target, field, field.getAnnotation(Mapper.class));
+			} else if (field.isAnnotationPresent(ModelMapper.class)) {
+				register(target, field, field.getAnnotation(ModelMapper.class));
 			}
 		}
 	}
 
-	public PropertyModelMapperResource register(Class<?> target, Field field, Mapper mapper) {
+	public PropertyModelMapperResource register(Class<?> target, Field field, ModelMapper mapper) {
 		Map<String, Object> properties = AnnotationUtil.getAnnotationData(mapper);
 		PropertyModelMapperResource modelMap = new PropertyModelMapperResource();
 		PropertyAccessorUtil.setProperties(modelMap, properties);

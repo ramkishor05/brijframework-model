@@ -20,14 +20,14 @@ import org.brijframework.model.diffination.impl.PropertyModelMetaDataGroupObject
 import org.brijframework.model.diffination.impl.PropertyModelMetaDataObject;
 import org.brijframework.model.diffination.impl.RelationPropertyModelMetaDataObject;
 import org.brijframework.model.diffination.impl.TypeModelMetaDataImpl;
-import org.brijframework.model.resource.TypeModelResource;
 import org.brijframework.model.resource.ConstructorModelResource;
 import org.brijframework.model.resource.PropertyModelResource;
 import org.brijframework.model.resource.RelationPropertyModelResource;
+import org.brijframework.model.resource.TypeModelResource;
 import org.brijframework.support.model.Construct;
 import org.brijframework.support.model.Model;
-import org.brijframework.support.model.Property;
-import org.brijframework.support.model.Relation;
+import org.brijframework.support.model.properties.Property;
+import org.brijframework.support.model.properties.Relation;
 import org.brijframework.util.accessor.MetaAccessorUtil;
 import org.brijframework.util.casting.CastingUtil;
 import org.brijframework.util.reflect.ClassUtil;

@@ -3,7 +3,7 @@ package org.brijframework.model.mapper.factories.impl;
 import org.brijframework.factories.impl.module.AbstractModuleFactory;
 import org.brijframework.model.mapper.factories.ModelMapperFactory;
 import org.brijframework.model.mapper.model.TypeModelMapperResource;
-import org.brijframework.support.config.SingletonFactory;
+import org.brijframework.support.factories.SingletonFactory;
 
 public class TypeModelMapperResourceImpl extends AbstractModuleFactory<String,TypeModelMapperResource> implements ModelMapperFactory<String,TypeModelMapperResource> {
 
