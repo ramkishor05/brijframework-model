@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import org.brijframework.factories.impl.module.AbstractModuleFactory;
-import org.brijframework.model.diffination.TypeModelDiffination;
+import org.brijframework.model.diffination.ModelTypeDiffination;
 import org.brijframework.model.factories.metadata.impl.TypeModelMetaDataFactoryImpl;
 import org.brijframework.model.mapper.factories.ModelMapperFactory;
 import org.brijframework.model.mapper.model.PropertyModelMapperResource;
@@ -60,7 +60,7 @@ public class AnnotationPropertyMapperFactory extends AbstractModuleFactory<Strin
 		PropertyModelMapperResource modelMap = new PropertyModelMapperResource();
 		PropertyAccessorUtil.setProperties(modelMap, properties);
 		modelMap.setId(target.getSimpleName() + "_" + mapper.source());
-		TypeModelDiffination owner = TypeModelMetaDataFactoryImpl.getFactory().load(target);
+		ModelTypeDiffination owner = TypeModelMetaDataFactoryImpl.getFactory().load(target);
 		modelMap.setName(field.getName());
 		modelMap.setOwner(owner);
 		modelMap.setTarget(field);

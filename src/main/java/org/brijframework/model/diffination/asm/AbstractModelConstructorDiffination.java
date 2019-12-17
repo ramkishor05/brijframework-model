@@ -5,20 +5,20 @@ import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.brijframework.model.diffination.ConstructorModelMetaData;
-import org.brijframework.model.diffination.ParameterModelMetaData;
-import org.brijframework.model.diffination.TypeModelDiffination;
+import org.brijframework.model.diffination.ModelConstructorDiffination;
+import org.brijframework.model.diffination.ModelParameterDiffination;
+import org.brijframework.model.diffination.ModelTypeDiffination;
 
-public abstract class AbstractConstructorModelMetaData extends AbstractModelMetaData<Constructor<?>> implements ConstructorModelMetaData{
+public abstract class AbstractModelConstructorDiffination extends AbstractModelDiffination<Constructor<?>> implements ModelConstructorDiffination{
 
-	private TypeModelDiffination owner;
+	private ModelTypeDiffination owner;
 	private Constructor<?> target;
-	private Set<ParameterModelMetaData<?>> parameters;
+	private Set<ModelParameterDiffination<?>> parameters;
 	private Type[] arguments;
 	private Object[] values;
 	
 	@Override
-	public TypeModelDiffination getOwner() {
+	public ModelTypeDiffination getOwner() {
 		return owner;
 	}
 
@@ -28,7 +28,7 @@ public abstract class AbstractConstructorModelMetaData extends AbstractModelMeta
 	}
 
 	@Override
-	public Set<ParameterModelMetaData<?>> getParameters() {
+	public Set<ModelParameterDiffination<?>> getParameters() {
 		if(parameters==null) {
 			parameters=new HashSet<>();
 		}
@@ -36,7 +36,7 @@ public abstract class AbstractConstructorModelMetaData extends AbstractModelMeta
 	}
 
 	@Override
-	public void setParameters(Set<ParameterModelMetaData<?>> parametersInfo) {
+	public void setParameters(Set<ModelParameterDiffination<?>> parametersInfo) {
 		this.parameters=parametersInfo;
 	}
 
@@ -50,7 +50,7 @@ public abstract class AbstractConstructorModelMetaData extends AbstractModelMeta
 		return arguments;
 	}
 
-	public void setOwner(TypeModelDiffination owner) {
+	public void setOwner(ModelTypeDiffination owner) {
 		this.owner = owner;
 	}
 

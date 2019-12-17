@@ -3,7 +3,7 @@ package org.brijframework.model.diffination.asm;
 import org.brijframework.model.ModelDiffination;
 import org.brijframework.util.support.Access;
 
-public abstract class AbstractModelMetaData<E> implements ModelDiffination<E>{
+public abstract class AbstractModelDiffination<E> implements ModelDiffination<E>{
 	
 	private String id;
 	private String name;

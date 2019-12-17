@@ -2,16 +2,16 @@ package org.brijframework.model.diffination.asm;
 
 import java.lang.reflect.Method;
 
-import org.brijframework.model.diffination.MethodModelMetaData;
-import org.brijframework.model.diffination.TypeModelDiffination;
+import org.brijframework.model.diffination.ModelMethodDiffination;
+import org.brijframework.model.diffination.ModelTypeDiffination;
 
-public abstract class AbstractMethodModelMetaData extends AbstractModelMetaData<Method> implements MethodModelMetaData {
+public abstract class AbstractModelMethodDiffination extends AbstractModelDiffination<Method> implements ModelMethodDiffination {
 
-	private TypeModelDiffination owner;
+	private ModelTypeDiffination owner;
 	private Method target;
 	private Object value;
 	
-	public TypeModelDiffination getOwner() {
+	public ModelTypeDiffination getOwner() {
 		return owner;
 	}
 	

@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 
 import org.brijframework.model.ModelDiffination;
 
-public interface PropertyModelMetaData extends ModelDiffination<AccessibleObject>{
+public interface ModelPropertyDiffination extends ModelDiffination<AccessibleObject>{
 
 	public void setValue(Object value);
 	
@@ -34,6 +34,6 @@ public interface PropertyModelMetaData extends ModelDiffination<AccessibleObject
 		return (Field)getType();
 	}
 
-	public TypeModelDiffination getOwner();
+	public ModelTypeDiffination getOwner();
 
 }

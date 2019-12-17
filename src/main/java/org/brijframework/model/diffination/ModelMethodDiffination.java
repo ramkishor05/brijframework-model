@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.brijframework.model.ModelDiffination;
 
-public interface MethodModelMetaData extends ModelDiffination<Method>{
+public interface ModelMethodDiffination extends ModelDiffination<Method>{
 	
 	@Override
 	public default void init() {
@@ -25,14 +25,14 @@ public interface MethodModelMetaData extends ModelDiffination<Method>{
 	
 	public Type[] getArguments();
 	
-	public Set<ParameterModelMetaData<?>> getParameters();
+	public Set<ModelParameterDiffination<?>> getParameters();
 
 	public void papulate(Map<String, Object> annotationData);
 
 	public String getParentID();
 	
 	public default Object[] getParamValues() {
-		Set<ParameterModelMetaData<?>> params= getParameters();
+		Set<ModelParameterDiffination<?>> params= getParameters();
 		if(params==null) {
 			return null;
 		}
@@ -44,5 +44,5 @@ public interface MethodModelMetaData extends ModelDiffination<Method>{
 		return values;
 	}
 
-	TypeModelDiffination getClassMetaInfo();
+	ModelTypeDiffination getClassMetaInfo();
 }

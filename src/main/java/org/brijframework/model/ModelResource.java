@@ -1,14 +1,8 @@
 package org.brijframework.model;
 
-import org.brijframework.lifecycle.Initializer;
+import org.brijframework.GenericResource;
 
-public interface ModelResource<E> extends Initializer{
-
-	String getId();
-
-	String getName();
-
-	E getType();
+public interface ModelResource<E> extends GenericResource<E>{
 
 	String getAccess();
 }

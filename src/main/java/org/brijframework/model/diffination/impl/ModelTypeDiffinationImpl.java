@@ -1,10 +1,10 @@
 package org.brijframework.model.diffination.impl;
 
-import org.brijframework.model.diffination.asm.AbstractTypeModelMetaData;
+import org.brijframework.model.diffination.asm.AbstractModelTypeDiffination;
 
-public class TypeModelMetaDataImpl extends AbstractTypeModelMetaData{
+public class ModelTypeDiffinationImpl extends AbstractModelTypeDiffination{
 
-	public TypeModelMetaDataImpl(Class<?> targetClass, String id, String name) {
+	public ModelTypeDiffinationImpl(Class<?> targetClass, String id, String name) {
 		this.setType(targetClass);
 		this.setId(id);
 		this.setName(name);
@@ -23,7 +23,5 @@ public class TypeModelMetaDataImpl extends AbstractTypeModelMetaData{
 				+ ", constructor=" + getConstructor() 
 				+ "]";
 	}
-
-	
 
 }

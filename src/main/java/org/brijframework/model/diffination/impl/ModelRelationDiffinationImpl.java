@@ -1,11 +1,13 @@
 package org.brijframework.model.diffination.impl;
 
-import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
-import org.brijframework.model.diffination.TypeModelDiffination;
+import org.brijframework.model.diffination.ModelTypeDiffination;
+import org.brijframework.model.diffination.asm.AbstractModelRelationDiffination;
 import org.brijframework.support.enums.MappedBy;
 
-public class RelationPropertyModelMetaDataObject extends PropertyModelMetaDataObject implements org.brijframework.model.diffination.RelationPropertyModelMetaData{
+public class ModelRelationDiffinationImpl extends AbstractModelRelationDiffination{
 
 	Class<?> mappedTo;
 	
@@ -13,12 +15,14 @@ public class RelationPropertyModelMetaDataObject extends PropertyModelMetaDataOb
 	
 	MappedBy referred;
 	
-	public RelationPropertyModelMetaDataObject(AccessibleObject target) {
-		super(target);
+	public ModelRelationDiffinationImpl(ModelTypeDiffination owner, Field target) {
+		this.setType(target);
+		this.setOwner(owner);
 	}
-	
-	public RelationPropertyModelMetaDataObject(TypeModelDiffination owner, AccessibleObject target) {
-		super(owner,target);
+
+	public ModelRelationDiffinationImpl(ModelTypeDiffination owner, Method target) {
+		this.setType(target);
+		this.setOwner(owner);
 	}
 
 	@Override
@@ -32,7 +36,7 @@ public class RelationPropertyModelMetaDataObject extends PropertyModelMetaDataOb
 	}
 
 	@Override
-	public TypeModelDiffination getTargetClassMetaInfo() {
+	public ModelTypeDiffination getTargetClassMetaInfo() {
 		return this.getOwner();
 	}
 

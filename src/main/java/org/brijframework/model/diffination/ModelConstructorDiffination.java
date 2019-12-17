@@ -7,16 +7,16 @@ import java.util.Set;
 
 import org.brijframework.model.ModelDiffination;
 
-public interface ConstructorModelMetaData extends ModelDiffination<Constructor<?>> {
+public interface ModelConstructorDiffination extends ModelDiffination<Constructor<?>> {
 
 	@Override
 	public Constructor<?> getType();
 
 	public void papulate(Map<String, Object> map);
 
-	public Set<ParameterModelMetaData<?>> getParameters();
+	public Set<ModelParameterDiffination<?>> getParameters();
 	
-	public void setParameters(Set<ParameterModelMetaData<?>> params);
+	public void setParameters(Set<ModelParameterDiffination<?>> params);
 
 	public void setArguments(Type[] arguments);
 
@@ -31,6 +31,6 @@ public interface ConstructorModelMetaData extends ModelDiffination<Constructor<?
 		return getParameters().size();
 	}
 
-	public TypeModelDiffination getOwner();
+	public ModelTypeDiffination getOwner();
 
 }

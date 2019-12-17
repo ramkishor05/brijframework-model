@@ -4,23 +4,23 @@ import java.lang.reflect.AccessibleObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.brijframework.model.diffination.PropertyModelMetaData;
-import org.brijframework.model.diffination.TypeModelDiffination;
+import org.brijframework.model.diffination.ModelPropertyDiffination;
+import org.brijframework.model.diffination.ModelTypeDiffination;
 
-public abstract class AbstractPropertyModelMetaData extends AbstractModelMetaData<AccessibleObject> implements PropertyModelMetaData {
+public abstract class AbstractModelPropertyDiffination extends AbstractModelDiffination<AccessibleObject> implements ModelPropertyDiffination {
 
 	private AccessibleObject type;
-	private TypeModelDiffination owner;
+	private ModelTypeDiffination owner;
 	private Object value;
 	public boolean required;
 	private Map<String,String> mapper;
 	
 	@Override
-	public TypeModelDiffination getOwner() {
+	public ModelTypeDiffination getOwner() {
 		return owner;
 	}
 	
-	public void setOwner(TypeModelDiffination owner) {
+	public void setOwner(ModelTypeDiffination owner) {
 		this.owner = owner;
 	}
 	
