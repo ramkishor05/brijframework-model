@@ -15,4 +15,5 @@ public class ModelPropertyDiffinationImpl extends AbstractModelPropertyDiffinati
 		this(target);
 		this.setOwner(owner);
 	}
+	
 }

@@ -36,4 +36,4 @@ public interface ModelPropertyDiffination extends ModelDiffination<AccessibleObj
 
 	public ModelTypeDiffination getOwner();
 
-}
+}                                                                      

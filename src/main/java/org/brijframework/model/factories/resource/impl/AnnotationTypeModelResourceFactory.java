@@ -12,13 +12,13 @@ import org.brijframework.model.resource.impl.TypeModelResourceImpl;
 import org.brijframework.support.factories.SingletonFactory;
 import org.brijframework.support.model.Model;
 import org.brijframework.support.model.Models;
-import org.brijframework.support.model.properties.Property;
-import org.brijframework.support.model.properties.Relation;
+import org.brijframework.support.model.properties.ModelProperty;
+import org.brijframework.support.model.properties.ModelRelation;
 import org.brijframework.support.ordering.OrderOn;
 import org.brijframework.util.factories.ReflectionFactory;
 import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.reflect.InstanceUtil;
-import org.brijframework.util.support.Access;
+import org.brijframework.util.support.ReflectionAccess;
 import org.brijframework.util.support.Constants;
 import org.brijframework.util.text.StringUtil;
 
@@ -66,10 +66,10 @@ public class AnnotationTypeModelResourceFactory extends AbstractTypeModelResourc
 		metaSetup.setId(StringUtil.isEmpty(model.id())|| Constants.DEFAULT.equalsIgnoreCase(model.id())?target.getSimpleName(): model.id());
 		metaSetup.setType(target.getName());
 		metaSetup.setName(StringUtil.isEmpty(model.name())|| Constants.DEFAULT.equalsIgnoreCase(model.name())?target.getSimpleName(): model.name());
-		metaSetup.setAccess(model.access()!=null ? model.access().toString(): Access.PUBLIC.toString());
-		Map<String, Field> fieldMap = FieldUtil.getAllFieldMap(target,Access.PRIVATE);
+		metaSetup.setAccess(model.access()!=null ? model.access().toString(): ReflectionAccess.PUBLIC.toString());
+		Map<String, Field> fieldMap = FieldUtil.getAllFieldMap(target,ReflectionAccess.PRIVATE);
 		if(model.properties() !=null) {
-			for(Property property: model.properties()) {
+			for(ModelProperty property: model.properties()) {
 				Field field = fieldMap.get(property.name());
 				if(field==null) {
 					continue;
@@ -79,7 +79,7 @@ public class AnnotationTypeModelResourceFactory extends AbstractTypeModelResourc
 			}
 		}
 		if(model.relations() !=null) {
-			for(Relation property: model.relations()) {
+			for(ModelRelation property: model.relations()) {
 				Field field = fieldMap.get(property.name());
 				if(field==null) {
 					continue;
@@ -91,33 +91,33 @@ public class AnnotationTypeModelResourceFactory extends AbstractTypeModelResourc
 		for(Entry<String, Field> entry: fieldMap.entrySet()) {
 			String id=entry.getKey();
 			Field field = entry.getValue();
-			if(field.isAnnotationPresent(Property.class)) {
-				metaSetup.getProperties().put(id, getPropertyModelResource(target, field, field.getAnnotation(Property.class)));
+			if(field.isAnnotationPresent(ModelProperty.class)) {
+				metaSetup.getProperties().put(id, getPropertyModelResource(target, field, field.getAnnotation(ModelProperty.class)));
 			}
-			if(field.isAnnotationPresent(Relation.class)) {
-				metaSetup.getProperties().put(id, getPropertyModelResource(target, field, field.getAnnotation(Relation.class)));
+			if(field.isAnnotationPresent(ModelRelation.class)) {
+				metaSetup.getProperties().put(id, getPropertyModelResource(target, field, field.getAnnotation(ModelRelation.class)));
 			}
 		}
 		this.register((TypeModelResource)metaSetup);
 	}
 	
-	private PropertyModelResourceImpl getPropertyModelResource(Class<?> target,Field field,Property property) {
+	private PropertyModelResourceImpl getPropertyModelResource(Class<?> target,Field field,ModelProperty property) {
 		PropertyModelResourceImpl propertyResource=new PropertyModelResourceImpl();
 		propertyResource.setId(StringUtil.isEmpty(property.id())|| Constants.DEFAULT.equalsIgnoreCase(property.id())?field.getName(): property.id());
 		propertyResource.setType(field.getType().getName());
 		propertyResource.setName(StringUtil.isEmpty(property.name())|| Constants.DEFAULT.equalsIgnoreCase(property.name())?field.getName(): property.name());
-		propertyResource.setAccess(property.access()!=null ? property.access().toString(): Access.PUBLIC.toString());
+		propertyResource.setAccess(property.access()!=null ? property.access().toString(): ReflectionAccess.PUBLIC.toString());
 		propertyResource.setValue(StringUtil.isEmpty(property.value())|| Constants.DEFAULT.equalsIgnoreCase(property.value())? null: property.value());
 		propertyResource.setRequired(property.required());
 		return propertyResource;
 	}
 	
-	private RelationPropertyModelResourceImpl getPropertyModelResource(Class<?> target,Field field,Relation property) {
+	private RelationPropertyModelResourceImpl getPropertyModelResource(Class<?> target,Field field,ModelRelation property) {
 		RelationPropertyModelResourceImpl propertyResource=new RelationPropertyModelResourceImpl();
 		propertyResource.setId(StringUtil.isEmpty(property.id())|| Constants.DEFAULT.equalsIgnoreCase(property.id())?field.getName(): property.id());
 		propertyResource.setType(field.getType().getName());
 		propertyResource.setName(StringUtil.isEmpty(property.name())|| Constants.DEFAULT.equalsIgnoreCase(property.name())?field.getName(): property.name());
-		propertyResource.setAccess(property.access()!=null ? property.access().toString(): Access.PUBLIC.toString());
+		propertyResource.setAccess(property.access()!=null ? property.access().toString(): ReflectionAccess.PUBLIC.toString());
 		propertyResource.setValue(StringUtil.isEmpty(property.value())|| Constants.DEFAULT.equalsIgnoreCase(property.value())? null: property.value());
 		propertyResource.setRequired(property.required());
 		propertyResource.setMappedBy(property.mappedBy());

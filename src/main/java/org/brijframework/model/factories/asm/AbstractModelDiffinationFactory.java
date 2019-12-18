@@ -8,10 +8,10 @@ import org.brijframework.model.ModelDiffination;
 import org.brijframework.model.factories.ModelDiffinationFactory;
 import org.brijframework.util.printer.LoggerConsole;
 
-public abstract class AbstractModelMetaDataFactory<K, T extends ModelDiffination<?>> extends AbstractFactory<K, T> implements ModelDiffinationFactory<K, T> {
+public abstract class AbstractModelDiffinationFactory<K, T extends ModelDiffination<?>> extends AbstractFactory<K, T> implements ModelDiffinationFactory<K, T> {
 	
 	@Override
-	public AbstractModelMetaDataFactory<K, T> clear() {
+	public AbstractModelDiffinationFactory<K, T> clear() {
 		if (getCache() != null) {
 			getCache().clear();
 		}

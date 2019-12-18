@@ -62,4 +62,12 @@ public abstract class AbstractModelPropertyDiffination extends AbstractModelDiff
 		return mapper;
 	}
 
+	@Override
+	public String toString() {
+		return "AbstractModelPropertyDiffination [type=" + type + ", owner=" + owner.getId() + ", value=" + value
+				+ ", required=" + required + ", mapper=" + mapper + ", getId()=" + getId() + ", getName()=" + getName()
+				+ ", getAccess()=" + getAccess() + "]";
+	}
+
+	
 }

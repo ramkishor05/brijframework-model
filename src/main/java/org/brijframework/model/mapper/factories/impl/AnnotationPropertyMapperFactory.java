@@ -16,7 +16,7 @@ import org.brijframework.util.accessor.PropertyAccessorUtil;
 import org.brijframework.util.factories.ReflectionFactory;
 import org.brijframework.util.reflect.AnnotationUtil;
 import org.brijframework.util.reflect.FieldUtil;
-import org.brijframework.util.support.Access;
+import org.brijframework.util.support.ReflectionAccess;
 
 @DepandOn(depand=AnnotationTypeModelMapperResourceFactory.class)
 public class AnnotationPropertyMapperFactory extends AbstractModuleFactory<String,PropertyModelMapperResource> implements ModelMapperFactory<String,PropertyModelMapperResource> {
@@ -43,7 +43,7 @@ public class AnnotationPropertyMapperFactory extends AbstractModuleFactory<Strin
 	}
 
 	public void register(Class<?> target) {
-		for (Field field : FieldUtil.getAllField(target, Access.PRIVATE)) {
+		for (Field field : FieldUtil.getAllField(target, ReflectionAccess.PRIVATE)) {
 			if (field.isAnnotationPresent(ModelMappers.class)) {
 				ModelMappers mappers=field.getAnnotation(ModelMappers.class);
 				for(ModelMapper mapper:mappers.value()) {

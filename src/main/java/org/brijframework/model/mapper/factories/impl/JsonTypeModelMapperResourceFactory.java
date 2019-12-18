@@ -18,7 +18,7 @@ import org.brijframework.support.factories.SingletonFactory;
 import org.brijframework.util.asserts.Assertion;
 import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.reflect.InstanceUtil;
-import org.brijframework.util.support.Access;
+import org.brijframework.util.support.ReflectionAccess;
 import org.json.JSONException;
 
 public class JsonTypeModelMapperResourceFactory extends AbstractModuleFactory<String,TypeModelMapperResource> implements ModelMapperFactory<String,TypeModelMapperResource> {
@@ -143,7 +143,7 @@ public class JsonTypeModelMapperResourceFactory extends AbstractModuleFactory<St
 	private PropertyModelMapperResource getPropertyMapper(Class<?> type,String _field, Map<String, Object> property) {
 		PropertyModelMapperResource pptMapperModel=InstanceUtil.getInstance(PropertyModelMapperResource.class,property);
 		if(type!=null) {
-		  pptMapperModel.setTarget(FieldUtil.getField(type, _field, Access.PRIVATE));
+		  pptMapperModel.setTarget(FieldUtil.getField(type, _field, ReflectionAccess.PRIVATE));
 		}
 		return pptMapperModel;
 	}

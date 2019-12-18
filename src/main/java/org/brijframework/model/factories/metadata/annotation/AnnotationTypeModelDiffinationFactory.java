@@ -1,29 +1,29 @@
 package org.brijframework.model.factories.metadata.annotation;
 
 import org.brijframework.model.diffination.ModelTypeDiffination;
-import org.brijframework.model.factories.metadata.asm.AbstractTypeModelMetaDataFactory;
+import org.brijframework.model.factories.metadata.asm.AbstractTypeModelDiffinationFactory;
 import org.brijframework.model.factories.resource.impl.AnnotationTypeModelResourceFactory;
 import org.brijframework.support.factories.SingletonFactory;
 import org.brijframework.support.ordering.OrderOn;
 
 @OrderOn(1)
-public class AnnotationTypeModelMetaDataFactory extends AbstractTypeModelMetaDataFactory<String,ModelTypeDiffination> {
+public class AnnotationTypeModelDiffinationFactory extends AbstractTypeModelDiffinationFactory<String,ModelTypeDiffination> {
 
-	protected AnnotationTypeModelMetaDataFactory() {
+	protected AnnotationTypeModelDiffinationFactory() {
 	}
 
-	protected static AnnotationTypeModelMetaDataFactory factory;
+	protected static AnnotationTypeModelDiffinationFactory factory;
 
 	@SingletonFactory
-	public static AnnotationTypeModelMetaDataFactory getFactory() {
+	public static AnnotationTypeModelDiffinationFactory getFactory() {
 		if (factory == null) {
-			factory = new AnnotationTypeModelMetaDataFactory();
+			factory = new AnnotationTypeModelDiffinationFactory();
 		}
 		return factory;
 	}
 
 	@Override
-	public AnnotationTypeModelMetaDataFactory loadFactory() {
+	public AnnotationTypeModelDiffinationFactory loadFactory() {
 		AnnotationTypeModelResourceFactory.getFactory().getCache().forEach((key,modelResource)->{
 			register(key, modelResource);
 		});
@@ -31,7 +31,7 @@ public class AnnotationTypeModelMetaDataFactory extends AbstractTypeModelMetaDat
 	}
 
 	@Override
-	public AnnotationTypeModelMetaDataFactory clear() {
+	public AnnotationTypeModelDiffinationFactory clear() {
 		if (getCache() != null) {
 			getCache().clear();
 		}

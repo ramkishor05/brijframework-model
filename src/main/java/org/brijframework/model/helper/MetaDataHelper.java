@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.brijframework.Access;
 import org.brijframework.container.Container;
 import org.brijframework.model.diffination.ModelConstructorDiffination;
 import org.brijframework.model.diffination.ModelPropertyDiffination;
@@ -24,17 +25,17 @@ import org.brijframework.model.resource.ConstructorModelResource;
 import org.brijframework.model.resource.PropertyModelResource;
 import org.brijframework.model.resource.RelationPropertyModelResource;
 import org.brijframework.model.resource.TypeModelResource;
-import org.brijframework.support.model.Construct;
+import org.brijframework.support.model.ModelConstruct;
 import org.brijframework.support.model.Model;
-import org.brijframework.support.model.properties.Property;
-import org.brijframework.support.model.properties.Relation;
+import org.brijframework.support.model.properties.ModelProperty;
+import org.brijframework.support.model.properties.ModelRelation;
 import org.brijframework.util.accessor.MetaAccessorUtil;
 import org.brijframework.util.casting.CastingUtil;
 import org.brijframework.util.reflect.ClassUtil;
 import org.brijframework.util.reflect.ConstructUtil;
 import org.brijframework.util.reflect.FieldUtil;
-import org.brijframework.util.support.Access;
 import org.brijframework.util.support.Constants;
+import org.brijframework.util.support.ReflectionAccess;
 
 public class MetaDataHelper {
 	
@@ -42,48 +43,48 @@ public class MetaDataHelper {
 		String id=targetClass.getSimpleName();
 		String name=targetClass.getSimpleName();
 		ModelTypeDiffinationImpl owner=new ModelTypeDiffinationImpl(targetClass,id,name);
-		owner.setAccess(Access.PUBLIC);
+		owner.setAccess(Access.AUTO);
 		owner.setConstructor(getConsMetaInfo(owner));
-		for (Field field : FieldUtil.getAllField(targetClass, Access.PRIVATE)) {
+		for (Field field : FieldUtil.getAllField(targetClass, ReflectionAccess.PRIVATE)) {
 			owner.getProperties().put(field.getName(), buldPropertyGroup(owner, field.getName()));
 		}
 		return owner;
 	}
 
-	public static ModelTypeDiffination getModelInfo(Container container, Class<?> _class, TypeModelResource metaSetup) {
-		Objects.requireNonNull(metaSetup, "MetaSetup should be required");
-		final Class<?>targetClass =_class==null?ClassUtil.getClass(metaSetup.getType()):_class;
+	public static ModelTypeDiffination getModelTypeDiffination(Container container, Class<?> _class, TypeModelResource typeModelResource) {
+		Objects.requireNonNull(typeModelResource, "MetaSetup should be required");
+		final Class<?>targetClass =_class==null?ClassUtil.getClass(typeModelResource.getType()):_class;
 		Objects.requireNonNull(targetClass, "Target should be required");
-		String id=metaSetup.getId()==null|| metaSetup.getId().equals(Constants.DEFAULT)?targetClass.getSimpleName():metaSetup.getId();
-		String name=metaSetup.getName()==null|| metaSetup.getName().equals(Constants.DEFAULT)?targetClass.getSimpleName():metaSetup.getName();
+		String id=typeModelResource.getId()==null|| typeModelResource.getId().equals(Constants.DEFAULT)?targetClass.getSimpleName():typeModelResource.getId();
+		String name=typeModelResource.getName()==null|| typeModelResource.getName().equals(Constants.DEFAULT)?targetClass.getSimpleName():typeModelResource.getName();
 		ModelTypeDiffinationImpl owner=new ModelTypeDiffinationImpl(targetClass,id,name);
-		owner.setAccess(metaSetup.getAccess()!=null?Access.valueOf(metaSetup.getAccess()):Access.DEFAULT);
-		if(metaSetup.getConstructor()!=null) {
-			owner.setConstructor(getConsMetaInfo(owner, metaSetup.getConstructor()));
+		owner.setAccess(Access.findValue(typeModelResource.getAccess()));
+		if(typeModelResource.getConstructor()!=null) {
+			owner.setConstructor(getConsMetaInfo(owner, typeModelResource.getConstructor()));
 		}else {
 			owner.setConstructor(getConsMetaInfo(owner));
 		}
-		if(metaSetup.getProperties()!=null) {
-			metaSetup.getProperties().forEach((key,setup)->{
-				owner.getProperties().put(key, buldPropertyGroup(owner, key, setup));
+		if(typeModelResource.getProperties()!=null) {
+			typeModelResource.getProperties().forEach((key,propertyModelResource)->{
+				owner.getProperties().put(key, buldPropertyGroup(owner, key, propertyModelResource));
 			});
 		}
 		return owner;
 	}
 	
-	public static ModelPropertyDiffinationGroup buldPropertyGroup(ModelTypeDiffinationImpl owner,String key, Property setup ) {
+	public static ModelPropertyDiffinationGroup buldPropertyGroup(ModelTypeDiffinationImpl owner,String key, ModelProperty setup ) {
 		ModelPropertyDiffinationGroupImpl propertyGroup=new  ModelPropertyDiffinationGroupImpl(owner);
-		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getType(),key, Access.PRIVATE);
+		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getType(),key, ReflectionAccess.PRIVATE);
 		if(field!=null) {
 			ModelPropertyDiffination fieldMeta=buildFieldMeta(owner, field, setup);
 			propertyGroup.setFieldMeta(fieldMeta);
 		}
-		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getType(),key, Access.PRIVATE);
+		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getType(),key, ReflectionAccess.PRIVATE);
 		if(getter!=null) {
 			ModelPropertyDiffination getterMeta=buildFieldMeta(owner, getter, setup);
 			propertyGroup.setGetterMeta(getterMeta);
 		}
-		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getType(),key, Access.PRIVATE);
+		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getType(),key, ReflectionAccess.PRIVATE);
 		if(setter!=null) {
 			ModelPropertyDiffination setterMeta=buildFieldMeta(owner, setter, setup);
 			propertyGroup.setSetterMeta(setterMeta);
@@ -91,19 +92,19 @@ public class MetaDataHelper {
 		return propertyGroup;
 	}
 	
-	public static ModelPropertyDiffinationGroup buldPropertyGroup(ModelTypeDiffinationImpl owner,String key, Relation setup ) {
+	public static ModelPropertyDiffinationGroup buldPropertyGroup(ModelTypeDiffinationImpl owner,String key, ModelRelation setup ) {
 		ModelPropertyDiffinationGroupImpl propertyGroup=new  ModelPropertyDiffinationGroupImpl(owner);
-		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getType(),key, Access.PRIVATE);
+		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getType(),key, ReflectionAccess.PRIVATE);
 		if(field!=null) {
 			ModelPropertyDiffination fieldMeta=buildFieldMeta(owner, field, setup);
 			propertyGroup.setFieldMeta(fieldMeta);
 		}
-		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getType(),key, Access.PRIVATE);
+		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getType(),key, ReflectionAccess.PRIVATE);
 		if(getter!=null) {
 			ModelPropertyDiffination getterMeta=buildFieldMeta(owner, getter, setup);
 			propertyGroup.setGetterMeta(getterMeta);
 		}
-		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getType(),key, Access.PRIVATE);
+		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getType(),key, ReflectionAccess.PRIVATE);
 		if(setter!=null) {
 			ModelPropertyDiffination setterMeta=buildFieldMeta(owner, setter, setup);
 			propertyGroup.setSetterMeta(setterMeta);
@@ -111,21 +112,21 @@ public class MetaDataHelper {
 		return propertyGroup;
 	}
 	
-	public static ModelPropertyDiffinationGroup buldPropertyGroup(ModelTypeDiffinationImpl owner,String key, PropertyModelResource<?> setup ) {
+	public static ModelPropertyDiffinationGroup buldPropertyGroup(ModelTypeDiffinationImpl owner,String key, PropertyModelResource<?> propertyModelResource ) {
 		ModelPropertyDiffinationGroupImpl propertyGroup=new  ModelPropertyDiffinationGroupImpl(owner);
-		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getType(),key, Access.PRIVATE);
+		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getType(),key, ReflectionAccess.PRIVATE);
 		if(field!=null) {
-			ModelPropertyDiffination fieldMeta=buildFieldMeta(owner, field, setup);
+			ModelPropertyDiffination fieldMeta=buildFieldMeta(owner, field, propertyModelResource);
 			propertyGroup.setFieldMeta(fieldMeta);
 		}
-		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getType(),key, Access.PRIVATE);
+		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getType(),key, ReflectionAccess.PRIVATE);
 		if(getter!=null) {
-			ModelPropertyDiffination getterMeta=buildFieldMeta(owner, getter, setup);
+			ModelPropertyDiffination getterMeta=buildFieldMeta(owner, getter, propertyModelResource);
 			propertyGroup.setGetterMeta(getterMeta);
 		}
-		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getType(),key, Access.PRIVATE);
+		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getType(),key, ReflectionAccess.PRIVATE);
 		if(setter!=null) {
-			ModelPropertyDiffination setterMeta=buildFieldMeta(owner, setter, setup);
+			ModelPropertyDiffination setterMeta=buildFieldMeta(owner, setter, propertyModelResource);
 			propertyGroup.setSetterMeta(setterMeta);
 		}
 		return propertyGroup;
@@ -135,17 +136,17 @@ public class MetaDataHelper {
 		ModelPropertyDiffinationGroupImpl propertyGroup=new  ModelPropertyDiffinationGroupImpl(owner);
 		propertyGroup.setId(key);
 		propertyGroup.setName(key);
-		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getType(),key, Access.PRIVATE);
+		AccessibleObject field=MetaAccessorUtil.findFieldMeta(owner.getType(),key, ReflectionAccess.PRIVATE);
 		if(field!=null) {
 			ModelPropertyDiffination fieldMeta=buildFieldMeta(owner, field);
 			propertyGroup.setFieldMeta(fieldMeta);
 		}
-		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getType(),key, Access.PRIVATE);
+		AccessibleObject getter=MetaAccessorUtil.findGetterMeta(owner.getType(),key, ReflectionAccess.PRIVATE);
 		if(getter!=null) {
 			ModelPropertyDiffination getterMeta=buildFieldMeta(owner, getter);
 			propertyGroup.setGetterMeta(getterMeta);
 		}
-		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getType(),key, Access.PRIVATE);
+		AccessibleObject setter=MetaAccessorUtil.findSetterMeta(owner.getType(),key, ReflectionAccess.PRIVATE);
 		if(setter!=null) {
 			ModelPropertyDiffination setterMeta=buildFieldMeta(owner, setter);
 			propertyGroup.setSetterMeta(setterMeta);
@@ -159,18 +160,18 @@ public class MetaDataHelper {
 		String id=metaSetup.id()==null|| metaSetup.id().equals(Constants.DEFAULT)?target.getSimpleName():metaSetup.id();
 		String name=target.getSimpleName();
 		ModelTypeDiffinationImpl owner=new ModelTypeDiffinationImpl(target,id,name);
-		owner.setAccess(metaSetup.access()!=null?metaSetup.access():Access.DEFAULT);
+		owner.setAccess(metaSetup.access()!=null?metaSetup.access():Access.AUTO);
 		if(metaSetup.constructor()!=null) {
 			owner.setConstructor(getConsMetaInfo(owner, metaSetup.constructor()));
 		}else {
 			owner.setConstructor(getConsMetaInfo(owner));
 		}
-		List<Field> properties= FieldUtil.getAllField(target,Access.PRIVATE_NO_STATIC_FINAL);
+		List<Field> properties= FieldUtil.getAllField(target,ReflectionAccess.PRIVATE_NO_STATIC_FINAL);
 		for(Field targetField:properties) {
-			if(targetField.isAnnotationPresent(Property.class)) {
-				owner.getProperties().put(targetField.getName(), buldPropertyGroup(owner, targetField.getName(), (Property) targetField.getAnnotation(Property.class)));
-			}else if(targetField.isAnnotationPresent(Relation.class)) {
-				owner.getProperties().put(targetField.getName(), buldPropertyGroup(owner, targetField.getName(), (Relation) targetField.getAnnotation(Relation.class)));
+			if(targetField.isAnnotationPresent(ModelProperty.class)) {
+				owner.getProperties().put(targetField.getName(), buldPropertyGroup(owner, targetField.getName(), (ModelProperty) targetField.getAnnotation(ModelProperty.class)));
+			}else if(targetField.isAnnotationPresent(ModelRelation.class)) {
+				owner.getProperties().put(targetField.getName(), buldPropertyGroup(owner, targetField.getName(), (ModelRelation) targetField.getAnnotation(ModelRelation.class)));
 			}else {
 				owner.getProperties().put(targetField.getName(), buldPropertyGroup(owner, targetField.getName()));
 			}
@@ -186,11 +187,11 @@ public class MetaDataHelper {
 		ModelConstructorDiffinationImpl consMetaInfo=new ModelConstructorDiffinationImpl(owner);
 		consMetaInfo.setAccess(owner.getAccess());
 		consMetaInfo.setOwner(owner);
-		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getType(), owner.getAccess(), consMetaInfo.getArguments()));
+		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getType(), ReflectionAccess.PRIVATE, consMetaInfo.getArguments()));
 		return consMetaInfo;
 	}
 	
-	public static ModelConstructorDiffinationImpl getConsMetaInfo(ModelTypeDiffinationImpl owner,Construct constructor) {
+	public static ModelConstructorDiffinationImpl getConsMetaInfo(ModelTypeDiffinationImpl owner,ModelConstruct constructor) {
 		ModelConstructorDiffinationImpl consMetaInfo=new ModelConstructorDiffinationImpl(owner);
 		consMetaInfo.setAccess(constructor.access());
 		consMetaInfo.setOwner(owner);
@@ -213,13 +214,13 @@ public class MetaDataHelper {
 			consMetaInfo.setArguments(arguments);
 			consMetaInfo.setValues(values);
 		}
-		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getType(), constructor.access(), consMetaInfo.getArguments()));
+		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getType(), ReflectionAccess.PRIVATE, consMetaInfo.getArguments()));
 		return consMetaInfo;
 	}
 
 	private static ModelConstructorDiffination getConsMetaInfo(ModelTypeDiffinationImpl owner, ConstructorModelResource constructor) {
 		ModelConstructorDiffinationImpl consMetaInfo=new ModelConstructorDiffinationImpl(owner);
-		consMetaInfo.setAccess(Access.valueOf(constructor.getAccess()));
+		consMetaInfo.setAccess(Access.findValue(constructor.getAccess()));
 		consMetaInfo.setOwner(owner);
 		if(constructor.getParameterList()!=null) {
 			Type[] arguments=new Type[constructor.getParameterList().size()];
@@ -240,7 +241,7 @@ public class MetaDataHelper {
 			consMetaInfo.setArguments(arguments);
 			consMetaInfo.setValues(values);
 		}
-		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getType(), Access.valueOf(constructor.getAccess()), consMetaInfo.getArguments()));
+		consMetaInfo.setTarget(ConstructUtil.getConstructor(owner.getType(), ReflectionAccess.PRIVATE, consMetaInfo.getArguments()));
 		return consMetaInfo;
 	}
 	
@@ -260,7 +261,7 @@ public class MetaDataHelper {
 		ModelPropertyDiffinationImpl metaInfo = new ModelPropertyDiffinationImpl(owner, target);
 		metaInfo.setId(target.getName());
 		metaInfo.setName(target.getName());
-		metaInfo.setAccess(Access.PRIVATE);
+		metaInfo.setAccess(Access.AUTO);
 		metaInfo.setRequired(false);
 		return metaInfo;
 	}
@@ -269,12 +270,12 @@ public class MetaDataHelper {
 		ModelRelationDiffinationImpl metaInfo = new ModelRelationDiffinationImpl(owner, target);
 		metaInfo.setId(target.getName());
 		metaInfo.setName(target.getName());
-		metaInfo.setAccess(Access.valueOf(target.getModifiers()));
+		metaInfo.setAccess(Access.AUTO);
 		metaInfo.setRequired(false);
 		return metaInfo;
 	}
 
-	public static ModelPropertyDiffination buildFieldMeta(ModelTypeDiffination owner, AccessibleObject target, Property property) {
+	public static ModelPropertyDiffination buildFieldMeta(ModelTypeDiffination owner, AccessibleObject target, ModelProperty property) {
 		if (target instanceof Field) {
 			return buildFieldMeta(owner, (Field) target, property);
 		} else {
@@ -282,7 +283,7 @@ public class MetaDataHelper {
 		}
 	}
 	
-	public static ModelPropertyDiffination buildFieldMeta(ModelTypeDiffination owner, Field target,Property property) {
+	public static ModelPropertyDiffination buildFieldMeta(ModelTypeDiffination owner, Field target,ModelProperty property) {
 		ModelPropertyDiffinationImpl metaInfo = new ModelPropertyDiffinationImpl(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);
@@ -293,7 +294,7 @@ public class MetaDataHelper {
 		return metaInfo;
 	}
 	
-	public static ModelPropertyDiffination buildFieldMeta(ModelTypeDiffination owner, Method target,Property property) {
+	public static ModelPropertyDiffination buildFieldMeta(ModelTypeDiffination owner, Method target,ModelProperty property) {
 		ModelPropertyDiffinationImpl metaInfo = new ModelPropertyDiffinationImpl(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);
@@ -317,7 +318,7 @@ public class MetaDataHelper {
 		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
-		metaInfo.setAccess(Access.valueOf(property.getAccess()));
+		metaInfo.setAccess(Access.findValue(property.getAccess()));
 		metaInfo.setValue(property.getValue());
 		metaInfo.setRequired(property.isRequired());
 		return metaInfo;
@@ -328,7 +329,7 @@ public class MetaDataHelper {
 		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
-		metaInfo.setAccess(Access.valueOf(property.getAccess()));
+		metaInfo.setAccess(Access.findValue(property.getAccess()));
 		metaInfo.setRequired(property.isRequired());
 		return metaInfo;
 	}
@@ -357,7 +358,7 @@ public class MetaDataHelper {
 		String id = property.getId() == null || property.getId().equals(Constants.DEFAULT)? target.getName() : property.getId();
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
-		metaInfo.setAccess(Access.valueOf(property.getAccess()));
+		metaInfo.setAccess(Access.findValue(property.getAccess()));
 		metaInfo.setValue(property.getValue());
 		metaInfo.setRequired(property.isRequired());
 		return metaInfo;
@@ -369,14 +370,14 @@ public class MetaDataHelper {
 		ModelRelationDiffinationImpl metaInfo = new ModelRelationDiffinationImpl(owner, target);
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
-		metaInfo.setAccess(Access.valueOf(property.getAccess()));
+		metaInfo.setAccess(Access.findValue(property.getAccess()));
 		metaInfo.setValue(property.getValue());
 		metaInfo.setRequired(property.isRequired());
 		return metaInfo;
 	}
 	
 	
-	public static ModelRelationDiffination buildFieldMeta(ModelTypeDiffination owner, AccessibleObject target, Relation property) {
+	public static ModelRelationDiffination buildFieldMeta(ModelTypeDiffination owner, AccessibleObject target, ModelRelation property) {
 		if (target instanceof Field) {
 			return buildFieldMeta(owner, (Field) target, property);
 		} else {
@@ -384,7 +385,7 @@ public class MetaDataHelper {
 		}
 	}
 	
-	public static ModelRelationDiffination buildFieldMeta(ModelTypeDiffination owner, Field target,Relation property) {
+	public static ModelRelationDiffination buildFieldMeta(ModelTypeDiffination owner, Field target,ModelRelation property) {
 		ModelRelationDiffinationImpl metaInfo = new ModelRelationDiffinationImpl(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);
@@ -394,7 +395,7 @@ public class MetaDataHelper {
 		return metaInfo;
 	}
 	
-	public static ModelRelationDiffinationImpl buildFieldMeta(ModelTypeDiffination owner, Method target,Relation property) {
+	public static ModelRelationDiffinationImpl buildFieldMeta(ModelTypeDiffination owner, Method target,ModelRelation property) {
 		ModelRelationDiffinationImpl metaInfo = new ModelRelationDiffinationImpl(owner, target);
 		String id = property.id() == null || property.id().equals(Constants.DEFAULT)? target.getName() : property.id();
 		metaInfo.setId(id);

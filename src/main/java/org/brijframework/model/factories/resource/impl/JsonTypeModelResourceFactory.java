@@ -24,7 +24,7 @@ import org.brijframework.util.printer.LoggerConsole;
 import org.brijframework.util.reflect.ClassUtil;
 import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.reflect.InstanceUtil;
-import org.brijframework.util.support.Access;
+import org.brijframework.util.support.ReflectionAccess;
 import org.brijframework.util.text.StringUtil;
 import org.json.JSONException;
 
@@ -137,10 +137,10 @@ public class JsonTypeModelResourceFactory extends AbstractTypeModelResourceFacto
 		metaSetup.setName(name);
 		String access=(String) resourceMap.get("access");
 		if(StringUtil.isEmpty(access)) {
-			access=Access.PUBLIC.toString();
+			access=ReflectionAccess.PUBLIC.toString();
 		}
 		metaSetup.setAccess(access);
-		Map<String, Field> fieldMap = FieldUtil.getAllFieldMap(typeClass, Access.PRIVATE);
+		Map<String, Field> fieldMap = FieldUtil.getAllFieldMap(typeClass, ReflectionAccess.PRIVATE);
 		Map<String,Map<String,Object>> properties=(Map<String, Map<String, Object>>) resourceMap.remove("properties");
 		if(properties!=null) {
 			properties.forEach((key,value)->{
@@ -153,7 +153,7 @@ public class JsonTypeModelResourceFactory extends AbstractTypeModelResourceFacto
 				}
 			});
 		}
-		PropertyAccessorUtil.setProperties(metaSetup, resourceMap, Access.PRIVATE);
+		PropertyAccessorUtil.setProperties(metaSetup, resourceMap, ReflectionAccess.PRIVATE);
 		this.register(metaSetup.getId(), metaSetup);
 	}
 	

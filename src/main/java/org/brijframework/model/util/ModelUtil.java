@@ -9,7 +9,7 @@ import org.brijframework.util.accessor.MetaAccessorUtil;
 import org.brijframework.util.meta.PointUtil;
 import org.brijframework.util.reflect.ClassUtil;
 import org.brijframework.util.reflect.FieldUtil;
-import org.brijframework.util.support.Access;
+import org.brijframework.util.support.ReflectionAccess;
 import org.brijframework.util.support.Constants;
 
 public class ModelUtil {
@@ -29,7 +29,7 @@ public class ModelUtil {
 				Map<String, Class<?>> map=findCurrentFromMap(current, field, key);
 				current = map.get(KEY);
 			} else {
-				field = FieldUtil.getField(current.getClass(), key, Access.PRIVATE);
+				field = FieldUtil.getField(current.getClass(), key, ReflectionAccess.PRIVATE);
 				current = findCurrentFromObject(current, key);
 			}
 		}
@@ -43,7 +43,7 @@ public class ModelUtil {
 	}
 
 	private static Class<?> findCurrentFromObject(Class<?> current, String key) {
-		Field field=MetaAccessorUtil.findFieldMeta(current, key,  Access.PRIVATE);
+		Field field=MetaAccessorUtil.findFieldMeta(current, key,  ReflectionAccess.PRIVATE);
 		if(field==null) {
 			return null;
 		}
@@ -65,14 +65,14 @@ public class ModelUtil {
 		String[] keyArray = _keyPath.split(Constants.SPLIT_DOT);
 		Class<?> current=getCurrentClass(_class, keyArray);
 		if(current!=null) {
-			return typeProperty(current,Access.PRIVATE, keyArray[keyArray.length-1]);
+			return typeProperty(current,ReflectionAccess.PRIVATE, keyArray[keyArray.length-1]);
 		}
 		return null;
 	}
 
 
-	private static Class<?> typeProperty(Class<?> current, Access access, String key) {
-		Field field=MetaAccessorUtil.findFieldMeta(current, key,  Access.PRIVATE);
+	private static Class<?> typeProperty(Class<?> current, ReflectionAccess access, String key) {
+		Field field=MetaAccessorUtil.findFieldMeta(current, key,  ReflectionAccess.PRIVATE);
 		if(field==null) {
 			return null;
 		}

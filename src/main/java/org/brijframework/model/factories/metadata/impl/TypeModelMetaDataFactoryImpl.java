@@ -2,12 +2,12 @@ package org.brijframework.model.factories.metadata.impl;
 
 import org.brijframework.container.Container;
 import org.brijframework.model.diffination.ModelTypeDiffination;
-import org.brijframework.model.factories.metadata.asm.AbstractTypeModelMetaDataFactory;
+import org.brijframework.model.factories.metadata.asm.AbstractTypeModelDiffinationFactory;
 import org.brijframework.support.factories.SingletonFactory;
 import org.brijframework.support.ordering.OrderOn;
 
 @OrderOn(3)
-public final class TypeModelMetaDataFactoryImpl extends AbstractTypeModelMetaDataFactory<String,ModelTypeDiffination> {
+public final class TypeModelMetaDataFactoryImpl extends AbstractTypeModelDiffinationFactory<String,ModelTypeDiffination> {
 	
 	protected TypeModelMetaDataFactoryImpl() {
 	}

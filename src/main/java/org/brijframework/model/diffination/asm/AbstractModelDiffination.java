@@ -1,7 +1,9 @@
 package org.brijframework.model.diffination.asm;
 
+import org.brijframework.Access;
 import org.brijframework.model.ModelDiffination;
-import org.brijframework.util.support.Access;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class AbstractModelDiffination<E> implements ModelDiffination<E>{
 	
@@ -9,6 +11,7 @@ public abstract class AbstractModelDiffination<E> implements ModelDiffination<E>
 	private String name;
 	private Access access;
 	
+	@JsonProperty()
 	public void setId(String id) {
 		this.id = id;
 	}

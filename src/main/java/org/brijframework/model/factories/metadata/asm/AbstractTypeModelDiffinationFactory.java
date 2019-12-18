@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import org.brijframework.group.Group;
 import org.brijframework.model.diffination.ModelPropertyDiffinationGroup;
 import org.brijframework.model.diffination.ModelTypeDiffination;
-import org.brijframework.model.factories.asm.AbstractModelMetaDataFactory;
+import org.brijframework.model.factories.asm.AbstractModelDiffinationFactory;
 import org.brijframework.model.factories.metadata.TypeModelDiffinationFactory;
 import org.brijframework.model.factories.resource.impl.TypeModelResourceFactoryImpl;
 import org.brijframework.model.helper.MetaDataHelper;
@@ -16,7 +16,7 @@ import org.brijframework.support.model.Model;
 import org.brijframework.util.asserts.Assertion;
 import org.brijframework.util.reflect.ClassUtil;
 
-public abstract class AbstractTypeModelMetaDataFactory<K,T extends ModelTypeDiffination> extends AbstractModelMetaDataFactory<K, ModelTypeDiffination> implements TypeModelDiffinationFactory<K, ModelTypeDiffination>{
+public abstract class AbstractTypeModelDiffinationFactory<K,T extends ModelTypeDiffination> extends AbstractModelDiffinationFactory<K, ModelTypeDiffination> implements TypeModelDiffinationFactory<K, ModelTypeDiffination>{
 	
 	public ModelTypeDiffination getContainer(K modelKey) {
 		if (getContainer() == null) {
@@ -67,13 +67,13 @@ public abstract class AbstractTypeModelMetaDataFactory<K,T extends ModelTypeDiff
 	public ModelTypeDiffination register(K key, TypeModelResource metaSetup) {
 		Class<?> target=ClassUtil.getClass(metaSetup.getType());
 		Assertion.notNull(target, "Target class not found for "+metaSetup.getId());;
-		ModelTypeDiffination classMetaInfo=MetaDataHelper.getModelInfo(getContainer(), target, metaSetup);
+		ModelTypeDiffination classMetaInfo=MetaDataHelper.getModelTypeDiffination(getContainer(), target, metaSetup);
 		return register(key,classMetaInfo);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void register(Class<?> target, TypeModelResource metaSetup) {
-		ModelTypeDiffination typeModelMetaData = MetaDataHelper.getModelInfo(getContainer(),target, metaSetup);
+		ModelTypeDiffination typeModelMetaData = MetaDataHelper.getModelTypeDiffination(getContainer(),target, metaSetup);
 		register((K)typeModelMetaData.getId(),typeModelMetaData);
 	}
 	

@@ -1,13 +1,13 @@
 package org.brijframework.model.factories.metadata.json;
 
 import org.brijframework.model.diffination.ModelTypeDiffination;
-import org.brijframework.model.factories.metadata.asm.AbstractTypeModelMetaDataFactory;
+import org.brijframework.model.factories.metadata.asm.AbstractTypeModelDiffinationFactory;
 import org.brijframework.model.factories.resource.impl.JsonTypeModelResourceFactory;
 import org.brijframework.support.factories.SingletonFactory;
 import org.brijframework.support.ordering.OrderOn;
 
 @OrderOn(2)
-public class JsonTypeModelMetaDataFactory extends AbstractTypeModelMetaDataFactory<String,ModelTypeDiffination> {
+public class JsonTypeModelMetaDataFactory extends AbstractTypeModelDiffinationFactory<String,ModelTypeDiffination> {
 
 	protected JsonTypeModelMetaDataFactory() {
 	}

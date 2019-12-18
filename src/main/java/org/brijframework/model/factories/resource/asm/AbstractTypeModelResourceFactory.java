@@ -11,7 +11,7 @@ import org.brijframework.model.resource.TypeModelResource;
 import org.brijframework.model.resource.impl.PropertyModelResourceImpl;
 import org.brijframework.model.resource.impl.TypeModelResourceImpl;
 import org.brijframework.util.accessor.MetaAccessorUtil;
-import org.brijframework.util.support.Access;
+import org.brijframework.util.support.ReflectionAccess;
 
 public abstract class AbstractTypeModelResourceFactory<K, T extends TypeModelResource>  extends AbstractModelResourceFactory<K, TypeModelResource> implements TypeModelResourceFactory<K, TypeModelResource>{
 
@@ -29,7 +29,7 @@ public abstract class AbstractTypeModelResourceFactory<K, T extends TypeModelRes
 			return typeModelResource;
 		}
 		TypeModelResourceImpl typeModelResourceImpl=new TypeModelResourceImpl();
-		typeModelResourceImpl.setAccess(Access.PUBLIC.toString());
+		typeModelResourceImpl.setAccess(ReflectionAccess.PUBLIC.toString());
 		typeModelResourceImpl.setId(typeClass.getSimpleName());
 		typeModelResourceImpl.setType(typeClass.getName());
 		typeModelResourceImpl.setName(typeClass.getSimpleName());
@@ -43,7 +43,7 @@ public abstract class AbstractTypeModelResourceFactory<K, T extends TypeModelRes
 	private PropertyModelResource<?> getPropertyModelResource(String id,String model, Method method) {
 		PropertyModelResourceImpl propertyModelResource=new PropertyModelResourceImpl();
 		propertyModelResource.setId(id);
-		propertyModelResource.setAccess(Access.PUBLIC.toString());
+		propertyModelResource.setAccess(ReflectionAccess.PUBLIC.toString());
 		propertyModelResource.setModel(model);
 		propertyModelResource.setType(method.getReturnType().getName());
 		propertyModelResource.setRequired(false);

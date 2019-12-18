@@ -1,7 +1,7 @@
 package org.brijframework.model;
 
+import org.brijframework.Access;
 import org.brijframework.GenericResource;
-import org.brijframework.util.support.Access;
 
 public interface ModelDiffination<E> extends GenericResource<E>{
 	
