@@ -6,7 +6,6 @@ public class AbstractPropertyModelResource<E> extends AbstractModelResource<E> i
 
 	private boolean required;
 	private E type;
-	private Object value;
 	private String model;
 	
 	public void setModel(String model) {
@@ -24,11 +23,6 @@ public class AbstractPropertyModelResource<E> extends AbstractModelResource<E> i
 	}
 
 	@Override
-	public Object getValue() {
-		return value;
-	}
-
-	@Override
 	public E getType() {
 		return type;
 	}
@@ -39,10 +33,6 @@ public class AbstractPropertyModelResource<E> extends AbstractModelResource<E> i
 
 	public void setType(E type) {
 		this.type = type;
-	}
-
-	public void setValue(Object value) {
-		this.value = value;
 	}
 
 }

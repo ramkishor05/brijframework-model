@@ -209,7 +209,7 @@ public class MetaDataHelper {
 				return 0;
 			}).forEach(param->{
 				arguments[index.get()]=param.type();
-				values[index.getAndIncrement()]=CastingUtil.castObject(param.value(), param.type());
+				//values[index.getAndIncrement()]=CastingUtil.castObject(param.value(), param.type());
 			});
 			consMetaInfo.setArguments(arguments);
 			consMetaInfo.setValues(values);
@@ -289,7 +289,6 @@ public class MetaDataHelper {
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(property.access());
-		metaInfo.setValue(property.value());
 		metaInfo.setRequired(property.required());
 		return metaInfo;
 	}
@@ -300,7 +299,6 @@ public class MetaDataHelper {
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(property.access());
-		metaInfo.setValue(property.value());
 		metaInfo.setRequired(property.required());
 		return metaInfo;
 	}
@@ -319,7 +317,6 @@ public class MetaDataHelper {
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(Access.findValue(property.getAccess()));
-		metaInfo.setValue(property.getValue());
 		metaInfo.setRequired(property.isRequired());
 		return metaInfo;
 	}
@@ -359,7 +356,6 @@ public class MetaDataHelper {
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(Access.findValue(property.getAccess()));
-		metaInfo.setValue(property.getValue());
 		metaInfo.setRequired(property.isRequired());
 		return metaInfo;
 	}
@@ -371,7 +367,6 @@ public class MetaDataHelper {
 		metaInfo.setId(id);
 		metaInfo.setName(target.getName());
 		metaInfo.setAccess(Access.findValue(property.getAccess()));
-		metaInfo.setValue(property.getValue());
 		metaInfo.setRequired(property.isRequired());
 		return metaInfo;
 	}

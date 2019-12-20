@@ -6,8 +6,6 @@ public interface PropertyModelResource<E> extends ModelResource<E> {
 
 	boolean isRequired();
 
-	Object getValue();
-
 	E getType();
 
 	String getModel();

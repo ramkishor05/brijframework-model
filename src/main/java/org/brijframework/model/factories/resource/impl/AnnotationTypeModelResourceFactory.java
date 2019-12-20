@@ -107,7 +107,6 @@ public class AnnotationTypeModelResourceFactory extends AbstractTypeModelResourc
 		propertyResource.setType(field.getType().getName());
 		propertyResource.setName(StringUtil.isEmpty(property.name())|| Constants.DEFAULT.equalsIgnoreCase(property.name())?field.getName(): property.name());
 		propertyResource.setAccess(property.access()!=null ? property.access().toString(): ReflectionAccess.PUBLIC.toString());
-		propertyResource.setValue(StringUtil.isEmpty(property.value())|| Constants.DEFAULT.equalsIgnoreCase(property.value())? null: property.value());
 		propertyResource.setRequired(property.required());
 		return propertyResource;
 	}
@@ -118,7 +117,6 @@ public class AnnotationTypeModelResourceFactory extends AbstractTypeModelResourc
 		propertyResource.setType(field.getType().getName());
 		propertyResource.setName(StringUtil.isEmpty(property.name())|| Constants.DEFAULT.equalsIgnoreCase(property.name())?field.getName(): property.name());
 		propertyResource.setAccess(property.access()!=null ? property.access().toString(): ReflectionAccess.PUBLIC.toString());
-		propertyResource.setValue(StringUtil.isEmpty(property.value())|| Constants.DEFAULT.equalsIgnoreCase(property.value())? null: property.value());
 		propertyResource.setRequired(property.required());
 		propertyResource.setMappedBy(property.mappedBy());
 		return propertyResource;
