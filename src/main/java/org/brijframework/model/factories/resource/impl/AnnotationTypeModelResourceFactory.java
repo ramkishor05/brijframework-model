@@ -4,17 +4,25 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.brijframework.Access;
 import org.brijframework.model.factories.resource.asm.AbstractTypeModelResourceFactory;
+import org.brijframework.model.resource.ConstructorModelResource;
+import org.brijframework.model.resource.ParameterModelResource;
 import org.brijframework.model.resource.TypeModelResource;
+import org.brijframework.model.resource.impl.ConstructorModelResourceImpl;
+import org.brijframework.model.resource.impl.ParameterModelResourceImpl;
 import org.brijframework.model.resource.impl.PropertyModelResourceImpl;
 import org.brijframework.model.resource.impl.RelationPropertyModelResourceImpl;
 import org.brijframework.model.resource.impl.TypeModelResourceImpl;
 import org.brijframework.support.factories.SingletonFactory;
 import org.brijframework.support.model.Model;
+import org.brijframework.support.model.ModelConstruct;
+import org.brijframework.support.model.ModelParam;
 import org.brijframework.support.model.Models;
 import org.brijframework.support.model.properties.ModelProperty;
 import org.brijframework.support.model.properties.ModelRelation;
 import org.brijframework.support.ordering.OrderOn;
+import org.brijframework.util.asserts.Assertion;
 import org.brijframework.util.factories.ReflectionFactory;
 import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.reflect.InstanceUtil;
@@ -62,11 +70,12 @@ public class AnnotationTypeModelResourceFactory extends AbstractTypeModelResourc
 	}
 
 	public void register(Class<?> target, Model model) {
-		TypeModelResourceImpl metaSetup=InstanceUtil.getInstance(TypeModelResourceImpl.class);
-		metaSetup.setId(StringUtil.isEmpty(model.id())|| Constants.DEFAULT.equalsIgnoreCase(model.id())?target.getSimpleName(): model.id());
-		metaSetup.setType(target.getName());
-		metaSetup.setName(StringUtil.isEmpty(model.name())|| Constants.DEFAULT.equalsIgnoreCase(model.name())?target.getSimpleName(): model.name());
-		metaSetup.setAccess(model.access()!=null ? model.access().toString(): ReflectionAccess.PUBLIC.toString());
+		TypeModelResourceImpl typeModelResource=InstanceUtil.getInstance(TypeModelResourceImpl.class);
+		typeModelResource.setId(StringUtil.isEmpty(model.id())|| Constants.DEFAULT.equalsIgnoreCase(model.id())?target.getSimpleName(): model.id());
+		typeModelResource.setType(target.getName());
+		typeModelResource.setName(StringUtil.isEmpty(model.name())|| Constants.DEFAULT.equalsIgnoreCase(model.name())?target.getSimpleName(): model.name());
+		typeModelResource.setAccess(model.access()!=null ? model.access().toString(): ReflectionAccess.PUBLIC.toString());
+		typeModelResource.setConstructor(createConstructor(typeModelResource,model.constructor()));
 		Map<String, Field> fieldMap = FieldUtil.getAllFieldMap(target,ReflectionAccess.PRIVATE);
 		if(model.properties() !=null) {
 			for(ModelProperty property: model.properties()) {
@@ -75,7 +84,7 @@ public class AnnotationTypeModelResourceFactory extends AbstractTypeModelResourc
 					continue;
 				}
 				PropertyModelResourceImpl propertyModelResource = getPropertyModelResource(target, field, property);
-				metaSetup.getProperties().put(propertyModelResource.getId(),propertyModelResource );
+				typeModelResource.getProperties().put(propertyModelResource.getId(),propertyModelResource );
 			}
 		}
 		if(model.relations() !=null) {
@@ -85,22 +94,44 @@ public class AnnotationTypeModelResourceFactory extends AbstractTypeModelResourc
 					continue;
 				}
 				RelationPropertyModelResourceImpl propertyModelResource = getPropertyModelResource(target, field, property);
-				metaSetup.getProperties().put(propertyModelResource.getId(),propertyModelResource );
+				typeModelResource.getProperties().put(propertyModelResource.getId(),propertyModelResource );
 			}
 		}
 		for(Entry<String, Field> entry: fieldMap.entrySet()) {
 			String id=entry.getKey();
 			Field field = entry.getValue();
 			if(field.isAnnotationPresent(ModelProperty.class)) {
-				metaSetup.getProperties().put(id, getPropertyModelResource(target, field, field.getAnnotation(ModelProperty.class)));
+				typeModelResource.getProperties().put(id, getPropertyModelResource(target, field, field.getAnnotation(ModelProperty.class)));
 			}
 			if(field.isAnnotationPresent(ModelRelation.class)) {
-				metaSetup.getProperties().put(id, getPropertyModelResource(target, field, field.getAnnotation(ModelRelation.class)));
+				typeModelResource.getProperties().put(id, getPropertyModelResource(target, field, field.getAnnotation(ModelRelation.class)));
 			}
 		}
-		this.register((TypeModelResource)metaSetup);
+		this.register(typeModelResource);
 	}
 	
+	private ConstructorModelResource<?> createConstructor(TypeModelResource typeModelResource,ModelConstruct constructor) {
+		ConstructorModelResourceImpl constructorModelResource = new ConstructorModelResourceImpl();
+		constructorModelResource.setAccess(constructor.access().toString());
+		constructorModelResource.setId(StringUtil.isEmpty(constructor.id())|| Constants.DEFAULT.equalsIgnoreCase(constructor.id())? typeModelResource.getId(): constructor.id());
+		constructorModelResource.setName(StringUtil.isEmpty(constructor.name())|| Constants.DEFAULT.equalsIgnoreCase(constructor.name())? typeModelResource.getName(): constructor.name());
+		if(constructor.params()!=null)
+		for(ModelParam modelParam: constructor.params()) {
+			constructorModelResource.getParameterList().add(getModelParam(modelParam));
+		}
+		return constructorModelResource;
+	}
+
+	private ParameterModelResource getModelParam(ModelParam modelParam) {
+		ParameterModelResourceImpl parameterModelResource=new ParameterModelResourceImpl();
+		parameterModelResource.setId(modelParam.name());
+		parameterModelResource.setIndex(modelParam.index());
+		Assertion.notNull(modelParam.type(), "Parameter type is required.");
+		parameterModelResource.setType(modelParam.type().getName());
+		parameterModelResource.setAccess(Access.AUTO.toString());
+		return parameterModelResource;
+	}
+
 	private PropertyModelResourceImpl getPropertyModelResource(Class<?> target,Field field,ModelProperty property) {
 		PropertyModelResourceImpl propertyResource=new PropertyModelResourceImpl();
 		propertyResource.setId(StringUtil.isEmpty(property.id())|| Constants.DEFAULT.equalsIgnoreCase(property.id())?field.getName(): property.id());

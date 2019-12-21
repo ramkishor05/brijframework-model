@@ -10,7 +10,7 @@ public interface TypeModelResource extends ModelResource<String>{
 	
 	String getExtend();
 	
-	ConstructorModelResource getConstructor();
+	ConstructorModelResource<?> getConstructor();
 		
 	Map<String, PropertyModelResource<?>> getProperties();
 

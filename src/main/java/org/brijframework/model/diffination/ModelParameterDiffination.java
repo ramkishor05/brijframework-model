@@ -6,4 +6,6 @@ public interface ModelParameterDiffination<E> extends ModelDiffination<E> {
 
 	Object getValue();
 
+	int getIndex();
+
 }

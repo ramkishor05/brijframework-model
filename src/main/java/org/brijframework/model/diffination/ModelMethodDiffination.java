@@ -44,5 +44,5 @@ public interface ModelMethodDiffination extends ModelDiffination<Method>{
 		return values;
 	}
 
-	ModelTypeDiffination getClassMetaInfo();
+	ModelTypeDeffination getClassMetaInfo();
 }

@@ -14,7 +14,7 @@ public abstract class AbstractTypeModelResource extends AbstractModelResource<St
 
 	private Map<String, PropertyModelResource<?>> properties;
 		
-	private ConstructorModelResource constructor;
+	private ConstructorModelResource<?> constructor;
 	
 	public String getType() {
 		return type;
@@ -32,11 +32,11 @@ public abstract class AbstractTypeModelResource extends AbstractModelResource<St
 		return extend;
 	}
 	
-	public ConstructorModelResource getConstructor() {
+	public ConstructorModelResource<?> getConstructor() {
 		return constructor;
 	}
 	
-	public void setConstructor(ConstructorModelResource constructor) {
+	public void setConstructor(ConstructorModelResource<?> constructor) {
 		this.constructor = constructor;
 	}
 

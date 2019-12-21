@@ -1,23 +1,11 @@
 package org.brijframework.model.resource.asm;
 
-import java.lang.reflect.Type;
-
 import org.brijframework.model.resource.ParameterModelResource;
 
-public abstract class AbstractParameterModelResource extends AbstractModelResource<Type> implements ParameterModelResource<Type> {
+public abstract class AbstractParameterModelResource extends AbstractModelResource<String> implements ParameterModelResource{
 
-	private Class<?> parent;
-	private Type type;
+	private String type;
 	private int index;
-	private Object value;
-	
-	public Class<?> getParent() {
-		return parent;
-	}
-
-	public void setParent(Class<?> parent) {
-		this.parent = parent;
-	}
 	
 	public void setIndex(int index) {
 		this.index = index;
@@ -28,22 +16,12 @@ public abstract class AbstractParameterModelResource extends AbstractModelResour
 		return index;
 	}
 
-	public void setType(Type type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	
 	@Override
-	public Type getType() {
+	public String getType() {
 		return type;
 	}
-	
-	public void setValue(Object value) {
-		this.value = value;
-	}
-	
-	@Override
-	public Object getValue() {
-		return value;
-	}
-
 }

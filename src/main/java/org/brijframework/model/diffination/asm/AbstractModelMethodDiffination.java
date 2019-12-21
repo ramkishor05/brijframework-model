@@ -3,15 +3,15 @@ package org.brijframework.model.diffination.asm;
 import java.lang.reflect.Method;
 
 import org.brijframework.model.diffination.ModelMethodDiffination;
-import org.brijframework.model.diffination.ModelTypeDiffination;
+import org.brijframework.model.diffination.ModelTypeDeffination;
 
 public abstract class AbstractModelMethodDiffination extends AbstractModelDiffination<Method> implements ModelMethodDiffination {
 
-	private ModelTypeDiffination owner;
+	private ModelTypeDeffination owner;
 	private Method target;
 	private Object value;
 	
-	public ModelTypeDiffination getOwner() {
+	public ModelTypeDeffination getOwner() {
 		return owner;
 	}
 	

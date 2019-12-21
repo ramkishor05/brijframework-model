@@ -4,13 +4,13 @@ import java.util.Map;
 
 import org.brijframework.model.ModelDiffination;
 
-public interface ModelTypeDiffination extends ModelDiffination<Class<?>> {
+public interface ModelTypeDeffination extends ModelDiffination<Class<?>> {
 
 	public Class<?> getType();
 
-	public ModelTypeDiffination getOwner();
+	public ModelTypeDeffination getOwner();
 	
-	public void setOwner(ModelTypeDiffination owner);
+	public void setOwner(ModelTypeDeffination owner);
 	
 	public ModelPropertyDiffinationGroup getProperty(String _key);
 

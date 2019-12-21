@@ -8,14 +8,14 @@ import org.brijframework.support.factories.SingletonFactory;
 import org.brijframework.support.ordering.OrderOn;
 
 @OrderOn(3)
-public final class TypeModelResourceFactoryImpl extends AbstractTypeModelResourceFactory<String, TypeModelResource>{
+public final class DefaultTypeModelResourceFactory extends AbstractTypeModelResourceFactory<String, TypeModelResource>{
 
-	protected static TypeModelResourceFactoryImpl factory;
+	protected static DefaultTypeModelResourceFactory factory;
 
 	@SingletonFactory
-	public static TypeModelResourceFactoryImpl getFactory() {
+	public static DefaultTypeModelResourceFactory getFactory() {
 		if (factory == null) {
-			factory = new TypeModelResourceFactoryImpl();
+			factory = new DefaultTypeModelResourceFactory();
 		}
 		return factory;
 	}
@@ -23,7 +23,7 @@ public final class TypeModelResourceFactoryImpl extends AbstractTypeModelResourc
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public TypeModelResourceFactoryImpl loadFactory() {
+	public DefaultTypeModelResourceFactory loadFactory() {
 		Container container= getContainer();
 		if(container==null) {
 			return this;

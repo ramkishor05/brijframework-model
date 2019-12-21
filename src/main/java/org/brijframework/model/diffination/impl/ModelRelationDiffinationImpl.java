@@ -3,7 +3,7 @@ package org.brijframework.model.diffination.impl;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import org.brijframework.model.diffination.ModelTypeDiffination;
+import org.brijframework.model.diffination.ModelTypeDeffination;
 import org.brijframework.model.diffination.asm.AbstractModelRelationDiffination;
 import org.brijframework.support.enums.MappedBy;
 
@@ -15,12 +15,12 @@ public class ModelRelationDiffinationImpl extends AbstractModelRelationDiffinati
 	
 	MappedBy referred;
 	
-	public ModelRelationDiffinationImpl(ModelTypeDiffination owner, Field target) {
+	public ModelRelationDiffinationImpl(ModelTypeDeffination owner, Field target) {
 		this.setType(target);
 		this.setOwner(owner);
 	}
 
-	public ModelRelationDiffinationImpl(ModelTypeDiffination owner, Method target) {
+	public ModelRelationDiffinationImpl(ModelTypeDeffination owner, Method target) {
 		this.setType(target);
 		this.setOwner(owner);
 	}
@@ -36,7 +36,7 @@ public class ModelRelationDiffinationImpl extends AbstractModelRelationDiffinati
 	}
 
 	@Override
-	public ModelTypeDiffination getTargetClassMetaInfo() {
+	public ModelTypeDeffination getTargetClassMetaInfo() {
 		return this.getOwner();
 	}
 

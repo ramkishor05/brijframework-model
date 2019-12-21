@@ -11,6 +11,7 @@ import org.brijframework.model.resource.TypeModelResource;
 import org.brijframework.model.resource.impl.PropertyModelResourceImpl;
 import org.brijframework.model.resource.impl.TypeModelResourceImpl;
 import org.brijframework.util.accessor.MetaAccessorUtil;
+import org.brijframework.util.printer.LoggerConsole;
 import org.brijframework.util.support.ReflectionAccess;
 
 public abstract class AbstractTypeModelResourceFactory<K, T extends TypeModelResource>  extends AbstractModelResourceFactory<K, TypeModelResource> implements TypeModelResourceFactory<K, TypeModelResource>{
@@ -50,5 +51,14 @@ public abstract class AbstractTypeModelResourceFactory<K, T extends TypeModelRes
 		return propertyModelResource;
 	}
 	
+
+	@Override
+	protected void preregister(K key, TypeModelResource value) {
+		LoggerConsole.screen("Model Resource", "Registering for resource with id : "+key);
+	}
 	
+	@Override
+	protected void postregister(K key, TypeModelResource value) {
+		LoggerConsole.screen("Model Resource", "Registered for resource with id : "+key);
+	}
 }

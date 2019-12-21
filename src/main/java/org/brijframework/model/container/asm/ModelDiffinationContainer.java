@@ -3,7 +3,7 @@ package org.brijframework.model.container.asm;
 import org.brijframework.container.impl.module.AbstractModuleContainer;
 import org.brijframework.group.Group;
 import org.brijframework.model.container.ModelContainer;
-import org.brijframework.model.factories.metadata.TypeModelDiffinationFactory;
+import org.brijframework.model.factories.deffination.TypeModelDiffinationFactory;
 import org.brijframework.model.group.ModelMetaDataGroup;
 import org.brijframework.support.factories.SingletonFactory;
 import org.brijframework.support.ordering.DepandOn;

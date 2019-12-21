@@ -5,13 +5,13 @@ import java.util.Map;
 
 import org.brijframework.model.diffination.ModelConstructorDiffination;
 import org.brijframework.model.diffination.ModelPropertyDiffinationGroup;
-import org.brijframework.model.diffination.ModelTypeDiffination;
+import org.brijframework.model.diffination.ModelTypeDeffination;
 
-public abstract class AbstractModelTypeDiffination extends AbstractModelDiffination<Class<?>> implements ModelTypeDiffination{
+public abstract class AbstractModelTypeDiffination extends AbstractModelDiffination<Class<?>> implements ModelTypeDeffination{
 	
 	private Map<String,ModelPropertyDiffinationGroup>  properties;
 	private Class<?> type;
-	private ModelTypeDiffination owner;
+	private ModelTypeDeffination owner;
 	private ModelConstructorDiffination constructor;
 	
 	public void setConstructor(ModelConstructorDiffination constructor) {
@@ -36,12 +36,12 @@ public abstract class AbstractModelTypeDiffination extends AbstractModelDiffinat
 	}
 	
 	@Override
-	public ModelTypeDiffination getOwner() {
+	public ModelTypeDeffination getOwner() {
 		return owner;
 	}
 
 	@Override
-	public void setOwner(ModelTypeDiffination owner) {
+	public void setOwner(ModelTypeDeffination owner) {
 		this.owner=owner;
 	}
 	@Override

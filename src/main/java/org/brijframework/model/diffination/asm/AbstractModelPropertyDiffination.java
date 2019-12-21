@@ -5,22 +5,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.brijframework.model.diffination.ModelPropertyDiffination;
-import org.brijframework.model.diffination.ModelTypeDiffination;
+import org.brijframework.model.diffination.ModelTypeDeffination;
 
 public abstract class AbstractModelPropertyDiffination extends AbstractModelDiffination<AccessibleObject> implements ModelPropertyDiffination {
 
 	private AccessibleObject type;
-	private ModelTypeDiffination owner;
+	private ModelTypeDeffination owner;
 	private Object value;
 	public boolean required;
 	private Map<String,String> mapper;
 	
 	@Override
-	public ModelTypeDiffination getOwner() {
+	public ModelTypeDeffination getOwner() {
 		return owner;
 	}
 	
-	public void setOwner(ModelTypeDiffination owner) {
+	public void setOwner(ModelTypeDeffination owner) {
 		this.owner = owner;
 	}
 	
@@ -64,9 +64,15 @@ public abstract class AbstractModelPropertyDiffination extends AbstractModelDiff
 
 	@Override
 	public String toString() {
-		return "AbstractModelPropertyDiffination [type=" + type + ", owner=" + owner.getId() + ", value=" + value
-				+ ", required=" + required + ", mapper=" + mapper + ", getId()=" + getId() + ", getName()=" + getName()
-				+ ", getAccess()=" + getAccess() + "]";
+		return "ModelPropertyDiffination ["
+				+ "Id=" + getId() + ", "
+				+ "name=" + getName()+ ", "
+				+ "type=" + type + ", "
+				+ "owner=" + owner.getId() + ", "
+				+ "value=" + value+ ", "
+				+ "required=" + required + ", "
+				+ "mapper=" + mapper + ", "
+				+ "access=" + getAccess() + "]";
 	}
 
 	

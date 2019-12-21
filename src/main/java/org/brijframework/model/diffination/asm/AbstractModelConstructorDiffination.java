@@ -2,23 +2,23 @@ package org.brijframework.model.diffination.asm;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.brijframework.model.diffination.ModelConstructorDiffination;
 import org.brijframework.model.diffination.ModelParameterDiffination;
-import org.brijframework.model.diffination.ModelTypeDiffination;
+import org.brijframework.model.diffination.ModelTypeDeffination;
 
 public abstract class AbstractModelConstructorDiffination extends AbstractModelDiffination<Constructor<?>> implements ModelConstructorDiffination{
 
-	private ModelTypeDiffination owner;
+	private ModelTypeDeffination owner;
 	private Constructor<?> target;
 	private Set<ModelParameterDiffination<?>> parameters;
 	private Type[] arguments;
-	private Object[] values;
 	
 	@Override
-	public ModelTypeDiffination getOwner() {
+	public ModelTypeDeffination getOwner() {
 		return owner;
 	}
 
@@ -50,7 +50,7 @@ public abstract class AbstractModelConstructorDiffination extends AbstractModelD
 		return arguments;
 	}
 
-	public void setOwner(ModelTypeDiffination owner) {
+	public void setOwner(ModelTypeDeffination owner) {
 		this.owner = owner;
 	}
 
@@ -58,12 +58,11 @@ public abstract class AbstractModelConstructorDiffination extends AbstractModelD
 		this.target = target;
 	}
 
-	public void setValues(Object[] values) {
-		this.values = values;
-	}
-	
 	@Override
-	public Object[] getValues() {
-		return this.values;
+	public String toString() {
+		return super.toString()+" [owner=" + owner.getId() + ", target=" + target + ", parameters="
+				+ parameters + ", arguments=" + Arrays.toString(arguments) + "]";
 	}
+
+	
 }

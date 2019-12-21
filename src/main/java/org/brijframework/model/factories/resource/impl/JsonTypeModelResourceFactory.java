@@ -6,10 +6,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.brijframework.Access;
 import org.brijframework.model.config.asm.ModelConfigration;
 import org.brijframework.model.constants.ModelConstants;
 import org.brijframework.model.factories.resource.asm.AbstractTypeModelResourceFactory;
+import org.brijframework.model.resource.ConstructorModelResource;
+import org.brijframework.model.resource.ParameterModelResource;
 import org.brijframework.model.resource.TypeModelResource;
+import org.brijframework.model.resource.impl.ConstructorModelResourceImpl;
+import org.brijframework.model.resource.impl.ParameterModelResourceImpl;
 import org.brijframework.model.resource.impl.PropertyModelResourceImpl;
 import org.brijframework.model.resource.impl.RelationPropertyModelResourceImpl;
 import org.brijframework.model.resource.impl.TypeModelResourceImpl;
@@ -24,6 +29,7 @@ import org.brijframework.util.printer.LoggerConsole;
 import org.brijframework.util.reflect.ClassUtil;
 import org.brijframework.util.reflect.FieldUtil;
 import org.brijframework.util.reflect.InstanceUtil;
+import org.brijframework.util.support.Constants;
 import org.brijframework.util.support.ReflectionAccess;
 import org.brijframework.util.text.StringUtil;
 import org.json.JSONException;
@@ -121,25 +127,31 @@ public class JsonTypeModelResourceFactory extends AbstractTypeModelResourceFacto
 
 	@SuppressWarnings("unchecked")
 	public void register(Map<String, Object> resourceMap) {
-		TypeModelResourceImpl metaSetup=InstanceUtil.getInstance(TypeModelResourceImpl.class);
+		TypeModelResourceImpl typeModelResource=InstanceUtil.getInstance(TypeModelResourceImpl.class);
 		String id=(String) resourceMap.remove("id");
 		Assertion.notEmpty(id, "Invalid id for TypeModelResource");
-		metaSetup.setId(id);
+		typeModelResource.setId(id);
 		String type=(String) resourceMap.remove("type");
 		Assertion.notEmpty(type, "Invalid type for TypeModelResource");
-		metaSetup.setType(type);
+		typeModelResource.setType(type);
 		Class<?> typeClass=ClassUtil.getClass(type);
 		Assertion.notEmpty(typeClass, "Not found type for TypeModelResource");
 		String name=(String) resourceMap.remove("name");
 		if(StringUtil.isEmpty(name)) {
 			name=typeClass.getSimpleName();
 		}
-		metaSetup.setName(name);
+		typeModelResource.setName(name);
 		String access=(String) resourceMap.get("access");
 		if(StringUtil.isEmpty(access)) {
 			access=ReflectionAccess.PUBLIC.toString();
 		}
-		metaSetup.setAccess(access);
+		typeModelResource.setAccess(access);
+		Object constructor = resourceMap.get("constructor");
+		if(constructor instanceof Map) {
+			typeModelResource.setConstructor(createConstructor(typeModelResource, (Map<String,Object>) resourceMap.get("constructor")));
+		}else {
+			typeModelResource.setConstructor(createConstructor(typeModelResource,null));
+		}
 		Map<String, Field> fieldMap = FieldUtil.getAllFieldMap(typeClass, ReflectionAccess.PRIVATE);
 		Map<String,Map<String,Object>> properties=(Map<String, Map<String, Object>>) resourceMap.remove("properties");
 		if(properties!=null) {
@@ -147,14 +159,50 @@ public class JsonTypeModelResourceFactory extends AbstractTypeModelResourceFacto
 				Field field = fieldMap.get(key);
 				Assertion.notEmpty(field, "Property not found for "+type+" of "+id);
 				if(!ReflectionFactory.getFactory().isProjectClass(field.getType())) {
-					 metaSetup.getProperties().put(key, InstanceUtil.getInstance(PropertyModelResourceImpl.class,value));
+					 typeModelResource.getProperties().put(key, InstanceUtil.getInstance(PropertyModelResourceImpl.class,value));
 				}else {
-				     metaSetup.getProperties().put(key, InstanceUtil.getInstance(RelationPropertyModelResourceImpl.class,value));
+				     typeModelResource.getProperties().put(key, InstanceUtil.getInstance(RelationPropertyModelResourceImpl.class,value));
 				}
 			});
 		}
-		PropertyAccessorUtil.setProperties(metaSetup, resourceMap, ReflectionAccess.PRIVATE);
-		this.register(metaSetup.getId(), metaSetup);
+		PropertyAccessorUtil.setProperties(typeModelResource, resourceMap, ReflectionAccess.PRIVATE);
+		this.register(typeModelResource.getId(), typeModelResource);
 	}
 	
+	@SuppressWarnings("unchecked")
+	private ConstructorModelResource<?> createConstructor(TypeModelResource typeModelResource,Map<String,Object> constructor) {
+		ConstructorModelResourceImpl constructorModelResource = new ConstructorModelResourceImpl();
+		if(constructor!=null) {
+			String access=(String) constructor.get("access");
+			constructorModelResource.setAccess(access);
+			String id=(String) constructor.get("id");
+			constructorModelResource.setId(StringUtil.isEmpty(id)|| Constants.DEFAULT.equalsIgnoreCase(id)? typeModelResource.getId(): id);
+			String name=(String) constructor.get("name");
+			constructorModelResource.setName(StringUtil.isEmpty(name)|| Constants.DEFAULT.equalsIgnoreCase(name)? typeModelResource.getName(): name);
+			List<Map<String,Object>> parameters=(List<Map<String, Object>>) constructor.get("parameters");
+			if(parameters!=null)
+			for(Map<String,Object> modelParam: parameters) {
+				constructorModelResource.getParameterList().add(getModelParam(modelParam));
+			}
+		}
+		return constructorModelResource;
+	}
+
+	private ParameterModelResource getModelParam(Map<String, Object> modelParam) {
+		ParameterModelResourceImpl parameterModelResource=new ParameterModelResourceImpl();
+		parameterModelResource.setId((String) modelParam.get("name"));
+		Integer index=null;
+		try {
+		   index=Integer.valueOf((String.valueOf(modelParam.get("index"))));
+		}catch (NumberFormatException e) {
+		}
+		Assertion.notNull(index, "Parameter index is required.");
+		parameterModelResource.setIndex(index);
+		String type=(String) modelParam.get("type");
+		Assertion.notNull(type, "Parameter type is required.");
+		parameterModelResource.setType(type);
+		parameterModelResource.setAccess(Access.AUTO.toString());
+		return parameterModelResource;
+	}
+
 }

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.brijframework.model.ModelResource;
 
-public interface ConstructorModelResource extends ModelResource<String>{
+public interface ConstructorModelResource<E> extends ModelResource<E>{
 
-	List<ParameterModelResource<?>> getParameterList();
+	List<ParameterModelResource> getParameterList();
 
 }

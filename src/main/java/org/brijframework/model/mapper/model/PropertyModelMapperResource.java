@@ -2,7 +2,7 @@ package org.brijframework.model.mapper.model;
 
 import java.lang.reflect.Field;
 
-import org.brijframework.model.diffination.ModelTypeDiffination;
+import org.brijframework.model.diffination.ModelTypeDeffination;
 import org.brijframework.model.diffination.asm.AbstractModelDiffination;
 
 public class PropertyModelMapperResource extends AbstractModelDiffination<Field> {
@@ -13,7 +13,7 @@ public class PropertyModelMapperResource extends AbstractModelDiffination<Field>
 
 	private Field target;
 
-	ModelTypeDiffination owner;
+	ModelTypeDeffination owner;
 
 	@Override
 	public Field getType() {
@@ -40,11 +40,11 @@ public class PropertyModelMapperResource extends AbstractModelDiffination<Field>
 		this.destination = destination;
 	}
 
-	public void setOwner(ModelTypeDiffination owner) {
+	public void setOwner(ModelTypeDeffination owner) {
 		this.owner = owner;
 	}
 	
-	public ModelTypeDiffination getOwner() {
+	public ModelTypeDeffination getOwner() {
 		return owner;
 	}
 

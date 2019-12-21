@@ -1,24 +1,15 @@
 package org.brijframework.model.resource;
 
-import java.lang.reflect.Type;
-import java.util.Map;
-
 import org.brijframework.model.ModelResource;
 
-public interface ParameterModelResource<T extends Type>  extends Comparable<ParameterModelResource<Type>> , ModelResource<Type>{
+public interface ParameterModelResource  extends Comparable<ParameterModelResource> , ModelResource<String>{
 
 	public int getIndex() ;
 	
-	public T getType() ;
-	
-	public Object getValue();
-	
-	public void validate();
-	
-	public void papulate(Map<String, Object> map);
+	public String getType() ;
 	
 	@Override
-	default int compareTo(ParameterModelResource<Type> param) {
+	default int compareTo(ParameterModelResource param) {
 		if(param.getIndex()<getIndex()) {
 			return 1;
 		}else {

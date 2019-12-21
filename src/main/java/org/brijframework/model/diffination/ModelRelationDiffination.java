@@ -6,5 +6,5 @@ public interface ModelRelationDiffination extends ModelPropertyDiffination{
 	
 	public Class<?> getTargetClass();
 
-	public ModelTypeDiffination getTargetClassMetaInfo() ;
+	public ModelTypeDeffination getTargetClassMetaInfo() ;
 }

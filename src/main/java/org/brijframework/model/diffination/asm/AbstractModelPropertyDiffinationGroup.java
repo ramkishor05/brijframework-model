@@ -2,20 +2,20 @@ package org.brijframework.model.diffination.asm;
 
 import org.brijframework.model.diffination.ModelPropertyDiffination;
 import org.brijframework.model.diffination.ModelPropertyDiffinationGroup;
-import org.brijframework.model.diffination.ModelTypeDiffination;
+import org.brijframework.model.diffination.ModelTypeDeffination;
 
 public abstract class AbstractModelPropertyDiffinationGroup extends AbstractModelDiffination<ModelPropertyDiffination>  implements ModelPropertyDiffinationGroup {
 	private ModelPropertyDiffination fieldMeta;
 	private ModelPropertyDiffination setterMeta;
 	private ModelPropertyDiffination getterMeta;
-	private ModelTypeDiffination owner;
+	private ModelTypeDeffination owner;
 	
-	public AbstractModelPropertyDiffinationGroup(ModelTypeDiffination owner) {
+	public AbstractModelPropertyDiffinationGroup(ModelTypeDeffination owner) {
 		this.owner=owner;
 	}
 	
 	@Override
-	public ModelTypeDiffination getOwner() {
+	public ModelTypeDeffination getOwner() {
 		return owner;
 	}
 
