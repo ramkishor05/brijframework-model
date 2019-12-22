@@ -35,5 +35,19 @@ public interface ModelPropertyDiffination extends ModelDiffination<AccessibleObj
 	}
 
 	public ModelTypeDeffination getOwner();
+	
+	default int getGetterModifiers() {
+		if(isGetter()) {
+			return getTargetAsMethod().getModifiers();
+		}
+		return getTargetAsField().getModifiers();
+	}
+	
+	default int getSetterModifiers() {
+		if(isSetter()) {
+			return getTargetAsMethod().getModifiers();
+		}
+		return getTargetAsField().getModifiers();
+	}
 
 }                                                                      

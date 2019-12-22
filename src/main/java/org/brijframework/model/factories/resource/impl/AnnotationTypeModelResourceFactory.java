@@ -8,6 +8,7 @@ import org.brijframework.Access;
 import org.brijframework.model.factories.resource.asm.AbstractTypeModelResourceFactory;
 import org.brijframework.model.resource.ConstructorModelResource;
 import org.brijframework.model.resource.ParameterModelResource;
+import org.brijframework.model.resource.PropertyModelResource;
 import org.brijframework.model.resource.TypeModelResource;
 import org.brijframework.model.resource.impl.ConstructorModelResourceImpl;
 import org.brijframework.model.resource.impl.ParameterModelResourceImpl;
@@ -74,7 +75,7 @@ public class AnnotationTypeModelResourceFactory extends AbstractTypeModelResourc
 		typeModelResource.setId(StringUtil.isEmpty(model.id())|| Constants.DEFAULT.equalsIgnoreCase(model.id())?target.getSimpleName(): model.id());
 		typeModelResource.setType(target.getName());
 		typeModelResource.setName(StringUtil.isEmpty(model.name())|| Constants.DEFAULT.equalsIgnoreCase(model.name())?target.getSimpleName(): model.name());
-		typeModelResource.setAccess(model.access()!=null ? model.access().toString(): ReflectionAccess.PUBLIC.toString());
+		typeModelResource.setAccess(model.access()!=null ? model.access().toString(): Access.AUTO.toString());
 		typeModelResource.setConstructor(createConstructor(typeModelResource,model.constructor()));
 		Map<String, Field> fieldMap = FieldUtil.getAllFieldMap(target,ReflectionAccess.PRIVATE);
 		if(model.properties() !=null) {
@@ -102,14 +103,24 @@ public class AnnotationTypeModelResourceFactory extends AbstractTypeModelResourc
 			Field field = entry.getValue();
 			if(field.isAnnotationPresent(ModelProperty.class)) {
 				typeModelResource.getProperties().put(id, getPropertyModelResource(target, field, field.getAnnotation(ModelProperty.class)));
-			}
-			if(field.isAnnotationPresent(ModelRelation.class)) {
+			}else if(field.isAnnotationPresent(ModelRelation.class)) {
 				typeModelResource.getProperties().put(id, getPropertyModelResource(target, field, field.getAnnotation(ModelRelation.class)));
+			}else {
+				typeModelResource.getProperties().put(id, getPropertyModelResource(target, field));
 			}
 		}
 		this.register(typeModelResource);
 	}
 	
+	private PropertyModelResource<?> getPropertyModelResource(Class<?> target, Field field) {
+		PropertyModelResourceImpl propertyResource=new PropertyModelResourceImpl();
+		propertyResource.setId(field.getName());
+		propertyResource.setType(field.getType().getName());
+		propertyResource.setName(field.getName());
+		propertyResource.setAccess(Access.AUTO.toString());
+		return propertyResource;
+	}
+
 	private ConstructorModelResource<?> createConstructor(TypeModelResource typeModelResource,ModelConstruct constructor) {
 		ConstructorModelResourceImpl constructorModelResource = new ConstructorModelResourceImpl();
 		constructorModelResource.setAccess(constructor.access().toString());
@@ -137,7 +148,7 @@ public class AnnotationTypeModelResourceFactory extends AbstractTypeModelResourc
 		propertyResource.setId(StringUtil.isEmpty(property.id())|| Constants.DEFAULT.equalsIgnoreCase(property.id())?field.getName(): property.id());
 		propertyResource.setType(field.getType().getName());
 		propertyResource.setName(StringUtil.isEmpty(property.name())|| Constants.DEFAULT.equalsIgnoreCase(property.name())?field.getName(): property.name());
-		propertyResource.setAccess(property.access()!=null ? property.access().toString(): ReflectionAccess.PUBLIC.toString());
+		propertyResource.setAccess(property.access()!=null ? property.access().toString(): Access.AUTO.toString());
 		propertyResource.setRequired(property.required());
 		return propertyResource;
 	}
@@ -147,7 +158,7 @@ public class AnnotationTypeModelResourceFactory extends AbstractTypeModelResourc
 		propertyResource.setId(StringUtil.isEmpty(property.id())|| Constants.DEFAULT.equalsIgnoreCase(property.id())?field.getName(): property.id());
 		propertyResource.setType(field.getType().getName());
 		propertyResource.setName(StringUtil.isEmpty(property.name())|| Constants.DEFAULT.equalsIgnoreCase(property.name())?field.getName(): property.name());
-		propertyResource.setAccess(property.access()!=null ? property.access().toString(): ReflectionAccess.PUBLIC.toString());
+		propertyResource.setAccess(property.access()!=null ? property.access().toString(): Access.AUTO.toString());
 		propertyResource.setRequired(property.required());
 		propertyResource.setMappedBy(property.mappedBy());
 		return propertyResource;
