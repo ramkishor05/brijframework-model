@@ -14,6 +14,6 @@ public interface ModelPropertyDiffinationGroup extends ModelDiffination<ModelPro
 	
 	public ModelPropertyDiffination getGetterMeta();
 
-	public ModelTypeDeffination getOwner();
+	public ModelTypeDeffination getModel();
 	
 }

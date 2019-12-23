@@ -20,8 +20,6 @@ public interface ModelTypeDeffination extends ModelDiffination<Class<?>> {
 
 	public Map<String, ModelPropertyDiffinationGroup> getProperties();
 	
-	public Set<String> getPropertiesGetterNames(Access... accesses);
-
-	public Set<String> getPropertiesSetterNames(Access... accesses);
+	public Set<String> getPropertiesNames(Access... accesses);
 
 }

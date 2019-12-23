@@ -8,15 +8,15 @@ public abstract class AbstractModelPropertyDiffinationGroup extends AbstractMode
 	private ModelPropertyDiffination fieldMeta;
 	private ModelPropertyDiffination setterMeta;
 	private ModelPropertyDiffination getterMeta;
-	private ModelTypeDeffination owner;
+	private ModelTypeDeffination model;
 	
-	public AbstractModelPropertyDiffinationGroup(ModelTypeDeffination owner) {
-		this.owner=owner;
+	public AbstractModelPropertyDiffinationGroup(ModelTypeDeffination model) {
+		this.model=model;
 	}
 	
 	@Override
-	public ModelTypeDeffination getOwner() {
-		return owner;
+	public ModelTypeDeffination getModel() {
+		return model;
 	}
 
 	@Override
@@ -52,4 +52,11 @@ public abstract class AbstractModelPropertyDiffinationGroup extends AbstractMode
 		this.getterMeta = getterMeta;
 	}
 
+	@Override
+	public String toString() {
+		return "ModelPropertyDiffinationGroup [fieldMeta=" + fieldMeta + ", setterMeta=" + setterMeta
+				+ ", getterMeta=" + getterMeta + ", model=" + model.getId() + "]";
+	}
+
+	
 }
