@@ -25,7 +25,7 @@ public class ModelResourceContainer extends AbstractModuleContainer implements M
 	@Override
 	public void init() {
 		try {
-			ReflectionFactory.getFactory().getClassListFromExternal().forEach(cls -> {
+			ReflectionFactory.getFactory().getExternalClassList().forEach(cls -> {
 				if (TypeModelResourceFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
 					register((Class<? extends TypeModelResourceFactory<?,?>>) cls);
 				}
@@ -34,7 +34,7 @@ public class ModelResourceContainer extends AbstractModuleContainer implements M
 			e.printStackTrace();
 		}
 		try {
-			ReflectionFactory.getFactory().getClassListFromInternal().forEach(cls -> {
+			ReflectionFactory.getFactory().getInternalClassList().forEach(cls -> {
 				if (TypeModelResourceFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
 					register((Class<? extends TypeModelResourceFactory<?,?>>) cls);
 				}

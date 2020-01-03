@@ -26,7 +26,7 @@ public class MapperContainer extends AbstractModuleContainer{
 	@Override
 	public void init() {
 		try {
-			ReflectionFactory.getFactory().getClassListFromExternal().forEach(cls -> {
+			ReflectionFactory.getFactory().getExternalClassList().forEach(cls -> {
 				if (ModelMapperFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
 					register((Class<? extends ModelMapperFactory<?,?>>) cls);
 				}
@@ -35,7 +35,7 @@ public class MapperContainer extends AbstractModuleContainer{
 			e.printStackTrace();
 		}
 		try {
-			ReflectionFactory.getFactory().getClassListFromInternal().forEach(cls -> {
+			ReflectionFactory.getFactory().getInternalClassList().forEach(cls -> {
 				if (ModelMapperFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
 					register((Class<? extends ModelMapperFactory<?,?>>) cls);
 				}

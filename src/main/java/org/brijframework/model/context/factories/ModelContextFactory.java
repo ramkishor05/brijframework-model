@@ -25,7 +25,7 @@ public class ModelContextFactory extends AbstractBootstrapFactory<String, ModelC
 	public ModelContextFactory loadFactory() {
 		try {
 			LoggerConsole.screen("BootstrapFactory - > "+this.getClass().getSimpleName(), "Lunching model context factory to start the model context");
-			ReflectionFactory.getFactory().getClassListFromExternal().forEach(cls->{
+			ReflectionFactory.getFactory().getExternalClassList().forEach(cls->{
 				if(ModelContext.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
 					ModelContext modelContext = (ModelContext) InstanceUtil.getInstance(cls);
 					modelContext.start();
@@ -33,7 +33,7 @@ public class ModelContextFactory extends AbstractBootstrapFactory<String, ModelC
 					this.register(modelContext.getClass().getSimpleName().equals(ModelContext.class.getSimpleName()+"Impl")?ModelContext.class.getSimpleName():modelContext.getClass().getSimpleName() , modelContext);
 				}
 			});
-			ReflectionFactory.getFactory().getClassListFromInternal().forEach(cls->{
+			ReflectionFactory.getFactory().getInternalClassList().forEach(cls->{
 				if(ModelContext.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
 					ModelContext modelContext = (ModelContext) InstanceUtil.getInstance(cls);
 					modelContext.start();

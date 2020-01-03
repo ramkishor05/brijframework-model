@@ -12,7 +12,7 @@ public abstract class AbstractModelContext extends AbstractModuleContext impleme
 	@SuppressWarnings("unchecked")
 	public void init() {
 		try {
-			ReflectionFactory.getFactory().getClassListFromExternal().forEach(cls->{
+			ReflectionFactory.getFactory().getExternalClassList().forEach(cls->{
 				if(ModelContainer.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
 					register((Class<? extends ModelContainer>) cls);
 				}
@@ -21,7 +21,7 @@ public abstract class AbstractModelContext extends AbstractModuleContext impleme
 			e.printStackTrace();
 		}
 		try {
-			ReflectionFactory.getFactory().getClassListFromInternal().forEach(cls->{
+			ReflectionFactory.getFactory().getInternalClassList().forEach(cls->{
 				if(ModelContainer.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
 					register((Class<? extends ModelContainer>) cls);
 				}

@@ -27,7 +27,7 @@ public class ModelDiffinationContainer extends AbstractModuleContainer implement
 	@Override
 	public void init() {
 		try {
-			ReflectionFactory.getFactory().getClassListFromExternal().forEach(cls -> {
+			ReflectionFactory.getFactory().getExternalClassList().forEach(cls -> {
 				if (TypeModelDiffinationFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
 					register((Class<? extends TypeModelDiffinationFactory<?,?>>) cls);
 				}
@@ -36,7 +36,7 @@ public class ModelDiffinationContainer extends AbstractModuleContainer implement
 			e.printStackTrace();
 		}
 		try {
-			ReflectionFactory.getFactory().getClassListFromInternal().forEach(cls -> {
+			ReflectionFactory.getFactory().getInternalClassList().forEach(cls -> {
 				if (TypeModelDiffinationFactory.class.isAssignableFrom(cls) && InstanceUtil.isAssignable(cls)) {
 					register((Class<? extends TypeModelDiffinationFactory<?,?>>) cls);
 				}
