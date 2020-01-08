@@ -3,14 +3,13 @@ package org.brijframework.model.diffination.asm;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.brijframework.Access;
 import org.brijframework.model.diffination.ModelConstructorDiffination;
 import org.brijframework.model.diffination.ModelPropertyDiffinationGroup;
 import org.brijframework.model.diffination.ModelTypeDeffination;
-import org.brijframework.util.support.ReflectionAccess;
 
 public abstract class AbstractModelTypeDiffination extends AbstractModelDiffination<Class<?>> implements ModelTypeDeffination{
 	
