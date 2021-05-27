@@ -3,71 +3,177 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.brijframework</groupId>
-	<artifactId>brijframework-model</artifactId>
-	<version>0.0.1</version>
+	<parent>
+		<groupId>io.github.github-brijframework</groupId>
+		<artifactId>github-brijframework-boot</artifactId>
+		<version>1.1</version>
+	</parent>
+
+	<artifactId>github-brijframework-model</artifactId>
 	<packaging>jar</packaging>
 
-	<name>org.brijframework-meta</name>
-	<url>http://maven.apache.org</url>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<url>https://github.com/github-brijframework/github-brijframework-model</url>
+	<description>This is the basic library of brijframework</description>
 
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
-		</license>
-	</licenses>
-	<developers>
-		<developer>
-			<name>Pivotal</name>
-			<email>info@pivotal.io</email>
-			<organization>Pivotal Software, Inc.</organization>
-			<organizationUrl>https://www.spring.io</organizationUrl>
-		</developer>
-	</developers>
-	
-	<scm>
-		<url>https://github.com/ramkishor05/brijframework-asm</url>
-	</scm>
-	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven-compiler-plugin-version>2.3.2</maven-compiler-plugin-version>
 	</properties>
 
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
-			<groupId>org.brijframework</groupId>
-			<artifactId>brijframework-boot</artifactId>
+			<groupId>io.github.github-brijframework</groupId>
+			<artifactId>github-brijframework-support</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.brijframework</groupId>
-			<artifactId>brijframework-support</artifactId>
+			<groupId>io.github.github-brijframework</groupId>
+			<artifactId>github-brijframework-util</artifactId>
 			<version>0.0.1</version>
 		</dependency>
-		
+
 		<dependency>
-			<groupId>org.brijframework</groupId>
-			<artifactId>brijframework-util</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.brijframework</groupId>
-			<artifactId>brijframework-resources</artifactId>
+			<groupId>io.github.github-brijframework</groupId>
+			<artifactId>github-brijframework-resources</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 
 	</dependencies>
+
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Ram Kishor</name>
+			<email>ramkishor0509@gmail.com</email>
+			<organization>com.github.github-brijframework</organization>
+			<organizationUrl>https://github.com/github-brijframework/github-brijframework-model</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/github-brijframework/github-brijframework-model.git</connection>
+		<developerConnection>scm:git:ssh://github.com:github-brijframework/github-brijframework-model.git</developerConnection>
+		<url>http://github.com/github-brijframework/github-brijframework-model</url>
+	</scm>
+
+	<profiles>
+		<profile>
+			<id>doclint-java8-disable</id>
+			<activation>
+				<jdk>[1.8,)</jdk>
+			</activation>
+			<properties>
+				<javadoc.opts>-Xdoclint:none</javadoc.opts>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<finalName>github-brijframework-model</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<additionalparam>${javadoc.opts}</additionalparam>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>sonatype-nexus-staging</serverId>
+					<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>false</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.4.2</version>
+				<configuration>
+					<tagNameFormat>v@{project.version}</tagNameFormat>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<releaseProfiles>releases</releaseProfiles>
+				</configuration>
+			</plugin>
+
+
+		</plugins>
+	</build>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 </project>

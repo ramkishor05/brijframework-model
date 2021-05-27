@@ -10,14 +10,14 @@ import org.brijframework.util.factories.ReflectionFactory;
 import org.brijframework.util.reflect.InstanceUtil;
 
 @DepandOn(depand=ModelDiffinationContainer.class)
-public class MapperContainer extends AbstractModuleContainer{
+public class ModelMapperContainer extends AbstractModuleContainer{
 
-	private static MapperContainer container;
+	private static ModelMapperContainer container;
 
 	@SingletonFactory
-	public static MapperContainer getContainer() {
+	public static ModelMapperContainer getContainer() {
 		if (container == null) {
-			container = InstanceUtil.getSingletonInstance(MapperContainer.class);
+			container = new ModelMapperContainer();
 		}
 		return container;
 	}

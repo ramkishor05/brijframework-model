@@ -13,7 +13,7 @@ public abstract class GenericMapper<T,S> {
 	
 	public S source(T target) {
 		TypeModelMapperResource model= TypeModelMapperResourceImpl.getFactory().find(target.getClass().getName());
-		System.out.println(model);
+		System.out.println(""+model);
 		return null;
 	}
 }

@@ -29,8 +29,6 @@ public interface ModelMethodDiffination extends ModelDiffination<Method>{
 
 	public void papulate(Map<String, Object> annotationData);
 
-	public String getParentID();
-	
 	public default Object[] getParamValues() {
 		Set<ModelParameterDiffination<?>> params= getParameters();
 		if(params==null) {
@@ -43,6 +41,4 @@ public interface ModelMethodDiffination extends ModelDiffination<Method>{
 		});
 		return values;
 	}
-
-	ModelTypeDeffination getClassMetaInfo();
 }
